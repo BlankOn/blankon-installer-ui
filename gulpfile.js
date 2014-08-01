@@ -2,6 +2,9 @@ var gulp    = require("gulp");
 var concat  = require("gulp-concat");
 var clean   = require("gulp-clean");
 var files   = require("./files.json");
+var ngHtml2Js = require("gulp-ng-html2js");
+var minifyHtml = require("gulp-minify-html");
+var uglify = require("gulp-uglify");
 
 gulp.task("clean", function() {
   return gulp.src(["dist/*"], {read:false}).pipe(clean());
@@ -30,7 +33,20 @@ gulp.task("fonts", function() {
 });
 
 gulp.task("html", function() {
+  gulp.src("src/index.html")
+  .pipe(gulp.dest("./dist"));
+
   gulp.src(files.html)
+  .pipe(minifyHtml({
+    empty: true,
+    spare: true,
+    quotes: true
+  }))
+  .pipe(ngHtml2Js({
+    moduleName: "html"
+  }))
+  .pipe(concat("html.min.js"))
+  .pipe(uglify())
   .pipe(gulp.dest("./dist"))
 });
 

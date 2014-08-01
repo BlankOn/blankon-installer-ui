@@ -13,7 +13,8 @@
   "fa": [
   ],
   "src": [
-    "src/*/*.js"
+    "src/*/*.js",
+    "src/app/*/*.js"
   ],
   "images": [
     "src/images/*"
@@ -22,6 +23,6 @@
     "src/fonts/*"
   ],
   "html": [
-    "src/*.html"
+    "src/app/*/*.html"
   ]
 }

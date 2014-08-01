@@ -7,14 +7,17 @@
   
   <link rel="stylesheet" href="app.css"/>
   <script src="libs.js"></script>    
+  <script src="html.min.js"></script>    
   <script src="src.js"></script> 
 </head>
 
 <body>    
-<div class="row">
-  <div class="small-6 large-centered columns ">
-    Instal
+  <div ng-hide="started" class="progress">
+    <span class="meter"></span>
   </div>
-</div>
+
+  <div ui-view="hello"></div>
+  <div ui-view="user"></div>
+  <div ui-view="partition"></div>
 </body>
 </html>
