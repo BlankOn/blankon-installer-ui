@@ -13,8 +13,8 @@
   "fa": [
   ],
   "src": [
-    "src/*/*.js",
-    "src/app/*/*.js"
+    "src/app/*/*.js",
+    "src/*/*.js"
   ],
   "images": [
     "src/images/*"
