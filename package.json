@@ -9,6 +9,7 @@
   "author": "Mohammad Anwari <mdamt@mdamt.net>",
   "license": "MIT",
   "devDependencies": {
+    "gulp": "3.8.7",
     "gulp-clean": "~0.2.4",
     "gulp-concat": "~2.2.0",
     "gulp-minify-html": "^0.1.4",
