@@ -4,6 +4,7 @@
   "description": "BlankOn Installer UI",
   "main": "gulpfile.js",
   "scripts": {
+    "start" : "(cd dist; python -m SimpleHTTPServer)",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Mohammad Anwari <mdamt@mdamt.net>",
