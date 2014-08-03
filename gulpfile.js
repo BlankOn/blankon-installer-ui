@@ -1,6 +1,6 @@
 var gulp    = require("gulp");
 var concat  = require("gulp-concat");
-var clean   = require("gulp-clean");
+var clean   = require("gulp-rimraf");
 var files   = require("./files.json");
 var ngHtml2Js = require("gulp-ng-html2js");
 var minifyHtml = require("gulp-minify-html");
