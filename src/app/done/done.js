@@ -1,5 +1,5 @@
-angular.module("hello",[])
-.controller("HelloCtrl", [
+angular.module("done",[])
+.controller("DoneCtrl", [
     "$scope", "$window", 
     function ($scope, $window){
   $scope.languages = $window.BiLanguage.available();

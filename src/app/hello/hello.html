@@ -1,1 +1,13 @@
-<h1>Hello</h1>
+<div class="row">
+  <div class="small-6 large-centered columns">
+    <h1>Hello</h1>
+    <p><a class="button dropdown" dropdown-toggle="#language-selection">Change language</a><p>
+    <ul id="language-selection" class="f-dropdown">
+      <li ng-repeat="lang in languages">
+      <a ng-click="setLanguage(lang.id)">{{lang.title}}</a>
+      </li>
+    </ul>
+
+    <button class='button' ng-click="next()">Lanjut</button>
+  </div>
+</div>

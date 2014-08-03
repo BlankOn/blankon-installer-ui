@@ -22,5 +22,9 @@ BiLanguageMock.prototype.available = function() {
   return langs;
 }
 
-var BiKeyboard = BiKeyboard || BiKeyboardMock();
-var BiLanguage = BiLanguage || BiLanguageMock();
+var BiKeyboard = BiKeyboard || new BiKeyboardMock();
+var BiLanguage = BiLanguage || new BiLanguageMock();
+
+window = window || {};
+window.BiKeyboard = BiKeyboard;
+window.BiLanguage = BiLanguage;
