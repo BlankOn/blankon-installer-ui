@@ -15,5 +15,18 @@
     "gulp-minify-html": "^0.1.4",
     "gulp-ng-html2js": "^0.1.7",
     "gulp-uglify": "^0.3.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BlankOn/blankon-installer-ui.git"
+  },
+  "keywords": [
+    "blankon",
+    "installer",
+    "ui"
+  ],
+  "bugs": {
+    "url": "https://github.com/BlankOn/blankon-installer-ui/issues"
+  },
+  "homepage": "https://github.com/BlankOn/blankon-installer-ui"
 }
