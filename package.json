@@ -4,15 +4,34 @@
   "description": "BlankOn Installer UI",
   "main": "gulpfile.js",
   "scripts": {
+    "start": "gulp && gulp watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Mohammad Anwari <mdamt@mdamt.net>",
   "license": "MIT",
   "devDependencies": {
-    "gulp-clean": "~0.2.4",
+    "connect-livereload": "^0.4.0",
+    "express": "^4.7.2",
+    "gulp": "3.8.7",
     "gulp-concat": "~2.2.0",
     "gulp-minify-html": "^0.1.4",
     "gulp-ng-html2js": "^0.1.7",
-    "gulp-uglify": "^0.3.1"
-  }
+    "gulp-rimraf": "^0.1.0",
+    "gulp-uglify": "^0.3.1",
+    "run-sequence": "^0.3.6",
+    "tiny-lr": "0.0.9"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BlankOn/blankon-installer-ui.git"
+  },
+  "keywords": [
+    "blankon",
+    "installer",
+    "ui"
+  ],
+  "bugs": {
+    "url": "https://github.com/BlankOn/blankon-installer-ui/issues"
+  },
+  "homepage": "https://github.com/BlankOn/blankon-installer-ui"
 }

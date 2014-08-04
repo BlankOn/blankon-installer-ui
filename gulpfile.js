@@ -1,10 +1,54 @@
 var gulp    = require("gulp");
+var tinyLr = require('tiny-lr');
+var express = require ("express");
+var uglify = require("gulp-uglify");
 var concat  = require("gulp-concat");
-var clean   = require("gulp-clean");
+var clean   = require("gulp-rimraf");
 var files   = require("./files.json");
+var runSequence = require('run-sequence');
 var ngHtml2Js = require("gulp-ng-html2js");
 var minifyHtml = require("gulp-minify-html");
-var uglify = require("gulp-uglify");
+
+var lr;
+
+var EXPRESS_PORT = 8000;
+var EXPRESS_ROOT = __dirname + "/dist";
+var LIVERELOAD_PORT = 35729;
+
+function startLiveReload(){
+  lr = tinyLr();  
+  lr.listen(LIVERELOAD_PORT);
+}
+
+function startServer(){
+  var app = express();
+  console.log (EXPRESS_ROOT);
+  app.use(express.static(EXPRESS_ROOT));
+  app.listen(EXPRESS_PORT);
+}
+
+function notifyLivereload(event) {
+  runSequence(["clean", 
+    "styles", 
+    "libs",
+    "src",
+    "fonts"
+    ], function(){
+
+      var fileName = require("path").relative(EXPRESS_ROOT, event.path);
+ 
+      lr.changed({
+        body: {
+          files: [fileName]
+        }
+      });
+
+    });
+}
+
+gulp.task("serve", function(){
+  startServer();
+});
 
 gulp.task("clean", function() {
   return gulp.src(["dist/*"], {read:false}).pipe(clean());
@@ -56,11 +100,10 @@ gulp.task("src", ["html", "images"], function() {
   .pipe(gulp.dest("./dist"))
 });
 
+gulp.task("watch", function(){
+  startServer();
+  startLiveReload();
+  gulp.watch(["src/**", "src/**/**"], notifyLivereload);
+});
 
-gulp.task("default", [
-    "clean", 
-    "styles", 
-    "libs",
-    "src",
-    "fonts"
-    ]);
+gulp.task("default", ["clean", "styles", "libs", "src", "fonts"]);
