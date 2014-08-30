@@ -24,6 +24,8 @@
     "angular-foundation": "~0.3.0",
     "foundation": "~5.3.1",
     "angular-ui-router": "~0.2.10",
-    "angular-translate": "~2.2.0"
+    "angular-translate": "~2.2.0",
+    "animate.css": "~3.2.0",
+    "angular-animate": "~1.2.23"
   }
 }

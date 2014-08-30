@@ -1,8 +1,11 @@
 'use strict';
 angular.module('Biui', [
   "ui.router", 
+  "ngAnimate",
+
   "html",
   "mm.foundation",
+
   "hello",
   "partition",
   "user",

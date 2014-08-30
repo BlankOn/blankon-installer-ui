@@ -2,12 +2,14 @@
   "libs": [
     "bower_components/angular/angular.min.js",
     "bower_components/angular-ui-router/release/angular-ui-router.min.js",
+    "bower_components/angular-animate/angular-animate.js",
     "bower_components/lodash/dist/lodash.min.js",
     "bower_components/angular-foundation/mm-foundation.min.js",
     "libs/*.js"
   ],
   "styles": [
     "bower_components/foundation/css/foundation.css",
+    "bower_components/animate.css/animate.css",
     "src/styles/app.css"
   ],
   "fa": [
