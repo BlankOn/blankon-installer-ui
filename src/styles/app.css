@@ -1,3 +1,20 @@
+body {
+  background:black;
+  color: white;
+  height:100%;
+  overflow:hidden !important;
+  ::-webkit-scrollbar { 
+    display: none; 
+  }
+}
+
+.content {
+  height:80vh;
+  padding: 30px;
+}
+h1 {
+  color: #438EB9 !important;
+}
 .row {
   width: 1000px;
 }
@@ -17,12 +34,55 @@
   animation-duration: 1s;
 }
 
-.fade.ng-enter {
+.forward.ng-enter {
+  -webkit-animation-name: fadeInUp;
+  animation-name: fadeInUp;
+}
+
+.forward.ng-leave {
+  -webkit-animation-name: fadeOutUp;
+  animation-name: fadeOutUp;
+}
+
+.back.ng-enter {
   -webkit-animation-name: fadeInDown;
   animation-name: fadeInDown;
 }
 
-.fade.ng-leave {
+.back.ng-leave {
   -webkit-animation-name: fadeOutDown;
   animation-name: fadeOutDown;
+}
+.step-line {
+  position:absolute;
+  z-index:0;
+}
+.step-container {
+  position:absolute;
+  z-index:2001;
+}
+.step {
+  background:#6D6D6D;
+  width:10px;
+  height:10px; 
+  border-radius:5px;
+  margin-bottom:14vh;
+}
+.step-big {
+  background:#6D6D6D;
+  width:30px;
+  height:30px; 
+  border-radius:15px;
+  margin-bottom:13vh;
+  margin-left:-10px;
+  padding-top:4px;
+  text-align:center;
+}
+
+.pull-right {
+  float:right
+}
+
+.nav-button {
+  text-align:center;
 }

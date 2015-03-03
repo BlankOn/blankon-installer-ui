@@ -1,3 +1,71 @@
+angular.module("done",[])
+.controller("DoneCtrl", [
+    "$scope", "$window", 
+    function ($scope, $window){
+  $scope.languages = $window.BiLanguage.available();
+
+  $scope.setLanguage = function(lang) {
+    console.log(lang);
+  }
+}])
+
+angular.module("hello",[])
+.controller("HelloCtrl", [
+    "$scope", "$window", 
+    function ($scope, $window){
+  $scope.languages = $window.BiLanguage.available();
+
+  $scope.setLanguage = function(lang) {
+    $scope.selectedLang = lang.title;
+    console.log(lang);
+  }
+}])
+
+angular.module("install",[])
+.controller("InstallCtrl", [
+    "$scope", "$window", 
+    function ($scope, $window){
+  $scope.languages = $window.BiLanguage.available();
+
+  $scope.setLanguage = function(lang) {
+    console.log(lang);
+  }
+}])
+
+angular.module("partition",[])
+.controller("PartitionCtrl", [
+    "$scope", "$window", 
+    function ($scope, $window){
+  $scope.drives = ["10 TB Seagate","320 GB WD"];
+
+  $scope.setDrive = function(drive) {
+    $scope.selectedDrive = drive;
+    console.log(lang);
+  }
+}])
+
+angular.module("summary",[])
+.controller("SummaryCtrl", [
+    "$scope", "$window", 
+    function ($scope, $window){
+  $scope.languages = $window.BiLanguage.available();
+
+  $scope.setLanguage = function(lang) {
+    console.log(lang);
+  }
+}])
+
+angular.module("user",[])
+.controller("UserCtrl", [
+    "$scope", "$window", 
+    function ($scope, $window){
+  $scope.languages = $window.BiLanguage.available();
+
+  $scope.setLanguage = function(lang) {
+    console.log(lang);
+  }
+}])
+
 'use strict';
 angular.module('Biui', [
   "ui.router", 
@@ -82,11 +150,8 @@ angular.module('Biui', [
 
 .run([ "$rootScope", "$state", "$stateParams", "$timeout", 
   function ($rootScope, $state, $stateParams, $timeout) {
-
-    //contentScope = angular.element(content).scope();
-    //contentScope.$apply(function() {
-    //    contentScope.height = window.innerHeight - 200;
-    //});
+    $rootScope.forward = true;
+    $rootScope.back = false;
     $rootScope.states = [
       "hello",
       "partition",
@@ -105,8 +170,6 @@ angular.module('Biui', [
     $rootScope.simpleMode = function() {
       $rootScope.simplePartitioning = true;
     }
-    $rootScope.back = false;
-    $rootScope.forward = true;
     $rootScope.next = function() {
       $rootScope.back = false;
       $rootScope.forward = true;
@@ -138,10 +201,10 @@ angular.module('Biui', [
         }
       }, 100);
     }
-    $rootScope.exit = function(){
-      Installation.shutdown();
-    }
-
+    /* $rootScope.$on('$stateChangeSuccess', function(){ */
+    /*   $rootScope.back = false; */
+    /*   $rootScope.forward = true; */
+    /* }); */
     $state.go($rootScope.states[$rootScope.currentState]);
     $rootScope.started = true;
   }
