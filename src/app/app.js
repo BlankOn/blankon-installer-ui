@@ -87,6 +87,9 @@ angular.module('Biui', [
     //contentScope.$apply(function() {
     //    contentScope.height = window.innerHeight - 200;
     //});
+
+    $rootScope.installationData = {};
+
     $rootScope.states = [
       "hello",
       "partition",

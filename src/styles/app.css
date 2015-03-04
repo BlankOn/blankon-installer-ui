@@ -96,7 +96,7 @@ h1 {
   background:black;
   float:left;
   height:84px;
-  margin-left:5px;
+  margin-left:8px;
   width:auto
 }
 
@@ -104,6 +104,17 @@ h1 {
   background:#0082AC;
   cursor:pointer;
 }
+
+.selected {
+  background:#0082AC !important;
+}
+
+.disabled {
+  background:#0082AC !important;
+  cursor: default;
+  pointer-events: none;
+}
+
 .partition-block:hover span {
   display:block;
   background:#0082AC;

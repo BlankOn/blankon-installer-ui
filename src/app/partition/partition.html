@@ -12,8 +12,8 @@
     <strong>WARNING : </strong>
     The selected partition will be wiped out. Swap partition will be created if you don't have one.
     </p>
-    <div class="drive-block" ng-show="selectedDrive">
-      <div class="partition-block pop" ng-repeat="partition in selectedDrive.qualifiedPartitions">
+    <div class="drive-block" ng-show="selectedDrive" style="width:{{selectedDrive.driveWidth}}px !important;">
+      <div ng-repeat="partition in selectedDrive.qualifiedPartitions" class="partition-block" ng-click="selectInstallationTarget(selectedDrive.id, partition.id)" ng-class="{selected:partition.selected}">
         <span class="pop">
          Size : {{partition.sizeGb}} GB<br>
          File System : {{partition.filesystem}}<br>
@@ -28,6 +28,6 @@
   </div>
   <div class="columns nav-button" ng-show="devices[0]">
     <button class='button' ng-click="previous()">Previous</button>
-    <button class='button' ng-click="next()">Next</button>
+    <button class="button" ng-class="{disabled:!validInstallationTarget}" ng-click="next()">Next</button>
   </div>
 </div>
