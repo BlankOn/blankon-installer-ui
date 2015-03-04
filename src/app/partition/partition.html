@@ -1,8 +1,32 @@
 <div class="row">
   <div class="columns content">
-  <h1>Installation Target</h1>
+    <h1>Installation Target</h1>
+    <p ng-hide="devices[0]">Please wait while your sistem is being scanned... </p>
+    <p ng-show="devices[0]"><a class="button dropdown" dropdown-toggle="#drive-selection"><span ng-show="!selectedDrive">Select drive...</span><span ng-show="selectedDrive">{{selectedDrive.model}}</span></a><p>
+    <ul id="drive-selection" class="f-dropdown">
+      <li ng-repeat="drive in devices">
+      <a ng-click="setDrive(drive.path)">{{drive.model}}</a>
+      </li>
+    </ul>
+    <p ng-show="selectedDrive">Please choose the partition on device below which you would like to install BlankOn into.<br>
+    <strong>WARNING : </strong>
+    The selected partition will be wiped out. Swap partition will be created if you don't have one.
+    </p>
+    <div class="drive-block" ng-show="selectedDrive">
+      <div class="partition-block pop" ng-repeat="partition in selectedDrive.qualifiedPartitions">
+        <span class="pop">
+         Size : {{partition.sizeGb}} GB<br>
+         File System : {{partition.filesystem}}<br>
+         Sector : {{partition.start}} - {{partition.end}}<br>
+         {{partition.description}}
+         
+        </span>
+        <div style="width:{{partition.blockWidth}}px;">
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="columns nav-button">
+  <div class="columns nav-button" ng-show="devices[0]">
     <button class='button' ng-click="previous()">Previous</button>
     <button class='button' ng-click="next()">Next</button>
   </div>
