@@ -13,7 +13,7 @@ angular.module("partition",[])
     for (j = 0; j < $rootScope.selectedDrive.partitions.length; j++) {
       if ($rootScope.selectedDrive.partitions[j].id === partitionId) {
         $rootScope.selectedDrive.partitions[j].selected = true;
-        $scope.validInstallationTarget = true;
+        $rootScope.validInstallationTarget = true;
       } else {
         $rootScope.selectedDrive.partitions[j].selected = false;
       }
@@ -24,8 +24,8 @@ angular.module("partition",[])
   if (!$rootScope.installationData.partition) {
     // give time for transition
     $timeout(function(){
-      /* $rootScope.devices = Parted.getDevices(); */
-      $rootScope.devices = [
+      $rootScope.devices = Parted.getDevices();
+      $rootScope.devices_ = [
       {
           "path": "/dev/sda",
           "size": 1000204886016,
@@ -100,6 +100,7 @@ angular.module("partition",[])
     }, 1000);
   }
   $scope.setDrive = function(path) {
+    $rootScope.validInstallationTarget = false;
     /* $rootScope.devices.forEach(function(drive){ */
     for (i = 0; i < $rootScope.devices.length; i++)
       if ($rootScope.devices[i].path === path) {
