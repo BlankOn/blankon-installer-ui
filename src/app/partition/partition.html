@@ -8,22 +8,26 @@
       <a ng-click="setDrive(drive.path)">{{drive.model}}</a>
       </li>
     </ul>
-    <p ng-show="selectedDrive">Please choose the partition on device below which you would like to install BlankOn into.<br>
+    <p ng-show="selectedDrive">Please choose the partition on device below which you would like to install BlankOn into
+    <br>or use <a ng-click="advancedPartitioning()">advanced partitioning tool</a> for more control.<br>
     <strong>WARNING : </strong>
     The selected partition will be wiped out. Swap partition will be created if you don't have one.
     </p>
     <div class="drive-block" ng-show="selectedDrive" style="width:{{selectedDrive.driveWidth}}px !important;">
-      <div ng-repeat="partition in selectedDrive.qualifiedPartitions" class="partition-block" ng-click="selectInstallationTarget(selectedDrive.id, partition.id)" ng-class="{selected:partition.selected}">
+      <div ng-repeat="partition in selectedDrive.qualifiedPartitions" class="partition-block" ng-click="selectInstallationTarget(selectedDrive.id, partition)" ng-class="{selected:partition.selected}">
         <span class="pop">
          Size : {{partition.sizeGb}} GB<br>
          File System : {{partition.filesystem}}<br>
          Sector : {{partition.start}} - {{partition.end}}<br>
          {{partition.description}}
-         
         </span>
         <div style="width:{{partition.blockWidth}}px;">
         </div>
       </div>
+    </div>
+    <div ng-show="validInstallationTarget">
+      <br>
+      <p>You are choosing {{selectedInstallationTarget}} to be installed with BlankOn.</p>
     </div>
   </div>
   <div class="columns nav-button" ng-show="devices[0]">

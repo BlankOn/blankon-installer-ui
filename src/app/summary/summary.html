@@ -6,14 +6,14 @@
   </p>
   <p>
     Target device : {{selectedDrive.model}}
-    Target parttition : {{selectedDrive.path}}/{{installationData.partition}}
-    Computer name : {{installationData.hostname}}
-    Full name : {{installationData.fullname}}
-    User name : {{installationData.username}}
+    <br>Target parttition : {{selectedDrive.path}}{{installationData.partition}}
+    <br>Computer name : {{installationData.hostname}}
+    <br>Full name : {{installationData.fullname}}
+    <br>User name : {{installationData.username}}
   </p>
   </div>
   <div class="columns nav-button">
     <button class='button' ng-click="previous()">Previous</button>
-    <button class='button' ng-click="next()">Next</button>
+    <button class='button' ng-click="next()">Install</button>
   </div>
 </div>
