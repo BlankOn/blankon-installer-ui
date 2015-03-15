@@ -3,6 +3,7 @@ angular.module("partition",[])
     "$scope", "$window", "$timeout", "$rootScope", 
     function ($scope, $window, $timeout, $rootScope){
 
+  console.log(window.innerHeight);
   var gbSize = 1073741824;
   var minimumPartitionSize = 4 * gbSize;
   var driveBlockWidth = (60/100) * $window.innerWidth;
@@ -25,8 +26,9 @@ angular.module("partition",[])
   if (!$rootScope.installationData.partition) {
     // give time for transition
     $timeout(function(){
-      /* $rootScope.devices = Parted.getDevices(); */
-      $rootScope.devices = [
+      $rootScope.devices = Parted.getDevices();
+
+      $rootScope.devices_ = [
       {
           "path": "/dev/sda",
           "size": 1000204886016,

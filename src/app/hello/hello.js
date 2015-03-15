@@ -2,6 +2,7 @@ angular.module("hello",[])
 .controller("HelloCtrl", [
     "$scope", "$window", "$rootScope", "$timeout", "$interval", 
     function ($scope, $window, $rootScope, $timeout, $interval){
+
   $scope.languages = $window.BiLanguage.available();
 
   $scope.setLanguage = function(lang) {

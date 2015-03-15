@@ -12,6 +12,13 @@
 </head>
 
 <body>    
+  <div>
+    <div class="columns page">
+  <div class="wrapper"> 
+          <div ui-view class="fade" ng-class="{back:back, forward:forward}"></div>
+  </div>
+    </div>
+    <div class="columns timeline">
   <div style="float:right;margin:50px 50px 50px 0px">
     <div class="line-container">
     <div style="position:absolute;right:0px;;background:#6D6D6D;width:2px;height:570px;margin-right:44px;z-index:1000;"></div>
@@ -31,12 +38,7 @@
       <div class="step-big" ng-show="currentState == '5'">6</div>
     </div>
   </div>
-  <div ng-hide="started" class="progress">
-    <span class="meter"></span>
-  </div>
-
-  <div class="wrapper"> 
-          <div ui-view class="fade" ng-class="{back:back, forward:forward}"></div>
+    </div>
   </div>
 </body>
 </html>

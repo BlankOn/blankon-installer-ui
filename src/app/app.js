@@ -83,11 +83,7 @@ angular.module('Biui', [
 .run([ "$rootScope", "$state", "$stateParams", "$timeout", 
   function ($rootScope, $state, $stateParams, $timeout) {
 
-    //contentScope = angular.element(content).scope();
-    //contentScope.$apply(function() {
-    //    contentScope.height = window.innerHeight - 200;
-    //});
-
+    console.log(window.innerHeight);
     $rootScope.installationData = {};
 
     $rootScope.states = [
