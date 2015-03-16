@@ -1,6 +1,19 @@
 <div class="row">
-  <div class="small-6 large-centered columns">
+  <div class="columns content">
+  <h1>Installation Summary</h1>
+  <p>
+  This is our installation summary. Please proceed if you're agree. Beyond this point, the installer will make changes to your system and you can't go  
+  </p>
+  <p>
+    Target device : {{selectedDrive.model}}
+    <br>Target parttition : {{selectedDrive.path}}{{installationData.partition}}
+    <br>Computer name : {{installationData.hostname}}
+    <br>Full name : {{installationData.fullname}}
+    <br>User name : {{installationData.username}}
+  </p>
+  </div>
+  <div class="columns nav-button">
     <button class='button' ng-click="previous()">Previous</button>
-    <button class='button' ng-click="next()">Next</button>
+    <button class='button' ng-click="next()">Install</button>
   </div>
 </div>
