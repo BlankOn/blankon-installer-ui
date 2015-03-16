@@ -24,18 +24,10 @@
     <div style="position:absolute;right:0px;;background:#6D6D6D;width:2px;height:570px;margin-right:44px;z-index:1000;"></div>
     </div>
     <div class="step-container">
-      <div class="step" ng-hide="currentState == '0'"></div>
-      <div class="step-big" ng-show="currentState == '0'">1</div>
-      <div class="step" ng-hide="currentState == '1'"></div>
-      <div class="step-big" ng-show="currentState == '1'">2</div>
-      <div class="step" ng-hide="currentState == '2'"></div>
-      <div class="step-big" ng-show="currentState == '2'">3</div>
-      <div class="step" ng-hide="currentState == '3'"></div>
-      <div class="step-big" ng-show="currentState == '3'">4</div>
-      <div class="step" ng-hide="currentState == '4'"></div>
-      <div class="step-big" ng-show="currentState == '4'">5</div>
-      <div class="step" ng-hide="currentState == '5'"></div>
-      <div class="step-big" ng-show="currentState == '5'">6</div>
+            <div ng-repeat="state in steps">
+            <div class="step" ng-hide="currentState == state.seq" ng-click="goStep(state.seq)"></div>
+            <div class="step-big" ng-show="currentState == state.seq">{{state.step}}</div>
+            </div>
     </div>
   </div>
     </div>

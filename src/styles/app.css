@@ -71,6 +71,11 @@ h1 {
   border-radius:5px;
   margin-bottom:100px;
 }
+.step:hover {
+  border : 5px solid;
+  border-color: #438EB9;
+  cursor:pointer;
+}
 .step-big {
   background:#6D6D6D;
   width:30px;

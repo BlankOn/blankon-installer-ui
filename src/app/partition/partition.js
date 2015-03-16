@@ -26,9 +26,9 @@ angular.module("partition",[])
   if (!$rootScope.installationData.partition) {
     // give time for transition
     $timeout(function(){
-      $rootScope.devices = Parted.getDevices();
+      // $rootScope.devices = Parted.getDevices();
 
-      $rootScope.devices_ = [
+      $rootScope.devices = [
       {
           "path": "/dev/sda",
           "size": 1000204886016,
