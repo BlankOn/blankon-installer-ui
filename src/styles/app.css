@@ -55,6 +55,17 @@ h1 {
   -webkit-animation-name: fadeOutDown;
   animation-name: fadeOutDown;
 }
+
+.line {
+  position:absolute;
+  right:0px;
+  background:#6D6D6D;
+  width:2px;
+  height:570px;
+  margin-right:44px;
+  z-index:1000;
+}
+
 .step-line {
   position:absolute;
   z-index:0;
