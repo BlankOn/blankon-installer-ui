@@ -1,55 +1,6 @@
 <div class="row">
-  <div class="columns content">
-  <h1>Personalization</h1>
-<form name="personalization" novalidation>
-  <p>Please enter your personalization preference below...</p>
-  <div class="personalization-form">
-    <div class="row small-8">
-      <div class="small-4 columns">
-        <label class="right inline">Computer Name:</label>
-      </div>
-      <div class="small-8 columns">
-        <input type="text" ng-model="installationData.hostname"/>
-      </div>
-    </div>
-    <div class="row small-8">
-      <div class="small-4 columns">
-        <label class="right inline">Your Name:</label>
-      </div>
-      <div class="small-8 columns">
-        <input type="text" ng-model="installationData.fullname"/>
-      </div>
-    </div>
-    <div class="row small-8">
-      <div class="small-4 columns">
-        <label class="right inline">User Name:</label>
-      </div>
-      <div class="small-8 columns">
-        <input type="text" ng-model="installationData.username"/>
-      </div>
-    </div>
-    <div class="row small-8">
-      <div class="small-4 columns">
-        <label class="right inline">Password</label>
-      </div>
-      <div class="small-8 columns">
-              <input type="password" ng-model="installationData.password" place-holder="At least 8 characters"/>
-      </div>
-    </div>
-    <div class="row small-8">
-      <div class="small-4 columns">
-        <label class="right inline">Repeat Password</label>
-      </div>
-      <div class="small-8 columns">
-        <input type="password" ng-model="installationData.passwordRepeat" place-holder="Type the password again"/>
-      </div>
-    </div>
-  </div>
-</form>
-  </div>
-  <div class="columns nav-button">
+  <div class="small-6 large-centered columns">
     <button class='button' ng-click="previous()">Previous</button>
     <button class='button' ng-click="next()">Next</button>
   </div>
 </div>
-
