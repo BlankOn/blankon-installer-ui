@@ -2,8 +2,10 @@
 angular.module('Biui', [
   "ui.router", 
   "ngAnimate",
+
   "html",
   "mm.foundation",
+
   "hello",
   "partition",
   "user",
@@ -78,56 +80,8 @@ angular.module('Biui', [
   )
 })
 
-.run([ "$rootScope", "$state", "$stateParams", "$timeout", "$location", 
-  function ($rootScope, $state, $stateParams, $timeout, $location) {
-    $rootScope.steps = [
-      {
-        seq : 0,
-        step : 1,
-        name : "Introduction",
-        path : "hello"
-      },
-      {
-        seq : 1,
-        step : 2,
-        name : "Installation Target",
-        path : "partition"
-      },
-      {
-        seq : 2,
-        step : 3,
-        name : "Personalization",
-        path : "user"
-      },
-      {
-        seq : 3,
-        step : 4,
-        name : "Installation Summary",
-        path : "summary"
-      },
-      {
-        seq : 4,
-        step : 5,
-        name : "Installing...",
-        path : ""
-      },
-      {
-        seq : 5,
-        step : 6,
-        name : "Finish`",
-        path : ""
-      },
-    ]
-
-    $rootScope.goStep = function (seq) {
-      if (seq < 4) {
-        $rootScope.currentState = seq;
-        $location.path($rootScope.steps[seq].path);
-      }
-    }
-    console.log(window.innerHeight);
-    $rootScope.installationData = {};
-
+.run([ "$rootScope", "$state", "$stateParams", 
+  function ($rootScope, $state, $stateParams) {
     $rootScope.states = [
       "hello",
       "partition",
@@ -135,20 +89,11 @@ angular.module('Biui', [
       "summary",
       "install",
       "done"
+      
       ];
-    $rootScope.advancedMode = function() {
-      $rootScope.simplePartitioning = false;
-    }
-    $rootScope.simpleMode = function() {
-      $rootScope.simplePartitioning = true;
-    }
     $rootScope.currentState = 0;
-    $rootScope.simplePartitioning = true;
-    $rootScope.back = false;
-    $rootScope.forward = true;
+
     $rootScope.next = function() {
-      $rootScope.back = false;
-      $rootScope.forward = true;
         console.log("x", $rootScope.currentState, $rootScope.states.length);
       if ($rootScope.currentState + 1 < $rootScope.states.length) {
         $rootScope.currentState ++;
@@ -160,26 +105,12 @@ angular.module('Biui', [
     }
 
     $rootScope.previous = function() {
-      $rootScope.back = true;
-      $rootScope.forward = false;
-      console.log($rootScope.back);
-      $timeout(function(){
-        if ($rootScope.currentState - 1 >= 0) {
-          $rootScope.currentState --;
-          $state.go($rootScope.states[$rootScope.currentState], function(){
+      if ($rootScope.currentState - 1 >= 0) {
+        $rootScope.currentState --;
+        $state.go($rootScope.states[$rootScope.currentState]);
+      }
+    }
 
-        });
-          $timeout(function(){
-            $rootScope.back = false;
-            $rootScope.forward = true;
-            console.log($rootScope.back);
-          }, 1100);
-        }
-      }, 100);
-    }
-    $rootScope.exit = function(){
-      Installation.shutdown();
-    }
     $state.go($rootScope.states[$rootScope.currentState]);
     $rootScope.started = true;
   }
