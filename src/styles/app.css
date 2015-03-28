@@ -7,9 +7,10 @@ body {
     display: none; 
   }
 }
-
+.logo {
+  margin:30px 30px -50px -20px;
+}
 .content {
-  /* height: 550px; */
   height: 600px;
   padding: 30px;
 }
@@ -18,15 +19,11 @@ h1 {
 }
 .page {
   float:left;
-  /* margin-left:10vw; */
-  /* width:80vh; */
 }
 .timeline {
   width:10vw;
 }
 .wrapper {
-  /* margin-left:auto; */
-  /* margin-right:auto; */
   position:relative;
   height:auto;
   background:#ccc">
@@ -116,18 +113,17 @@ h1 {
 }
 
 .nav-button {
-  text-align:center;
+  padding-left: 30px;
 }
 .personalization-form {
   width:600px;
 }
 .drive-block {
   background:#494949;
-  padding:8px 4px 8px 4px;
+  padding:8px 0px 8px 0px;
   height:50px;
 }
 .partition-block {
-  background:black;
   float:left;
   height:34px;
   margin-left:8px;
@@ -139,14 +135,42 @@ h1 {
   cursor:pointer;
 }
 
+.normal {
+  background:green;
+}
+
 .selected {
   background:#0082AC !important;
 }
 
-.disabled {
-  background:#0082AC !important;
+.disallow {
+  background:grey;
   cursor: default;
   pointer-events: none;
+}
+
+.freespace {
+  background:white;
+}
+
+.legend-partition {
+  margin-bottom: 10px;
+}
+.legend-partition-normal {
+  background-color:green;
+  padding:1px 4px 1px 4px;
+  font-size:12px;
+}
+.legend-partition-disallow {
+  background-color:grey;
+  padding:1px 4px 1px 4px;
+  font-size:12px;
+}
+.legend-partition-freespace {
+  background-color:white;
+  padding:1px 4px 1px 4px;
+  font-size:12px;
+  color:black;
 }
 
 .partition-block:hover span {

@@ -8,7 +8,7 @@ angular.module("install",[])
       $scope.error = true;
     }
     var updateStatus = function(){
-      var status = installation.getStatus();
+      var status = $rootScope.installation.getStatus();
       console.log(status.status + ":" + status.description);
       $scope.currentStep = status.description;
       $scope.progressBarWidth = status.progress;
@@ -21,7 +21,14 @@ angular.module("install",[])
         }
       }
     }
-
+    $scope.loadingDot = "";
+    $interval(function(){
+      if ($scope.loadingDot.length === 8) {
+        $scope.loadingDot = "";
+      } else {
+        $scope.loadingDot += " .";
+      }
+    }, 500);
     var params = "";
     params += "&partition=" + $rootScope.installationData.partition;
     params += "&device=" + $rootScope.installationData.device;
@@ -34,8 +41,8 @@ angular.module("install",[])
     params += "&keyboard=" + $rootScope.installationData.keyboard;
     params += "&autologin=" + false;
     console.log(params);
-    installation = new Installation(params);
-    installation.start();
+    $rootScope.installation = new Installation(params);
+    $rootScope.installation.start();
     $scope.currentStep = "";
     statusUpdater = $interval(updateStatus, 1000);
 

@@ -181,15 +181,13 @@ $rootScope.installationData = {};
       console.log($rootScope.back);
       $timeout(function(){
         if ($rootScope.currentState - 1 >= 0) {
-          $rootScope.currentState --;
-          $state.go($rootScope.states[$rootScope.currentState], function(){
-
-        });
+          $rootScope.currentState--;
+          $state.go($rootScope.states[$rootScope.currentState]);
           $timeout(function(){
             $rootScope.back = false;
             $rootScope.forward = true;
             console.log($rootScope.back);
-          }, 1100);
+          }, 1300);
         }
       }, 100);
     }
@@ -199,14 +197,14 @@ $rootScope.installationData = {};
     $timeout(function(){
       console.log($(window).width());
       // Fix layout according to screen size
-      $(".page").css("width", ($(window).width()*(65/100)).toString() + "px");
-      $(".content").css("height", ($(window).height()*(80/100)).toString() + "px !important");
-      $(".page").css("margin-left", ($(window).width()*(10/100)).toString() + "px");
-      $(".line").css("height", ($(window).height()*(75/100)).toString() + "px");
+      $(".page").css("width", ($(window).width()*(70/100)).toString() + "px");
+      $(".content").css("height", ($(window).height()*(70/100)).toString() + "px !important");
+      $(".page").css("margin-left", ($(window).width()*(7/100)).toString() + "px");
+      $(".line").css("height", ($(window).height()*(72/100)).toString() + "px");
       $(".line").css("margin-top", ($(window).height()*(10/100)).toString() + "px");
       $(".step-container").css("margin-top", ($(window).height()*(10/100)).toString() + "px");
-      $(".step").css("margin-bottom", (($(window).height()*(15/100))-10).toString() + "px");
-      $(".step-big").css("margin-bottom", (($(window).height()*(15/100))-30).toString() + "px");
+      $(".step").css("margin-bottom", (($(window).height()*(12/100))-10).toString() + "px");
+      $(".step-big").css("margin-bottom", (($(window).height()*(12/100))-30).toString() + "px");
       $state.go($rootScope.states[$rootScope.currentState]);
       $rootScope.started = true;
     }, 500);
