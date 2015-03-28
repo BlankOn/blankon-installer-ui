@@ -5,6 +5,7 @@ angular.module("hello",[])
   $scope.languages = $window.BiLanguage.available();
 
   $scope.setLanguage = function(lang) {
-    console.log(lang);
+    $rootScope.installationData.lang = lang.id;
+    $rootScope.selectedLang = lang.title;
   }
 }])
