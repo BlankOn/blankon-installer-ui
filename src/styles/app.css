@@ -58,6 +58,10 @@ h1 {
   animation-name: fadeOutDown;
 }
 
+.timezone-picker {
+  width: 700px !important;
+}
+
 .line {
   margin-left:19px; 
   position:absolute;

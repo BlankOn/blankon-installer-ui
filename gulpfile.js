@@ -79,6 +79,8 @@ gulp.task("fonts", function() {
 gulp.task("html", function() {
   gulp.src("src/index.html")
   .pipe(gulp.dest("./dist"));
+  gulp.src("src/timezone.html")
+  .pipe(gulp.dest("./dist"));
 
   gulp.src(files.html)
   .pipe(minifyHtml({

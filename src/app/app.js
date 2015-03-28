@@ -28,9 +28,7 @@ angular.module('Biui', [
   .state("timezone", {
       url: "/timezone",
       controller: "TimezoneCtrl",
-      templateProvider: function($templateCache) {
-        return $templateCache.get("timezone/timezone.html");
-      }
+      templateUrl: "timezone.html"
     }
   )
 })
@@ -201,7 +199,7 @@ $rootScope.installationData = {};
     $timeout(function(){
       console.log($(window).width());
       // Fix layout according to screen size
-      $(".page").css("width", ($(window).width()*(70/100)).toString() + "px");
+      $(".page").css("width", ($(window).width()*(65/100)).toString() + "px");
       $(".content").css("height", ($(window).height()*(80/100)).toString() + "px !important");
       $(".page").css("margin-left", ($(window).width()*(10/100)).toString() + "px");
       $(".line").css("height", ($(window).height()*(75/100)).toString() + "px");
