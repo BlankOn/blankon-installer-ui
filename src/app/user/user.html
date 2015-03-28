@@ -3,7 +3,6 @@
   <h1>Personalization</h1>
 <form name="personalization" novalidation>
   <p>Please enter your personalization preference below...</p>
-  <p ng-show="personalizationError"><strong>Please fill all the required form and leave no red indicator.</strong></p>
   <div class="personalization-form">
     <div class="row small-8">
       <div class="small-4 columns">
@@ -35,9 +34,9 @@
       </div>
       <div class="small-8 columns">
               <input type="password" ng-model="installationData.password" placeholder="At least 8 characters"/>
-              <div style="margin-top:-15px;height:4px;background-color:red;width:33%" ng-show="passwordStrength == 'weak'"></div>
-              <div style="margin-top:-15px;height:4px;background-color:yellow;width:66%" ng-show="passwordStrength == 'strong'"></div>
-              <div style="margin-top:-15px;height:2px;background-color:green;" ng-show="passwordStrength == 'veryStrong'"></div>
+              <div style="margin-top:-16px;height:4px;background-color:red;width:33%" ng-show="passwordStrength == 'weak'"></div>
+              <div style="margin-top:-16px;height:4px;background-color:yellow;width:66%" ng-show="passwordStrength == 'strong'"></div>
+              <div style="margin-top:-16px;height:4px;background-color:#438FB9;" ng-show="passwordStrength == 'veryStrong'"></div>
       </div>
     </div>
     <div class="row small-8">
@@ -46,12 +45,13 @@
       </div>
       <div class="small-8 columns">
         <input type="password" ng-model="installationData.passwordRepeat" place-holder="Type the password again"/>
-              <div style="margin-top:-15px;height:4px;background-color:green;" ng-show="isSamePassword"></div>
-              <div style="margin-top:-15px;height:4px;background-color:red;" ng-show="!isSamePassword && installationData.passwordRepeat[0]"></div>
+              <div style="margin-top:-16px;height:4px;background-color:#438FB9;" ng-show="isSamePassword"></div>
+              <div style="margin-top:-16px;height:4px;background-color:red;" ng-show="!isSamePassword && installationData.passwordRepeat[0]"></div>
       </div>
     </div>
   </div>
 </form>
+  <p ng-show="personalizationError"><strong>Please fill all the required form and leave no red indicator.</strong></p>
   </div>
   <div class="columns nav-button">
     <button class='button' ng-click="previous()">Previous</button>

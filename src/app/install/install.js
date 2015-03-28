@@ -4,7 +4,8 @@ angular.module("install",[])
     function ($scope, $window, $rootScope, $timeout, $interval){
   console.log(JSON.stringify($rootScope.installationData));
     var showError = function(){
-      $scope.errorLog = "Error!";
+      console.log("error");
+      $scope.error = true;
     }
     var updateStatus = function(){
       var status = installation.getStatus();
@@ -12,13 +13,10 @@ angular.module("install",[])
       $scope.currentStep = status.description;
       $scope.progressBarWidth = status.progress;
       if (status.status > 1) {
-        console.log("stopped");
         $interval.cancel(statusUpdater);
         if (status.status == 2) {
-          console.log("error");
           showError();
         } else {
-          console.log("installation finished");
           $rootScope.next();
         }
       }
@@ -35,6 +33,7 @@ angular.module("install",[])
     params += "&timezone=" + $rootScope.installationData.timezone;
     params += "&keyboard=" + $rootScope.installationData.keyboard;
     params += "&autologin=" + false;
+    console.log(params);
     installation = new Installation(params);
     installation.start();
     $scope.currentStep = "";

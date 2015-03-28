@@ -22,7 +22,7 @@
     <div class="line-container">
     <div class="line"></div>
     </div>
-    <div class="step-container">
+    <div class="step-container" ng-show="showStepLine">
             <div ng-repeat="state in steps">
             <div class="step" ng-hide="currentState == state.seq" ng-click="goStep(state.seq)"></div>
             <div class="step-big" ng-show="currentState == state.seq">{{state.step}}</div>

@@ -10,7 +10,7 @@ body {
 
 .content {
   /* height: 550px; */
-  /* height: 80vh; */
+  height: 600px;
   padding: 30px;
 }
 h1 {
@@ -18,8 +18,8 @@ h1 {
 }
 .page {
   float:left;
-  margin-left:10vw;
-  width:80vh;
+  /* margin-left:10vw; */
+  /* width:80vh; */
 }
 .timeline {
   width:10vw;
@@ -63,19 +63,25 @@ h1 {
   position:absolute;
   background:#6D6D6D;
   width:2px;
-  margin-top:10vh;
-  height:75vh;
+  /* margin-top:10vh; */
+  /* height:75vh; */
   z-index:1000;
 }
 
-.step-line {
-  position:absolute;
-  z-index:0;
-}
 .step-container {
   position:absolute;
   z-index:2001;
-  margin-top:10vh;
+  /* margin-top:10vh; */
+}
+
+.step-container.ng-hide-add.ng-hide-add-active,
+.step-container.ng-hide-remove.ng-hide-remove-active {
+  -webkit-transition: all linear 0.5s;
+  transition: all linear 0.5s;
+}
+.step-line {
+  position:absolute;
+  z-index:0;
 }
 .step {
   background:#6D6D6D;
@@ -83,7 +89,7 @@ h1 {
   height:10px;
   margin-left:15px; 
   border-radius:5px;
-  margin-bottom:calc(15vh - 10px);
+  /* margin-bottom:calc(15vh - 10px); */
 }
 .step:hover {
   border : 5px solid;
@@ -91,11 +97,11 @@ h1 {
   cursor:pointer;
 }
 .step-big {
-  background:#6D6D6D;
+  background:#438FB9;
   width:30px;
   height:30px; 
   border-radius:15px;
-  margin-bottom:calc(15vh - 30px);
+  /* margin-bottom:calc(15vh - 30px); */
   margin-left:5px;
   padding-top:4px;
   text-align:center;
@@ -106,7 +112,7 @@ h1 {
 }
 
 .nav-button {
-  /* text-align:center; */
+  text-align:center;
 }
 .personalization-form {
   width:600px;

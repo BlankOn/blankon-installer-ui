@@ -120,15 +120,13 @@ angular.module('Biui', [
     ]
 
     $rootScope.goStep = function (seq) {
-      /* if (seq < 4) { */
+      if (seq < 4) {
         $rootScope.currentState = seq;
         $location.path($rootScope.steps[seq].path);
-      /* } */
+      }
     }
-    console.log((window.innerWidth*(80/100)));
-    /* $(".line").css("height", "800px"); */
-    $rootScope.installationData = {};
 
+$rootScope.installationData = {};
     $rootScope.states = [
       "hello",
       "partition",
@@ -181,8 +179,23 @@ angular.module('Biui', [
     $rootScope.exit = function(){
       Installation.shutdown();
     }
-    $state.go($rootScope.states[$rootScope.currentState]);
-    $rootScope.started = true;
+    $timeout(function(){
+      console.log($(window).width());
+      // Fix layout according to screen size
+      $(".page").css("width", ($(window).width()*(70/100)).toString() + "px");
+      $(".content").css("height", ($(window).height()*(80/100)).toString() + "px !important");
+      $(".page").css("margin-left", ($(window).width()*(10/100)).toString() + "px");
+      $(".line").css("height", ($(window).height()*(75/100)).toString() + "px");
+      $(".line").css("margin-top", ($(window).height()*(10/100)).toString() + "px");
+      $(".step-container").css("margin-top", ($(window).height()*(10/100)).toString() + "px");
+      $(".step").css("margin-bottom", (($(window).height()*(15/100))-10).toString() + "px");
+      $(".step-big").css("margin-bottom", (($(window).height()*(15/100))-30).toString() + "px");
+      $state.go($rootScope.states[$rootScope.currentState]);
+      $rootScope.started = true;
+    }, 500);
+    $timeout(function(){
+      $rootScope.showStepLine = true;
+    }, 1000);
   }
 ])
 

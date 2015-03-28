@@ -13,7 +13,7 @@
     </p>
     <div class="drive-block" ng-show="selectedDrive" style="width:{{selectedDrive.driveWidth}}px !important;">
       <div ng-repeat="partition in selectedDrive.qualifiedPartitions" class="partition-block" ng-click="selectInstallationTarget(selectedDrive.id, partition)" ng-class="{selected:partition.selected}">
-        <span class="pop">
+        <span class="pop" style="color:white">
          Size : {{partition.sizeGb}} GB<br>
          File System : {{partition.filesystem}}<br>
          Sector : {{partition.start}} - {{partition.end}}<br>
