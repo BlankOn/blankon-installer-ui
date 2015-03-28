@@ -120,12 +120,13 @@ angular.module('Biui', [
     ]
 
     $rootScope.goStep = function (seq) {
-      if (seq < 4) {
+      /* if (seq < 4) { */
         $rootScope.currentState = seq;
         $location.path($rootScope.steps[seq].path);
-      }
+      /* } */
     }
-    console.log(window.innerHeight);
+    console.log((window.innerWidth*(80/100)));
+    /* $(".line").css("height", "800px"); */
     $rootScope.installationData = {};
 
     $rootScope.states = [
