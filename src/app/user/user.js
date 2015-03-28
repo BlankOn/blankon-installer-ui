@@ -7,14 +7,17 @@ angular.module("user",[])
     $rootScope.personalizationError = false;
     if (value) {
       console.log(value)
-      $scope.installationData.hostname = value.replace(/[^a-zA-Z0-9]/g, "");
+      $scope.installationData.hostname = value.replace(/[^a-z0-9-]/g, "");
     }
+  });
+  $scope.$watch("installationData.fullname", function(value){
+    $rootScope.personalizationError = false;
   });
   $scope.$watch("installationData.username", function(value){
     $rootScope.personalizationError = false;
     if (value) {
       console.log(value)
-      $scope.installationData.username = value.replace(/[^a-zA-Z0-9]/g, "");
+      $scope.installationData.username = value.replace(/[^a-z0-9-]/g, "");
     }
   });
   $scope.$watch("installationData.password", function(value){
