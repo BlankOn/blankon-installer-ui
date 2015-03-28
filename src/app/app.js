@@ -5,6 +5,7 @@ angular.module('Biui', [
   "html",
   "mm.foundation",
   "hello",
+  "timezone",
   "partition",
   "user",
   "summary",
@@ -18,6 +19,17 @@ angular.module('Biui', [
       controller: "HelloCtrl",
       templateProvider: function($templateCache) {
         return $templateCache.get("hello/hello.html");
+      }
+    }
+  )
+})
+.config(function($stateProvider) {
+  $stateProvider
+  .state("timezone", {
+      url: "/timezone",
+      controller: "TimezoneCtrl",
+      templateProvider: function($templateCache) {
+        return $templateCache.get("timezone/timezone.html");
       }
     }
   )
@@ -90,30 +102,36 @@ angular.module('Biui', [
       {
         seq : 1,
         step : 2,
-        name : "Installation Target",
-        path : "partition"
+        name : "Timezone",
+        path : "timezone"
       },
       {
         seq : 2,
         step : 3,
-        name : "Personalization",
-        path : "user"
+        name : "Installation Target",
+        path : "partition"
       },
       {
         seq : 3,
         step : 4,
-        name : "Installation Summary",
-        path : "summary"
+        name : "Personalization",
+        path : "user"
       },
       {
         seq : 4,
         step : 5,
-        name : "Installing...",
-        path : ""
+        name : "Installation Summary",
+        path : "summary"
       },
       {
         seq : 5,
         step : 6,
+        name : "Installing...",
+        path : ""
+      },
+      {
+        seq : 6,
+        step : 7,
         name : "Finish`",
         path : ""
       },
@@ -129,6 +147,7 @@ angular.module('Biui', [
 $rootScope.installationData = {};
     $rootScope.states = [
       "hello",
+      "timezone",
       "partition",
       "user",
       "summary",
