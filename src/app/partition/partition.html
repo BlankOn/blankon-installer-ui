@@ -37,7 +37,7 @@
       </div>
     </div>
     <div ng-show="advancedPartition">
-      <div class="top-bar-partition">
+            <div class="top-bar-partition" style="width:{{selectedDrive.driveWidth}}px">
         <span ng-show="selectedDrive" class="legend-partition-normal">Used</span>
         <span ng-show="selectedDrive" class="legend-partition-disallow">Too small</span>
         <span ng-show="selectedDrive" class="legend-partition-freespace">Free space</span>
