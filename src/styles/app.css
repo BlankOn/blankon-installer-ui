@@ -153,7 +153,8 @@ h1 {
   background:white;
 }
 
-.legend-partition {
+.top-bar-partition {
+  height:37px;
   margin-bottom: 10px;
 }
 .legend-partition-normal {
@@ -188,6 +189,11 @@ h1 {
   display:none;
 }
 
+.td-partition {
+  height:30px !important;
+  padding-top:0px !important;
+  padding-bottom:0px !important;
+}
 
 .spinner {
   width: 40px;

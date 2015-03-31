@@ -3,9 +3,19 @@ angular.module("partition",[])
     "$scope", "$window", "$timeout", "$rootScope", 
     function ($scope, $window, $timeout, $rootScope){
 
+  $scope.advancedPartition = false;
+  $scope.title = "Installation Target";
   var gbSize = 1073741824;
   var minimumPartitionSize = 4 * gbSize;
   var driveBlockWidth = 600;
+  $scope.switchToAdvancedPartition = function(){
+    $scope.advancedPartition = true;
+    $scope.title = "PartoEdi";
+  }
+  $scope.switchToSimplePartition = function(){
+    $scope.advancedPartition = false;
+    $scope.title = "Installation Target";
+  }
   $scope.selectInstallationTarget = function(deviceId, partition) {
     $rootScope.installationData.device = deviceId;
     $rootScope.installationData.partition = partition.id;
@@ -24,178 +34,8 @@ angular.module("partition",[])
   if (!$rootScope.installationData.partition) {
     // give time for transition
     $timeout(function(){
-      $rootScope.devices = Parted.getDevices();
-      $rootScope.devices_ = [
-      {
-          "path": "/dev/sda",
-          "size": 1000204886016,
-          "model": "ATA TOSHIBA MQ01ABD1",
-          "label": "msdos",
-          "partitions": [
-              {
-                  "id": -1,
-                  "parent": -1,
-                  "start": 32256,
-                  "end": 1048064,
-                  "size": 1016320,
-                  "type": "DEVICE_PARTITION_TYPE_FREESPACE",
-                  "filesystem": "",
-                  "description": ""
-              },
-              {
-                  "id": 1,
-                  "parent": -1,
-                  "start": 1048576,
-                  "end": 20972568064,
-                  "size": 20971520000,
-                  "type": "DEVICE_PARTITION_TYPE_NORMAL",
-                  "filesystem": "ext3",
-                  "description": "Ubuntu 14.04.1 LTS (14.04)"
-              },
-              {
-                  "id": 2,
-                  "parent": -1,
-                  "start": 20972568576,
-                  "end": 41944088064,
-                  "size": 20971520000,
-                  "type": "DEVICE_PARTITION_TYPE_NORMAL",
-                  "filesystem": "ext4",
-                  "description": ""
-              },
-              {
-                  "id": 3,
-                  "parent": -1,
-                  "start": 41944088576,
-                  "end": 62915608064,
-                  "size": 20971520000,
-                  "type": "DEVICE_PARTITION_TYPE_NORMAL",
-                  "filesystem": "ext4",
-                  "description": "BlankOn Tambora (Development Branch) (10.0)"
-              },
-              {
-                  "id": 4,
-                  "parent": -1,
-                  "start": 62915608576,
-                  "end": 1000204140032,
-                  "size": 937288531968,
-                  "type": "DEVICE_PARTITION_TYPE_NORMAL",
-                  "filesystem": "ext3",
-                  "description": ""
-              },
-              {
-                  "id": -1,
-                  "parent": -1,
-                  "start": 1000204140544,
-                  "end": 1000204885504,
-                  "size": 745472,
-                  "type": "DEVICE_PARTITION_TYPE_METADATA",
-                  "filesystem": "",
-                  "description": ""
-              }
-          ]
-      }
-    ]; 
-    $rootScope.devices__ = [
-    {
-        "path": "/dev/sda",
-        "size": 53687091200,
-        "model": "ATA VBOX HARDDISK",
-        "label": "msdos",
-        "partitions": [
-            {
-                "id": -1,
-                "parent": -1,
-                "start": 32256,
-                "end": 1048064,
-                "size": 1016320,
-                "type": "DEVICE_PARTITION_TYPE_FREESPACE",
-                "filesystem": "",
-                "description": ""
-            },
-            {
-                "id": 1,
-                "parent": -1,
-                "start": 1048576,
-                "end": 11060379136,
-                "size": 11059331072,
-                "type": "DEVICE_PARTITION_TYPE_NORMAL",
-                "filesystem": "ext4",
-                "description": ""
-            },
-            {
-                "id": 2,
-                "parent": -1,
-                "start": 11060379648,
-                "end": 12253658624,
-                "size": 1193279488,
-                "type": "DEVICE_PARTITION_TYPE_NORMAL",
-                "filesystem": "ext4",
-                "description": ""
-            },
-            {
-                "id": 3,
-                "parent": -1,
-                "start": 12253659136,
-                "end": 53687090688,
-                "size": 41433432064,
-                "type": "DEVICE_PARTITION_TYPE_EXTENDED",
-                "filesystem": "",
-                "description": ""
-            },
-            {
-                "id": -1,
-                "parent": -1,
-                "start": 12253659136,
-                "end": 12253659136,
-                "size": 512,
-                "type": "DEVICE_PARTITION_TYPE_FREESPACE",
-                "filesystem": "",
-                "description": ""
-            },
-            {
-                "id": -1,
-                "parent": -1,
-                "start": 12253659648,
-                "end": 12254707200,
-                "size": 1048064,
-                "type": "DEVICE_PARTITION_TYPE_FREESPACE",
-                "filesystem": "",
-                "description": ""
-            },
-            {
-                "id": 5,
-                "parent": -1,
-                "start": 12254707712,
-                "end": 51533315584,
-                "size": 39278608384,
-                "type": "DEVICE_PARTITION_TYPE_LOGICAL",
-                "filesystem": "ext4",
-                "description": ""
-            },
-            {
-                "id": -1,
-                "parent": -1,
-                "start": 51533316096,
-                "end": 51534364160,
-                "size": 1048576,
-                "type": "DEVICE_PARTITION_TYPE_FREESPACE",
-                "filesystem": "",
-                "description": ""
-            },
-            {
-                "id": 6,
-                "parent": -1,
-                "start": 51534364672,
-                "end": 53687090688,
-                "size": 2152726528,
-                "type": "DEVICE_PARTITION_TYPE_LOGICAL",
-                "filesystem": "ext4",
-                "description": ""
-            }
-        ],
-        "$$hashKey": "00S"
-    }
-]; 
+      /* $rootScope.devices = Parted.getDevices(); */
+      $rootScope.devices = [{"path":"/dev/sda","size":53687091200,"model":"ATA VBOX HARDDISK","label":"msdos","partitions":[{"id":-1,"parent":-1,"start":32256,"end":1048064,"size":1016320,"type":"DEVICE_PARTITION_TYPE_FREESPACE","filesystem":"","description":""},{"id":1,"parent":-1,"start":1048576,"end":15570304512,"size":15569256448,"type":"DEVICE_PARTITION_TYPE_NORMAL","filesystem":"ext4","description":""},{"id":2,"parent":-1,"start":15570305024,"end":17780702720,"size":2210398208,"type":"DEVICE_PARTITION_TYPE_NORMAL","filesystem":"ext4","description":""},{"id":-1,"parent":-1,"start":17780703232,"end":27044871680,"size":9264168960,"type":"DEVICE_PARTITION_TYPE_FREESPACE","filesystem":"","description":""},{"id":3,"parent":-1,"start":27044872192,"end":53687090688,"size":26642219008,"type":"DEVICE_PARTITION_TYPE_EXTENDED","filesystem":"","description":""},{"id":-1,"parent":-1,"start":27044872192,"end":27044872192,"size":512,"type":"DEVICE_PARTITION_TYPE_FREESPACE","filesystem":"","description":""},{"id":-1,"parent":-1,"start":27044872704,"end":27045920256,"size":1048064,"type":"DEVICE_PARTITION_TYPE_FREESPACE","filesystem":"","description":""},{"id":5,"parent":-1,"start":27045920768,"end":50703891968,"size":23657971712,"type":"DEVICE_PARTITION_TYPE_LOGICAL","filesystem":"ext4","description":""},{"id":-1,"parent":-1,"start":50703892480,"end":50704940544,"size":1048576,"type":"DEVICE_PARTITION_TYPE_FREESPACE","filesystem":"","description":""},{"id":6,"parent":-1,"start":50704941056,"end":53687090688,"size":2982150144,"type":"DEVICE_PARTITION_TYPE_LOGICAL","filesystem":"ext4","description":""}],"$$hashKey":"00T"}];
       $scope.scanning = true;
     }, 1000);
   }
