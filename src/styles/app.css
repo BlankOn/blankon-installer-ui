@@ -195,6 +195,10 @@ h1 {
   padding-bottom:0px !important;
 }
 
+.partoedi-button {
+  width:90px !important;
+}
+
 .spinner {
   width: 40px;
   height: 40px;

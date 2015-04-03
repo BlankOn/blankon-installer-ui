@@ -9,12 +9,13 @@
       </li>
     </ul>
     <div ng-hide="advancedPartition">
-      <p ng-show="selectedDrive">Please choose the partition on device below which you would like to install BlankOn into or use <a ng-click="switchToAdvancedPartition()">advanced partitioning tool</a> for more control.<br>
+      <p ng-show="selectedDrive">Please choose the partition on device below which you would like to install BlankOn into or use advanced partitioning tool for more control.<br>
       </p>
-      <div class="legend-partition">
-        <span ng-show="selectedDrive" class="legend-partition-normal">Used</span>
-        <span ng-show="selectedDrive" class="legend-partition-disallow">Too small</span>
-        <span ng-show="selectedDrive" class="legend-partition-freespace">Free space</span>
+      <div class="top-bar-partition" style="width:{{selectedDrive.driveWidth}} !important" ng-show="selectedDrive">
+        <span class="legend-partition-normal">Used</span>
+        <span class="legend-partition-disallow">Too small</span>
+        <span class="legend-partition-freespace">Free space</span>
+        <a class="button tiny right" ng-click="switchToAdvancedPartition()">Enter Advanced Mode</button>
       </div>
       <div class="drive-block" ng-show="selectedDrive" style="width:{{selectedDrive.driveWidth}}px !important;">
         <a href="" ng-repeat="partition in selectedDrive.qualifiedPartitions" class="partition-block" ng-click="selectInstallationTarget(selectedDrive.id, partition)" ng-class="{selected:partition.selected, disallow:partition.disallow, freespace:partition.freespace, normal:partition.normal}">
@@ -37,14 +38,14 @@
       </div>
     </div>
     <div ng-show="advancedPartition">
-            <div class="top-bar-partition" style="width:{{selectedDrive.driveWidth}}px">
+        <div class="top-bar-partition" style="width:{{selectedDrive.driveWidth}}px">
         <span ng-show="selectedDrive" class="legend-partition-normal">Used</span>
         <span ng-show="selectedDrive" class="legend-partition-disallow">Too small</span>
         <span ng-show="selectedDrive" class="legend-partition-freespace">Free space</span>
         <a class="button tiny right"><span >Apply</span></a>
         <a class="button tiny right"><span >Undo</span></a>
         <a class="button tiny right"><span >Redo</span></a>
-        <a class="button tiny right"><span >Exit Advanced Mode</span></a>
+        <a class="button tiny right" ng-click="switchToSimplePartition()"><span >Exit Advanced Mode</span></a>
       </div>
       <div class="drive-block" ng-show="selectedDrive" style="width:{{selectedDrive.driveWidth}}px !important;">
         <a href="" ng-repeat="partition in selectedDrive.qualifiedPartitions" class="partition-block" ng-click="selectInstallationTarget(selectedDrive.id, partition)" ng-class="{selected:partition.selected, disallow:partition.disallow, freespace:partition.freespace, normal:partition.normal}">
@@ -76,10 +77,10 @@
                 <td class="td-partition">{{partition.used}}</td>
                 <td class="td-partition">{{partition.unused}}</td>
                 <td class="td-partition" ng-show="partition.id < 0">
-                   <a class="button tiny"><span >Create</span></a>
+                   <a class="button tiny partoedi-button"><span >Create</span></a>
                 </a>
                 <td class="td-partition" ng-show="partition.id > 0">
-                   <a class="button tiny dropdown" dropdown-toggle="#action-{{partition.id}}"><span >Action</span></a>
+                   <a class="button tiny dropdown partoedi-button" dropdown-toggle="#action-{{partition.id}}"><span >Action</span></a>
                    <ul id="action-{{partition.id}}" class="f-dropdown" ng-show="partition.id > 0">
                      <li ng-show="partition.id > 0">
                       <a ng-click="delete(partition)">Delete</a>
