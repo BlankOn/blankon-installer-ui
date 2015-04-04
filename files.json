@@ -7,11 +7,13 @@
     "bower_components/angular-animate/angular-animate.js",
     "bower_components/lodash/dist/lodash.min.js",
     "bower_components/angular-foundation/mm-foundation.min.js",
+    "bower_components/ng-slider/dist/ng-slider.min.js",
     "libs/*.js"
   ],
   "styles": [
     "bower_components/foundation/css/foundation.css",
     "bower_components/animate.css/animate.css",
+    "bower_components/ng-slider/dist/css/ng-slider.min.js",
     "src/styles/app.css"
   ],
   "fa": [
@@ -21,6 +23,7 @@
     "src/*/*.js"
   ],
   "images": [
+    "bower_components/ng-slider/dist/img/*",
     "src/images/*"
   ],
   "fonts": [

@@ -1,8 +1,6 @@
 <div class="row">
   <div class="columns content">
           <h1>{{title}} <small ng-show="advancedPartition">Partition Editor</small></h1>
-
-<input ng-model="value"  type="text" id="mySlider1" slider options="options" />
     <p ng-hide="devices[0]" class="fade">Please wait while your sistem is being scanned... </p>
     <p ng-show="devices[0] && !advancedPartition" class="fade"><a class="button dropdown" dropdown-toggle="#drive-selection"><span ng-show="!selectedDrive">Select drive...</span><span ng-show="selectedDrive">{{selectedDrive.model}}</span></a><p>
     <ul id="drive-selection" class="f-dropdown">
@@ -13,14 +11,14 @@
     <div ng-hide="advancedPartition" class="fade">
       <p ng-show="selectedDrive" class="fade">Please choose the partition on device below which you would like to install BlankOn into or use advanced partitioning tool for more control.<br>
       </p>
-      <div class="top-bar-partition" style="width:{{selectedDrive.driveWidth}} !important" ng-show="selectedDrive" class="fade">
+      <div class="top-bar-partition" style="width:{{selectedDrive.driveWidth}}px" ng-show="selectedDrive" class="fade">
         <span class="legend-partition-normal">Used</span>
         <span class="legend-partition-disallow">Too small</span>
         <span class="legend-partition-freespace">Free space</span>
         <a class="button tiny right" ng-click="switchToAdvancedPartition()">Enter Advanced Mode</button>
       </div>
       <div class="drive-block fade" ng-show="selectedDrive" style="width:{{selectedDrive.driveWidth}}px !important;">
-        <a href="" ng-repeat="partition in selectedDrive.qualifiedPartitions" ng-hide="hidden" class="partition-block" ng-click="selectInstallationTarget(selectedDrive.id, partition)" ng-class="{selected:partition.selected, disallow:partition.disallow, freespace:partition.freespace, normal:partition.normal}">
+        <a href="" ng-repeat="partition in selectedDrive.partitionList" ng-hide="hidden" class="partition-block" ng-click="selectInstallationTarget(selectedDrive.id, partition)" ng-class="{selected:partition.selected, disallow:partition.disallow, freespace:partition.freespace, normal:partition.normal}">
           <span class="pop" style="color:white">
            Size : {{partition.sizeGb}} GB<br>
            File System : {{partition.filesystem}}<br>
@@ -50,7 +48,7 @@
         <a class="button tiny right" ng-click="switchToSimplePartition()"><span >Exit Advanced Mode</span></a>
       </div>
       <div class="drive-block" ng-show="selectedDrive" style="width:{{selectedDrive.driveWidth}}px !important;">
-        <a href="" ng-repeat="partition in selectedDrive.qualifiedPartitions" ng-hide="hidden" class="partition-block" ng-click="selectInstallationTarget(selectedDrive.id, partition)" ng-class="{selected:partition.selected, disallow:partition.disallow, freespace:partition.freespace, normal:partition.normal}">
+        <a href="" ng-repeat="partition in selectedDrive.partitionList" ng-hide="hidden" class="partition-block" ng-click="selectInstallationTarget(selectedDrive.id, partition)" ng-class="{selected:partition.selected, disallow:partition.disallow, freespace:partition.freespace, normal:partition.normal}">
           <span class="pop" style="color:white">
            Size : {{partition.sizeGb}} GB<br>
            File System : {{partition.filesystem}}<br>
@@ -69,7 +67,7 @@
                 <td>Used</td>
                 <td>Unused</td>
               </tr>
-              <tr ng-repeat="partition in selectedDrive.qualifiedPartitions">
+              <tr ng-repeat="partition in selectedDrive.partitionList">
                 <td class="td-partition" ng-show="partition.id > 0">{{partition.id}}</td>
                 <td class="td-partition" ng-show="partition.id < 0">Unallocated</td>
                 <td class="td-partition" ng-show="partition.id > 0">{{partition.filesystem}}</td>
@@ -85,7 +83,7 @@
                    <a class="button tiny dropdown partoedi-button" dropdown-toggle="#action-{{partition.id}}"><span >Action</span></a>
                    <ul id="action-{{partition.id}}" class="f-dropdown" ng-show="partition.id > 0">
                      <li ng-show="partition.id > 0">
-                      <a ng-click="delete(partition)">Delete</a>
+                      <a ng-click="partitionDelete(partition)">Delete</a>
                      </li>
                      <li ng-show="partition.id > 0">
                       <a ng-click="format(partition)">Format</a>
@@ -98,11 +96,50 @@
               </tr>
       </table>
     </div>
-    <div ng-show="createDialog && actionDialog">
-      hola!
+    <div ng-show="createDialog">
+      <h2>Create Partition</h2>
+      <p>{{createDialogSelected.sizeGb}} GB available. Sector {{createDialogSelected.start}} - {{createDialogSelected.start}}</p>
+      <div style="height:75px">
+      <input ng-model="createSliderValue"  type="text" id="createSlider" slider options="createSliderOptions"/>
+      </div>
+      <div class="partoedi-action-dialog-form">
+        <div class="row small-8">
+          <div class="small-4 columns">
+            <label class="right inline">Size</label>
+          </div>
+          <div class="small-8 columns">
+            <input type="text"/ value="{{createDialogSelected.sizeGb}}" disabled>
+          </div>
+        </div>
+        <div class="row small-8">
+          <div class="small-4 columns">
+            <label class="right inline">Sector</label>
+          </div>
+          <div class="small-8 columns">
+            <input type="text"/>
+          </div>
+        </div>
+        <div class="row small-8">
+          <div class="small-4 columns">
+            <label class="right inline">Filesystem</label>
+          </div>
+          <div class="small-8 columns">
+            <input type="text"/>
+          </div>
+        </div>
+        <div class="row small-8">
+          <div class="small-4 columns">
+            <label class="right inline">Mount point</label>
+          </div>
+          <div class="small-8 columns">
+            <input type="text"/>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
-  <div class="columns nav-button" ng-show="devices[0]">
+  <div class="columns nav-button" ng-show="devices[0] && !actionDialog">
     <button class='button' ng-click="previous()">Previous</button>
     <button class="button" ng-class="{disabled:!validInstallationTarget}" ng-click="next()">Next</button>
   </div>

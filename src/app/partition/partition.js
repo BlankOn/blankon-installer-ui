@@ -5,13 +5,6 @@ angular.module("partition",[])
 
 
   /* function ctrl($scope) { */
-  /*   $scope.value = "10;15"; */
-  /*   $scope.options = { */       
-  /*     from: 0, */
-  /*     to: 40, */
-  /*     step: 1, */
-  /*     dimension: " $" */       
-  /*   }; */
   /* } */
   
   $scope.advancedPartition = false;
@@ -55,15 +48,36 @@ angular.module("partition",[])
       }
     }
   }
-  // action
-  /* $scope.action = function(fn,obj) { */
-  
-  /* } */
+  $scope.createSliderValue = "0;100";
+  $scope.createSliderOptions = {       
+    from: 0,
+    to: 100,
+    step: 1,
+    dimension: " GB"       
+  };
+  $scope.$watch("createSliderValue", function(value){
+  });
   $scope.partitionCreate = function(partition) {
     console.log(partition);
     $scope.createDialog = true;
     $scope.actionDialog = true;
+    $scope.createDialogSelected = partition; 
+  }
+  $scope.partitionDelete = function(partition) {
+    console.log(partition);
+    angular.forEach($scope.selectedDrive.partitionList, function(p){
+      if (p.start === partition.start) {
+        var index = $scope.selectedDrive.partitionList.indexOf(p);
+        /* $scope.selectedDrive.partitionList.splice(index, 1); */
+        $scope.selectedDrive.partitionList[index].type = "DEVICE_PARTITION_TYPE_FREESPACE";
+        $scope.selectedDrive.partitionList[index].filesystem = "";
+        $scope.selectedDrive.partitionList[index].description = "";
+        $scope.selectedDrive.partitionList[index].freespace = true;
+
   
+
+      }
+    });
   }
   if (!$rootScope.installationData.partition) {
     // give time for transition
@@ -81,7 +95,7 @@ angular.module("partition",[])
       if ($rootScope.devices[i].path === path) {
         $rootScope.selectedDrive = $rootScope.devices[i];
         $rootScope.selectedDrive.id = i;
-        $rootScope.selectedDrive.qualifiedPartitions = [];
+        $rootScope.selectedDrive.partitionList = [];
         $rootScope.selectedDrive.driveWidth = 8;
         $rootScope.selectedDrive.sizeGb = $rootScope.selectedDrive.size * gbSize;
         /* $rootScope.selectedDrive.partitions.forEach(function(p){ */
@@ -94,7 +108,7 @@ angular.module("partition",[])
             p.blockWidth = parseInt(((p.size/$rootScope.selectedDrive.size)*driveBlockWidth));
             $rootScope.selectedDrive.driveWidth += (8+p.blockWidth);
             p.sizeGb = (p.size/gbSize).toFixed(2);
-            $rootScope.selectedDrive.qualifiedPartitions.push(p);
+            $rootScope.selectedDrive.partitionList.push(p);
             console.log(p.id + "_" + (p.size/gbSize));
             p.selected = false;
             p.normal = true;
