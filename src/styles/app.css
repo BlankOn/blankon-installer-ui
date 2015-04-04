@@ -274,3 +274,50 @@ h1 {
   position: relative;
   overflow: hidden;
 }
+
+.fade.ng-hide-remove {
+  -webkit-animation: enter_sequence 0.5s linear; /* Safari/Chrome */
+  animation: enter_sequence 0.5s linear; /* IE10+ and Future Browsers */
+}
+/* .fade.ng-hide-add { */
+  /* -webkit-animation: leave_sequence 1s linear; /1* Safari/Chrome *1/ */
+  /* animation: leave_sequence 1s linear; /1* IE10+ and Future Browsers *1/ */
+/* } */
+
+@-webkit-keyframes enter_sequence {
+  0% { opacity:0; }
+  100% { opacity:1; }
+}
+@keyframes enter_sequence {
+  0% { opacity:0; }
+  100% { opacity:1; }
+}
+
+@-webkit-keyframes leave_sequence {
+  0% { opacity:1; }
+  100% { opacity:0; }
+}
+
+@keyframes leave_sequence {
+  0% { opacity:1; }
+  100% { opacity:0; }
+}
+
+/* page specific animations ------------------------ */
+
+/* home -------------------------- */
+/* .page-home.ng-leave         {
+    -webkit-transform-origin: 0% 0%;
+  -webkit-animation: rotateFall 1s both ease-in;
+  -moz-transform-origin: 0% 0%;
+  -moz-animation: rotateFall 1s both ease-in;
+  transform-origin: 0% 0%;
+  animation: rotateFall 1s both ease-in;
+}
+.page-home.ng-enter     {  
+    -webkit-animation:scaleUp 0.5s both ease-in;
+  -moz-animation:scaleUp 0.5s both ease-in;
+  animation:scaleUp 0.5s both ease-in;    
+} */
+pacity: 0;
+

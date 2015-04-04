@@ -80,11 +80,34 @@ angular.module("partition",[])
     "$scope", "$window", "$timeout", "$rootScope", 
     function ($scope, $window, $timeout, $rootScope){
 
+
+  /* function ctrl($scope) { */
+  /*   $scope.value = "10;15"; */
+  /*   $scope.options = { */       
+  /*     from: 0, */
+  /*     to: 40, */
+  /*     step: 1, */
+  /*     dimension: " $" */       
+  /*   }; */
+  /* } */
+  
   $scope.advancedPartition = false;
+  $scope.actionDialog = false;
   $scope.title = "Installation Target";
   var gbSize = 1073741824;
   var minimumPartitionSize = 4 * gbSize;
   var driveBlockWidth = 600;
+  var partitionState = {
+    mountpoint: {
+      root : "",
+      home : ""
+    },
+    state: [],
+      /* action : "", */
+      /* prevState : [], */
+      /* currentState : [] */
+    currentState: []
+  }
   $scope.switchToAdvancedPartition = function(){
     $scope.advancedPartition = true;
     $scope.title = "PartoEdi";
@@ -94,6 +117,7 @@ angular.module("partition",[])
     $scope.title = "Installation Target";
   }
   $scope.selectInstallationTarget = function(deviceId, partition) {
+    console.log(partition);
     $rootScope.installationData.device = deviceId;
     $rootScope.installationData.partition = partition.id;
     $rootScope.selectedInstallationTarget = $rootScope.selectedDrive.path + partition.id + " ("+partition.sizeGb+" GB)";
@@ -107,6 +131,16 @@ angular.module("partition",[])
         $rootScope.selectedDrive.partitions[j].selected = false;
       }
     }
+  }
+  // action
+  /* $scope.action = function(fn,obj) { */
+  
+  /* } */
+  $scope.partitionCreate = function(partition) {
+    console.log(partition);
+    $scope.createDialog = true;
+    $scope.actionDialog = true;
+  
   }
   if (!$rootScope.installationData.partition) {
     // give time for transition
@@ -130,33 +164,27 @@ angular.module("partition",[])
         /* $rootScope.selectedDrive.partitions.forEach(function(p){ */
         for (j = 0; j < $rootScope.selectedDrive.partitions.length; j++) {
           var p = $rootScope.selectedDrive.partitions[j];
-          if (p.size <= (0.01*gbSize) ) {
-            continue;
-          }
-          // p.id = j;
+          console.log(p);
           // filter partition to fit requirements
-          if ( p.size > minimumPartitionSize
-            && (p.type.indexOf("NORMAL") > 0 || p.type.indexOf("LOGICAL") > 0 || p.type.indexOf("FREESPACE") > 0)) {
+          if ( 
+            (p.type.indexOf("NORMAL") > 0 || p.type.indexOf("LOGICAL") > 0 || p.type.indexOf("FREESPACE") > 0) && p.size > (0.01*gbSize)) {
             p.blockWidth = parseInt(((p.size/$rootScope.selectedDrive.size)*driveBlockWidth));
-            console.log(p.id + "_" + (p.size/gbSize));
             $rootScope.selectedDrive.driveWidth += (8+p.blockWidth);
             p.sizeGb = (p.size/gbSize).toFixed(2);
+            $rootScope.selectedDrive.qualifiedPartitions.push(p);
+            console.log(p.id + "_" + (p.size/gbSize));
             p.selected = false;
             p.normal = true;
-            $rootScope.selectedDrive.qualifiedPartitions.push(p);
-          } else {
-            if (p.type.indexOf("EXTENDED") < 1) {
-              console.log(p.id + "_" + (p.size/gbSize));
-              p.blockWidth = parseInt(((p.size/$rootScope.selectedDrive.size)*driveBlockWidth));
-              $rootScope.selectedDrive.driveWidth += (8+p.blockWidth);
-              p.sizeGb = (p.size/gbSize).toFixed(2);
-              p.selected = false;
+            if (p.size < minimumPartitionSize) {
               p.disallow = true;
-              $rootScope.selectedDrive.qualifiedPartitions.push(p);
             }
-          }
-          if (p.id < 1 && p.type.indexOf("FREESPACE") > 0) {
-            p.freespace = true;
+            if (p.id < 1 && p.type.indexOf("FREESPACE") > 0) {
+              p.freespace = true;
+            }
+          } else {
+            p.hidden = true;
+            /* if (p.type.indexOf("EXTENDED") < 1) { */
+            /* } */ 
           }
         }
       }
