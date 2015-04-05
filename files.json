@@ -23,7 +23,6 @@
     "src/*/*.js"
   ],
   "images": [
-    "bower_components/ng-slider/dist/img/*",
     "src/images/*"
   ],
   "fonts": [
