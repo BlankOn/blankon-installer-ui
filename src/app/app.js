@@ -163,17 +163,19 @@ $rootScope.installationData = {};
     $rootScope.simplePartitioning = true;
     $rootScope.back = false;
     $rootScope.forward = true;
+    
     $rootScope.next = function() {
       $rootScope.back = false;
       $rootScope.forward = true;
-        console.log("x", $rootScope.currentState, $rootScope.states.length);
-      if ($rootScope.currentState + 1 < $rootScope.states.length) {
-        $rootScope.currentState ++;
-
-        var state = $rootScope.states[$rootScope.currentState];
-        console.log(state);
-        $state.go(state);
-      }
+      $timeout(function(){
+        if ($rootScope.currentState + 1 < $rootScope.states.length) {
+          $rootScope.currentState ++;
+  
+          var state = $rootScope.states[$rootScope.currentState];
+          console.log(state);
+          $state.go(state);
+        }
+      }, 100);
     }
 
     $rootScope.previous = function() {
@@ -184,11 +186,11 @@ $rootScope.installationData = {};
         if ($rootScope.currentState - 1 >= 0) {
           $rootScope.currentState--;
           $state.go($rootScope.states[$rootScope.currentState]);
-          $timeout(function(){
-            $rootScope.back = false;
-            $rootScope.forward = true;
-            console.log($rootScope.back);
-          }, 1300);
+          /* $timeout(function(){ */
+            /* $rootScope.back = false; */
+            /* $rootScope.forward = true; */
+            /* console.log($rootScope.back); */
+          /* }, 1100); */
         }
       }, 100);
     }

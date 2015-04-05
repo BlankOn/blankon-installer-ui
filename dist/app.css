@@ -8211,8 +8211,16 @@ h1 {
   background:green;
 }
 
+.logical {
+  background:orange;
+}
+
 .selected {
   background:#0082AC !important;
+  color:white !important;
+}
+.highlight {
+  background-color:#DBDBDB !important;
 }
 
 .disallow {
@@ -8223,6 +8231,9 @@ h1 {
 
 .freespace {
   background:white;
+}
+.extended {
+ margin-left:0px !important;
 }
 
 .top-bar-partition {
@@ -8236,6 +8247,11 @@ h1 {
 }
 .legend-partition-disallow {
   background-color:grey;
+  padding:1px 4px 1px 4px;
+  font-size:12px;
+}
+.legend-partition-logical {
+  background-color:orange;
   padding:1px 4px 1px 4px;
   font-size:12px;
 }
@@ -8269,6 +8285,7 @@ h1 {
 
 .partoedi-button {
   width:90px !important;
+  margin-top:10px;
 }
 
 .spinner {
@@ -8348,8 +8365,8 @@ h1 {
 }
 
 .fade.ng-hide-remove {
-  -webkit-animation: enter_sequence 0.5s linear; /* Safari/Chrome */
-  animation: enter_sequence 0.5s linear; /* IE10+ and Future Browsers */
+  -webkit-animation: enter_sequence 0.25s linear; /* Safari/Chrome */
+  animation: enter_sequence 0.25s linear; /* IE10+ and Future Browsers */
 }
 /* .fade.ng-hide-add { */
   /* -webkit-animation: leave_sequence 1s linear; /1* Safari/Chrome *1/ */
@@ -8500,6 +8517,7 @@ h1 {
     right: 0;
 }
 .jslider div.jslider-value {
+    display:none;
     position: absolute;
     top: -19px;
     left: 0;
