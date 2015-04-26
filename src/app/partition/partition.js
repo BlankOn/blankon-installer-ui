@@ -59,7 +59,7 @@ angular.module("partition",[])
   $scope.selectInstallationTarget = function(deviceId, partition) {
     console.log(partition.id)
     if (partition.id < 0) {
-      partition.id = 1;
+      partition.id = 0;
       console.log(partition.id)
     }
     $rootScope.installationData.device = deviceId;
