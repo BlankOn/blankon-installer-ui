@@ -39,7 +39,7 @@
     </div>
     <div ng-show="advancedPartition && !actionDialog" class="fade">
         <div class="top-bar-partition" style="width:{{selectedDrive.driveWidth}}px">
-        <span ng-show="selectedDrive" class="legend-partition-normal">Primary</span>
+        <span ng-show="selectedDrive" class="legend-partition-primary">Primary</span>
         <span ng-show="selectedDrive" class="legend-partition-logical">Logicall</span>
         <span ng-show="selectedDrive" class="legend-partition-freespace">Free space</span>
         <a class="button tiny right"><span >Apply</span></a>
@@ -48,7 +48,7 @@
         <a class="button tiny right" ng-click="switchToSimplePartition()"><span >Exit Advanced Mode</span></a>
       </div>
       <div class="drive-block" ng-show="selectedDrive" style="width:{{selectedDrive.driveWidth}}px !important;">
-        <div ng-repeat="partition in selectedDrive.partitionList"><a href=""  ng-hide="partition.hidden" class="partition-block" ng-class="{selected:partition.selected, freespace:partition.freespace, normal:partition.normal, extended:partition.extended, logical:partition.logical}" ng-mouseover="highlight(partition)" ng-mouseleave="unhighlight(partition)">
+        <div ng-repeat="partition in selectedDrive.partitionList"><a href=""  ng-hide="partition.hidden" class="partition-block" ng-class="{selected:(partition.selected || partition.highlighted), freespace:partition.freespace, primary:partition.normal, extended:partition.extended, logical:partition.logical}" ng-mouseover="highlight(partition)" ng-mouseleave="unhighlight(partition)">
           <div style="width:{{partition.blockWidth}}px;">
           </div>
         </a>
@@ -60,34 +60,53 @@
                 <td>File System</td>
                 <td>Mount Point</td>
                 <td>Size</td>
+                <td width="100"></td>
                 <!--td>Used</td>
                 <td>Unused</td-->
               </tr>
-              <tr ng-repeat="partition in selectedDrive.partitionList" ng-hide="partition.hidden" ng-class="{highlight:partition.highlighted}">
-                <td class="td-partition" ng-show="partition.id > 0">
-                  {{selectedDrive.path}}/{{partition.id}}</td>
-                <td class="td-partition" ng-show="partition.id < 0">Unallocated</td>
-                <td class="td-partition" ng-show="partition.id > 0 && !partition.format">{{partition.filesystem}} <span ng-show="partition.extended">Extended</span></td>
-                <td class="td-partition" ng-show="partition.id > 0 && partition.format">Format as ext4</td>
-                <td class="td-partition" ng-show="partition.id < 0">-</td>
-                <td class="td-partition"><span ng-hide="partition.extended">{{partition.mountpoint}}</span></td>
+              <tr ng-repeat="partition in selectedDrive.partitionList" ng-hide="partition.hidden" ng-class="{highlight:partition.highlighted}" ng-mouseover="highlight(partition)" ng-mouseleave="unhighlight(partition)">
+                <td class="td-partition">
+                  <span ng-show="partition.logical || partition.logicalFreespace">&nbsp;&nbsp;&nbsp;</span>
+                  <span ng-show="partition.id > 0 && !partition.new">
+                    {{selectedDrive.path}}/{{partition.id}}</span>
+                  <span ng-show="partition.new">
+                    New Partition</span>
+                  <span ng-show="partition.id < 0 && !partition.new">Unallocated</span>
+                </td>
+                <td class="td-partition">
+                  <span ng-show="partition.id > 0 && !partition.format">{{partition.filesystem}} </span>
+                  <span ng-show="partition.extended">Extended</span>
+                  <span class="td-partition" ng-show="(partition.id > 0 || partition.new) && partition.format">Format as ext4</span>
+                  <span class="td-partition" ng-show="partition.id < 0 && !partition.new">-</span>
+                </td>
+
+                <td class="td-partition"><span ng-hide="partition.extended">{{partition.mountPoint || '-'}}</span></td>
                 <td class="td-partition"><span ng-hide="partition.extended">{{partition.sizeGb}} GB</td>
-                 <!--td class="td-partition"><span ng-hide="partition.extended">{{partition.used}}</span></td>
-                 <td class="td-partition"><span ng-hide="partition.extended">{{partition.unused}}</span></td-->
-                <td class="td-partition" ng-show="partition.id < 0 && !partition.extended">
+                <td class="td-partition" ng-show="partition.freespace && !partition.extended">
                    <a class="button tiny partoedi-button" ng-click="partitionCreate(partition)"><span >Create</span></a>
-                </a>
-                <td class="td-partition" ng-show="partition.id > 0">
-                   <a class="button tiny dropdown partoedi-button" dropdown-toggle="#action-{{partition.id}}" ng-hide="partition.extended"><span >Action</span></a>
-                   <ul id="action-{{partition.id}}" class="f-dropdown" ng-show="partition.id > 0">
+                </td>
+                <td class="td-partition" ng-show="!partition.hasChild && partition.extended">
+                   <a class="button tiny partoedi-button" ng-click="partitionDelete(partition)"><span >Delete</span></a>
+                </td>
+                <td class="td-partition" ng-show="(partition.format || partition.new) && !partition.mountPoint && !partition.extended">
+                   <a class="button tiny dropdown partoedi-button" dropdown-toggle="#mountpoint-{{partition.size}}"><span >Mount</span></a>
+                   <ul id="mountpoint-{{partition.size}}" class="f-dropdown">
+                     <li ng-hide="partitionState.mountPoint.root">
+                      <a ng-click="partitionMountPoint(partition, '/')">/</a>
+                     </li>
+                     <li ng-hide="partitionState.mountPoint.home">
+                      <a ng-click="partitionMountPoint(partition, '/home')">/home</a>
+                     </li>
+                   </ul>
+                </td>
+                <td class="td-partition" ng-show="partition.id > 0 && !partition.new && !partition.format && !partition.extended">
+                   <a class="button tiny dropdown partoedi-button" dropdown-toggle="#action-{{partition.size}}" ng-hide="partition.extended"><span >Action</span></a>
+                   <ul id="action-{{partition.size}}" class="f-dropdown" ng-show="partition.id > 0">
                      <li ng-show="partition.id > 0">
                       <a ng-click="partitionDelete(partition)">Delete</a>
                      </li>
                      <li ng-show="partition.id > 0">
                       <a ng-click="partitionFormat(partition)">Format</a>
-                     </li>
-                     <li ng-show="partition.id > 0">
-                      <a ng-click="mount(partition)">Mount Point</a>
                      </li>
                    </ul>
                 </td>
@@ -96,34 +115,52 @@
     </div>
     <div ng-show="createDialog" class="fade">
       <h2>Create Partition</h2>
-      <p>{{createDialogSelected.sizeGb}} GB available. Sector {{createDialogSelected.start}} - {{createDialogSelected.start}}</p>
+      <p>{{createDialogSelected.sizeGbOrigin}} GB available ({{createDialogSelected.start}} - {{createDialogSelected.end}})</p>
       <div style="height:75px">
       <input ng-model="createSliderValue"  type="text" id="createSlider" slider options="createSliderOptions"/>
       </div>
       <div class="partoedi-action-dialog-form">
         <div class="row small-8">
           <div class="small-4 columns">
-            <label class="right inline">Size</label>
+            <label class="right inline">New Size</label>
           </div>
           <div class="small-8 columns">
-            <input type="text"/ value="{{createDialogSelected.sizeGb}} GB" disabled>
+            <input type="text" value="{{createDialogSelected.sizeGb}} GB" disabled>
           </div>
         </div>
-        <div class="row small-8">
+        <div class="row small-8" ng-hide="createDialogSelected.logicalFreespace">
+          <div class="small-4 columns">
+            <label class="right inline">Partition Type</label>
+          </div>
+          <div class="small-8 columns">
+            <select ng-model="createDialogSelected.type">
+              <option value="DEVICE_PARTITION_TYPE_NORMAL">Primary</option>
+              <option value="DEVICE_PARTITION_TYPE_EXTENDED">Extended</option>
+            </select>
+          </div>
+        </div>
+        <div class="row small-8" ng-show="createDialogSelected.type=='DEVICE_PARTITION_TYPE_NORMAL' || createDialogSelected.logicalFreespace">
           <div class="small-4 columns">
             <label class="right inline">Mount point</label>
           </div>
           <div class="small-8 columns">
             <select ng-model="createDialogSelected.mountPoint">
-              <option value="none" selected>Without mount point</option>
-              <option value="root">/</option>
-              <option value="home">/home</option>
+              <option value="-" selected>Without mount point</option>
+              <option ng-hide="partitionState.mountPoint.root" value="/">/</option>
+              <option ng-hide="partitionState.mountPoint.home" value="/home">/home</option>
+              <option value="swap">use as Swap</option>
             </select>
           </div>
         </div>
+        <div ng-show="createDialogSelected.type=='DEVICE_PARTITION_TYPE_NORMAL' || createDialogSelected.logicalFreespace">
+          <p ng-show="(createDialogSelected.mountPoint=='-' || createDialogSelected.mountPoint=='/' || createDialogSelected.mountPoint=='/home') && createDialogSelected.type=='DEVICE_PARTITION_TYPE_NORMAL'">This will be formatted as ext4 filesystem.</p>
+          <p ng-show="createDialogSelected.mountPoint=='swap'">This will be formatted as swap filesystem.</p>
+        </div>
       </div>
-      <button class='button' ng-click="partitionCreateCancel()">Cancel</button>
-      <button class='button' ng-click="partitionCreateApply(createDialogSelected)">Apply</button>
+      <div>
+        <button class='button' ng-click="partitionCreateCancel()">Cancel</button>
+        <button class='button' ng-click="partitionCreateApply(createDialogSelected)">Apply</button>
+      </div>
 
     </div>
   </div>
