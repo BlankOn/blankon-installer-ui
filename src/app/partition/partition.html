@@ -42,7 +42,7 @@
         <span ng-show="selectedDrive" class="legend-partition-primary">Primary</span>
         <span ng-show="selectedDrive" class="legend-partition-logical">Logical</span>
         <span ng-show="selectedDrive" class="legend-partition-freespace">Free space</span>
-        <a class="button tiny right"><span >Apply</span></a>
+        <a class="button tiny right" ng-click="partitionApply()"><span >Apply</span></a>
         <a class="button tiny right" ng-click="redo()"><span >Redo</span></a>
         <a class="button tiny right" ng-click="undo()"><span >Undo</span></a>
         <a class="button tiny right" ng-click="switchToSimplePartition()"><span >Exit Advanced Mode</span></a>
@@ -68,7 +68,7 @@
                 <td class="td-partition">
                   <span ng-show="partition.logical || partition.logicalFreespace">&nbsp;&nbsp;&nbsp;</span>
                   <span ng-show="partition.id > 0 && !partition.new">
-                    {{selectedDrive.path}}/{{partition.id}}</span>
+                    {{selectedDrive.path}}{{partition.id}}</span>
                   <span ng-show="partition.new">
                     New Partition</span>
                   <span ng-show="partition.id < 0 && !partition.new">Unallocated</span>
@@ -76,7 +76,8 @@
                 <td class="td-partition">
                   <span ng-show="partition.id > 0 && !partition.format">{{partition.filesystem}} </span>
                   <span ng-show="partition.extended">Extended</span>
-                  <span class="td-partition" ng-show="(partition.id > 0 || partition.new) && partition.format">Format as ext4</span>
+                  <span class="td-partition" ng-show="(partition.id > 0 || partition.new) && partition.format && partition.mountPoint != 'swap'">Format as ext4</span>
+                  <span class="td-partition" ng-show="partition.mountPoint == 'swap'">Linux swap</span>
                   <span class="td-partition" ng-show="partition.id < 0 && !partition.new">-</span>
                 </td>
 
@@ -87,17 +88,6 @@
                 </td>
                 <td class="td-partition" ng-show="!partition.hasChild && partition.extended">
                    <a class="button tiny partoedi-button" ng-click="partitionDelete(partition)"><span >Delete</span></a>
-                </td>
-                <td class="td-partition" ng-show="(partition.format || partition.new) && !partition.mountPoint && !partition.extended">
-                   <a class="button tiny dropdown partoedi-button" dropdown-toggle="#mountpoint-{{partition.size}}"><span >Mount</span></a>
-                   <ul id="mountpoint-{{partition.size}}" class="f-dropdown">
-                     <li ng-hide="partitionState.mountPoint.root">
-                      <a ng-click="partitionMountPoint(partition, '/')">/</a>
-                     </li>
-                     <li ng-hide="partitionState.mountPoint.home">
-                      <a ng-click="partitionMountPoint(partition, '/home')">/home</a>
-                     </li>
-                   </ul>
                 </td>
                 <td class="td-partition" ng-show="partition.id > 0 && !partition.new && !partition.format && !partition.extended">
                    <a class="button tiny dropdown partoedi-button" dropdown-toggle="#action-{{partition.size}}" ng-hide="partition.extended"><span >Action</span></a>
@@ -112,6 +102,33 @@
                 </td>
               </tr>
       </table>
+    </div>
+    <div ng-show="formatDialog" class="fade">
+      <h2>Format Partition</h2>
+      <p>{{formatDialogSelected.sizeGbOrigin}} GB size ({{formatDialogSelected.start}} - {{formatDialogSelected.end}})</p>
+      <div class="partoedi-action-dialog-form">
+        <div class="row small-8">
+          <div class="small-4 columns">
+            <label class="right inline">Mount point</label>
+          </div>
+          <div class="small-8 columns">
+            <select ng-model="formatDialogSelected.mountPoint">
+              <option value="-" selected>Without mount point</option>
+              <option ng-hide="partitionState.mountPoint.root" value="/">/</option>
+              <option ng-hide="partitionState.mountPoint.home" value="/home">/home</option>
+              <option value="swap">use as Swap</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <p ng-show="formatDialogSelected.mountPoint=='-' || formatDialogSelected.mountPoint=='/' || formatDialogSelected.mountPoint=='/home'">This will be formatted as ext4 filesystem.</p>
+          <p ng-show="formatDialogSelected.mountPoint=='swap'">This will be formatted as swap filesystem.</p>
+        </div>
+      </div>
+      <div>
+        <button class='button' ng-click="partitionFormatCancel()">Cancel</button>
+        <button class='button' ng-click="partitionFormatApply(formatDialogSelected)">Apply</button>
+      </div>
     </div>
     <div ng-show="createDialog" class="fade">
       <h2>Create Partition</h2>
