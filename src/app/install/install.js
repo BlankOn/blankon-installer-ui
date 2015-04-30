@@ -40,6 +40,10 @@ angular.module("install",[])
     params += "&timezone=" + $rootScope.installationData.timezone;
     params += "&keyboard=" + $rootScope.installationData.keyboard;
     params += "&autologin=" + false;
+    params += "&advancedMode=" + $rootScope.advancedPartition;
+    if ($rootScope.advancedPartition) {
+        params += "&steps=" + $rootScope.steps;
+    }
     console.log(params);
     $rootScope.installation = new Installation(params);
     $rootScope.installation.start();

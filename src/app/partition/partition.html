@@ -1,6 +1,6 @@
 <div class="row">
   <div class="columns content">
-          <h1>{{title}} <small ng-show="advancedPartition">Partition Editor</small></h1>
+      <h1>{{title}} <small ng-show="advancedPartition">Partition Editor</small></h1>
     <p ng-hide="devices[0]" class="fade">Please wait while your sistem is being scanned... </p>
     <p ng-show="devices[0] && !advancedPartition" class="fade"><a class="button dropdown" dropdown-toggle="#drive-selection"><span ng-show="!selectedDrive">Select drive...</span><span ng-show="selectedDrive">{{selectedDrive.model}}</span></a><p>
     <ul id="drive-selection" class="f-dropdown">
