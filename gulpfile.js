@@ -76,6 +76,11 @@ gulp.task("fonts", function() {
   .pipe(gulp.dest("./dist/fonts"))
 });
 
+gulp.task("json", function() {
+  gulp.src(files.json)
+  .pipe(gulp.dest("./dist/"))
+});
+
 gulp.task("html", function() {
   gulp.src("src/index.html")
   .pipe(gulp.dest("./dist"));
@@ -108,4 +113,4 @@ gulp.task("watch", function(){
   gulp.watch(["src/**", "src/**/**"], notifyLivereload);
 });
 
-gulp.task("default", ["clean", "styles", "libs", "src", "fonts"]);
+gulp.task("default", ["clean", "styles", "libs", "src", "fonts", "json"]);

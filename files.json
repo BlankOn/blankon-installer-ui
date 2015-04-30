@@ -30,5 +30,8 @@
   ],
   "html": [
     "src/app/*/*.html"
+  ],
+  "json": [
+    "src/languages.json"
   ]
 }
