@@ -107,14 +107,15 @@ angular.module("partition",[])
     $rootScope.advancedPartition = false;
     $scope.title = "Installation Target";
   }
-  $scope.selectInstallationTarget = function(deviceId, partition) {
-    console.log(partition.id)
-    if (partition.id < 0) {
-      partition.id = 0;
-      console.log(partition.id)
-    }
-    $rootScope.installationData.device = deviceId;
-    $rootScope.installationData.partition = partition.id;
+  $scope.selectInstallationTarget = function(devicePath, partition) {
+    console.log(partition)
+    /* if (partition.id < 0) { */
+    /*   partition.id = 0; */
+    /*   console.log(partition.id) */
+    /* } */
+
+    $rootScope.installationData.device = devicePath;
+    $rootScope.installationData.partition = $rootScope.selectedDrive.partitionList.indexOf(partition);
     if (partition.id > 0) {
       $rootScope.selectedInstallationTarget = $rootScope.selectedDrive.path + partition.id + " ("+partition.sizeGb+" GB)";
     } else {
@@ -518,6 +519,7 @@ angular.module("partition",[])
   }
 
   $scope.partitionApply = function() {
+    $rootScope.installationData.device = $rootScope.selectedDrive.model;
     $rootScope.steps = [];
     for (var i = 1; i < $rootScope.partitionState.history.length; i++) {
       $rootScope.steps[i-1] = $rootScope.partitionState.history[i].action;

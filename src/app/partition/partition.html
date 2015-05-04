@@ -18,7 +18,7 @@
         <a class="button tiny right" ng-click="switchToAdvancedPartition()">Enter Advanced Mode</button>
       </div>
       <div class="drive-block fade" ng-show="selectedDrive" style="width:{{selectedDrive.driveWidth}}px !important;">
-        <a href="" ng-repeat="partition in selectedDrive.partitionList" ng-hide="partition.hidden" class="partition-block" ng-click="selectInstallationTarget(selectedDrive.id, partition)" ng-class="{selected:partition.selected, disallow:partition.disallow, freespace:partition.freespace, normal:partition.normal, extended:partition.extended}">
+        <a href="" ng-repeat="partition in selectedDrive.partitionList" ng-hide="partition.hidden" class="partition-block" ng-click="selectInstallationTarget(selectedDrive.path, partition)" ng-class="{selected:partition.selected, disallow:partition.disallow, freespace:partition.freespace, normal:partition.normal, extended:partition.extended}">
           <span class="pop fade" style="color:white">
            Size : {{partition.sizeGb}} GB<br>
            File System : {{partition.filesystem}}<br>
