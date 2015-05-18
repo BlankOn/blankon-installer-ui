@@ -39,10 +39,10 @@ angular.module("install",[])
     params += "&language=" + $rootScope.installationData.language;
     params += "&timezone=" + $rootScope.installationData.timezone;
     params += "&keyboard=" + $rootScope.installationData.keyboard;
-    params += "&autologin=" + false;
+    params += "&autologin=" + $rootScope.installationData.autologin;
     params += "&advancedMode=" + $rootScope.advancedPartition;
     if ($rootScope.advancedPartition) {
-        params += "&steps=" + $rootScope.steps;
+        params += "&steps=" + $rootScope.partitionSteps;
     }
     // give time for view transition
     $timeout(function(){

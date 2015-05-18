@@ -4,7 +4,7 @@ angular.module("done",[])
     function ($scope, $window, $rootScope){
       $scope.reboot = function(){
         console.log("reboot");
-        Installation.reboot;
+        Installation.reboot();
       };
 
 

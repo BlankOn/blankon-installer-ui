@@ -49,6 +49,22 @@
               <div style="margin-top:-16px;height:4px;background-color:red;" ng-show="!isSamePassword && installationData.passwordRepeat[0]"></div>
       </div>
     </div>
+    <div class="row small-8">
+      <div class="small-4 columns">
+        <label class="right inline">Enforce strong password</label>
+      </div>
+      <div class="small-8 columns">
+        <input type="checkbox" ng-model="enforcePassword">
+      </div>
+    </div>
+    <div class="row small-8">
+      <div class="small-4 columns">
+        <label class="right inline">Automatically login</label>
+      </div>
+      <div class="small-8 columns">
+        <input type="checkbox" ng-model="installationData.autologin">
+      </div>
+    </div>
   </div>
 </form>
   <p ng-show="personalizationError"><strong>Please fill all the required form and leave no red indicator.</strong></p>

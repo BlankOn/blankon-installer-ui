@@ -10,6 +10,5 @@ angular.module("hello",[])
         $rootScope.selectedLang = lang.title;
       }
       // TODO : language selection
-      /* $rootScope.installation = new Installation(params); */
-      Installation.setLocale("C.UTF-8");
+      /* Installation.setLocale("C.UTF-8"); */
 }])
