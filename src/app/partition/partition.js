@@ -18,14 +18,6 @@ angular.module("partition",[])
   // - create
   // - format
   // - mountpoint
-  $rootScope.partitionState = {
-    mountPoint: {},
-    stateIndex : 0,
-    history : [],
-      /* action : "", */
-      /* prevState : [], */
-      /* currentState : [] */
-  }
 
 
   $scope.switchToAdvancedPartition = function(){
@@ -107,27 +99,26 @@ angular.module("partition",[])
     $scope.exitAdvancedModeMessage = true;
   }
   $scope.switchToSimplePartition = function(){
+    $rootScope.partitionState.mountPoint.root = false;
+    $rootScope.partitionState.mountPoint.home = false;
     $scope.exitAdvancedModeMessage = false;
     $rootScope.advancedPartition = false;
     $scope.title = "Installation Target";
     $rootScope.partitionState.currentState = angular.copy($rootScope.partitionState.history[0].state);
     $scope.selectedDrive.partitionList = angular.copy($rootScope.partitionState.history[0].state);
-    console.log($scope.selectedDrive.partitionList);
     $rootScope.partitionState.stateIndex = 0;
-    console.log($rootScope.partitionState);
   }
   $scope.hidePartoEdiMessage = function(){
     $scope.exitAdvancedModeMessage = false;
     $scope.applyAdvancedModeMessage = false;
   }
-  $scope.selectInstallationTarget = function(devicePath, partition) {
+  $scope.selectInstallationTarget = function(partition) {
     console.log(partition)
     /* if (partition.id < 0) { */
     /*   partition.id = 0; */
     /*   console.log(partition.id) */
     /* } */
 
-    $rootScope.installationData.device = devicePath;
     $rootScope.installationData.partition = $rootScope.selectedDrive.partitionList.indexOf(partition);
     if (partition.id > 0) {
       $rootScope.selectedInstallationTarget = $rootScope.selectedDrive.path + partition.id + " ("+partition.sizeGb+" GB)";
@@ -412,13 +403,10 @@ angular.module("partition",[])
     ) {
       // the prev and next partition of this partition are freespace. merge them.
       //////////////////////
-      console.log("yoooooooooo1");
       if (extended) {
-        console.log("yoooooooooo2");
         $scope.selectedDrive.partitionList[(index-1)].size += $scope.selectedDrive.partitionList[index].size;
         $scope.selectedDrive.partitionList[(index-1)].end = $scope.selectedDrive.partitionList[index].end;
       } else {
-        console.log("yoooooooooo3");
         $scope.selectedDrive.partitionList[(index-1)].size += $scope.selectedDrive.partitionList[index].size + $scope.selectedDrive.partitionList[(index+1)].size;
         $scope.selectedDrive.partitionList[(index-1)].end = $scope.selectedDrive.partitionList[(index+1)].end;
       }
@@ -426,7 +414,6 @@ angular.module("partition",[])
       $scope.selectedDrive.partitionList[(index-1)].hidden = false;
       $scope.selectedDrive.partitionList[(index-1)].blockWidth = parseInt(((size/$rootScope.selectedDrive.size)*driveBlockWidth));
       if ($scope.selectedDrive.partitionList[(index-1)].freespace & !extended) {
-        console.log("yoooooooooo4");
         $scope.selectedDrive.partitionList[(index-1)].blockWidth += 8;
       }
       if ($scope.selectedDrive.partitionList[(index+1)].freespace) {
@@ -447,7 +434,6 @@ angular.module("partition",[])
     (!$scope.selectedDrive.partitionList[(index+1)] && 
     $scope.selectedDrive.partitionList[(index-1)].type === "DEVICE_PARTITION_TYPE_FREESPACE") 
     ) {
-      console.log("yoooooooooo5");
       // the prev partition of this partition is free space
       $scope.selectedDrive.partitionList[(index-1)].end = $scope.selectedDrive.partitionList[index].end;
       $scope.selectedDrive.partitionList[(index-1)].size += $scope.selectedDrive.partitionList[index].size;
@@ -471,7 +457,6 @@ angular.module("partition",[])
     $scope.selectedDrive.partitionList[(index+1)].type === "DEVICE_PARTITION_TYPE_FREESPACE"
     ) {
       // the next partition of this partition is free space
-      console.log("yoooooooooo6");
       $scope.selectedDrive.partitionList[(index+1)].start = $scope.selectedDrive.partitionList[index].start;
       // if it is an extended partition, the next is a logical freespace. it should be sliced without merging the size
       if (!extended) {
@@ -591,13 +576,17 @@ angular.module("partition",[])
 
   $scope.partitionApply = function() {
     if ($rootScope.partitionState.mountPoint.root) {
-      $rootScope.installationData.device = $rootScope.selectedDrive.model;
       $rootScope.partitionSteps = [];
       for (var i = 1; i < $rootScope.partitionState.history.length; i++) {
         $rootScope.partitionSteps[i-1] = $rootScope.partitionState.history[i].action;
       }
       console.log($rootScope.partitionSteps);
       $rootScope.next();
+      /* $timeout(function(){ */
+      /*   $rootScope.partitionState.currentState = angular.copy($rootScope.partitionState.history[0].state); */
+      /*   $scope.selectedDrive.partitionList = angular.copy($rootScope.partitionState.history[0].state); */
+      /*   $rootScope.partitionState.stateIndex = 0; */
+      /* }, 1000); */
     } else {
       //should shout a warning
       $scope.applyAdvancedModeMessage = true;
@@ -607,13 +596,16 @@ angular.module("partition",[])
   if (!$rootScope.installationData.partition) {
     // give time for transition
     $timeout(function(){
-      /* $rootScope.devices = Parted.getDevices(); */
-      $rootScope.devices = [{"path":"/dev/sda","size":53687091200,"model":"ATA VBOX HARDDISK","label":"msdos","partitions":[{"id":-1,"parent":-1,"start":32256,"end":1048064,"size":1016320,"type":"DEVICE_PARTITION_TYPE_FREESPACE","filesystem":"","description":""},{"id":1,"parent":-1,"start":1048576,"end":15570304512,"size":15569256448,"type":"DEVICE_PARTITION_TYPE_NORMAL","filesystem":"ext4","description":""},{"id":2,"parent":-1,"start":15570305024,"end":17780702720,"size":2210398208,"type":"DEVICE_PARTITION_TYPE_NORMAL","filesystem":"ext4","description":""},{"id":-1,"parent":-1,"start":17780703232,"end":27044871680,"size":9264168960,"type":"DEVICE_PARTITION_TYPE_FREESPACE","filesystem":"","description":""},{"id":3,"parent":-1,"start":27044872192,"end":53687090688,"size":26642219008,"type":"DEVICE_PARTITION_TYPE_EXTENDED","filesystem":"","description":""},{"id":-1,"parent":-1,"start":27044872192,"end":27044872192,"size":512,"type":"DEVICE_PARTITION_TYPE_FREESPACE","filesystem":"","description":""},{"id":-1,"parent":-1,"start":27044872704,"end":27045920256,"size":1048064,"type":"DEVICE_PARTITION_TYPE_FREESPACE","filesystem":"","description":""},{"id":5,"parent":-1,"start":27045920768,"end":50703891968,"size":23657971712,"type":"DEVICE_PARTITION_TYPE_LOGICAL","filesystem":"ext4","description":""},{"id":-1,"parent":-1,"start":50703892480,"end":53687090688,"size":2983198720,"type":"DEVICE_PARTITION_TYPE_FREESPACE","filesystem":"","description":""}],"$$hashKey":"00T"}];
+      $rootScope.devices = Parted.getDevices();
+      /* $rootScope.devices = [{"path":"/dev/sda","size":53687091200,"model":"ATA VBOX HARDDISK","label":"msdos","partitions":[{"id":-1,"parent":-1,"start":32256,"end":1048064,"size":1016320,"type":"DEVICE_PARTITION_TYPE_FREESPACE","filesystem":"","description":""},{"id":1,"parent":-1,"start":1048576,"end":15570304512,"size":15569256448,"type":"DEVICE_PARTITION_TYPE_NORMAL","filesystem":"ext4","description":""},{"id":2,"parent":-1,"start":15570305024,"end":17780702720,"size":2210398208,"type":"DEVICE_PARTITION_TYPE_NORMAL","filesystem":"ext4","description":""},{"id":-1,"parent":-1,"start":17780703232,"end":27044871680,"size":9264168960,"type":"DEVICE_PARTITION_TYPE_FREESPACE","filesystem":"","description":""},{"id":3,"parent":-1,"start":27044872192,"end":53687090688,"size":26642219008,"type":"DEVICE_PARTITION_TYPE_EXTENDED","filesystem":"","description":""},{"id":-1,"parent":-1,"start":27044872192,"end":27044872192,"size":512,"type":"DEVICE_PARTITION_TYPE_FREESPACE","filesystem":"","description":""},{"id":-1,"parent":-1,"start":27044872704,"end":27045920256,"size":1048064,"type":"DEVICE_PARTITION_TYPE_FREESPACE","filesystem":"","description":""},{"id":5,"parent":-1,"start":27045920768,"end":50703891968,"size":23657971712,"type":"DEVICE_PARTITION_TYPE_LOGICAL","filesystem":"ext4","description":""},{"id":-1,"parent":-1,"start":50703892480,"end":53687090688,"size":2983198720,"type":"DEVICE_PARTITION_TYPE_FREESPACE","filesystem":"","description":""}],"$$hashKey":"00T"}]; */
       $scope.scanning = true;
     }, 1000);
   }
-  $scope.setDrive = function(path) {
+  $scope.setDrive = function(drive) {
     // TODO : reset UI
+    $rootScope.installationData.device = $rootScope.devices.indexOf(drive);
+    var path = drive.path;
+    $rootScope.installationData.device_path = path;
     console.log(JSON.stringify($rootScope.devices));
     $rootScope.validInstallationTarget = false;
     /* $rootScope.devices.forEach(function(drive){ */

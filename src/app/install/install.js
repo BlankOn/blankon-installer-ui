@@ -32,6 +32,7 @@ angular.module("install",[])
     var params = "";
     params += "&partition=" + $rootScope.installationData.partition;
     params += "&device=" + $rootScope.installationData.device;
+    params += "&device_path=" + $rootScope.installationData.device_path;
     params += "&hostname=" + $rootScope.installationData.hostname;
     params += "&username=" + $rootScope.installationData.username;
     params += "&fullname=" + $rootScope.installationData.fullname;
