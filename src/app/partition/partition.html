@@ -38,14 +38,16 @@
       </div>
     </div>
     <div ng-show="advancedPartition && !actionDialog" class="fade">
-        <div class="top-bar-partition" style="width:{{selectedDrive.driveWidth}}px">
+      <div class="top-bar-partition" style="width:{{selectedDrive.driveWidth}}px">
         <span ng-show="selectedDrive" class="legend-partition-primary">Primary</span>
         <span ng-show="selectedDrive" class="legend-partition-logical">Logical</span>
         <span ng-show="selectedDrive" class="legend-partition-freespace">Free space</span>
-        <a class="button tiny right" ng-click="partitionApply()"><span >Apply</span></a>
-        <a class="button tiny right" ng-click="redo()"><span >Redo</span></a>
-        <a class="button tiny right" ng-click="undo()"><span >Undo</span></a>
-        <a class="button tiny right" ng-click="switchToSimplePartition()"><span >Exit Advanced Mode</span></a>
+        <span ng-hide="exitAdvancedModeMessage || applyAdvancedModeMessage">
+          <a class="button tiny right" ng-click="partitionApply()"><span >Apply</span></a>
+          <a class="button tiny right" ng-click="redo()"><span >Redo</span></a>
+          <a class="button tiny right" ng-click="undo()"><span >Undo</span></a>
+          <a class="button tiny right" ng-click="switchToSimplePartitionWarning()"><span >Exit Advanced Mode</span></a>
+        </span>
       </div>
       <div class="drive-block" ng-show="selectedDrive" style="width:{{selectedDrive.driveWidth}}px !important;">
         <div ng-repeat="partition in selectedDrive.partitionList"><a href=""  ng-hide="partition.hidden" class="partition-block" ng-class="{selected:(partition.selected || partition.highlighted), freespace:partition.freespace, primary:partition.normal, extended:partition.extended, logical:partition.logical}" ng-mouseover="highlight(partition)" ng-mouseleave="unhighlight(partition)">
@@ -54,7 +56,22 @@
         </a>
       </div>
       </div>
-      <table style="margin-top:10px;width:{{selectedDrive.driveWidth}}px">
+      <div ng-show="exitAdvancedModeMessage" class="fade">
+        <p><br>
+          Are you sure you want to exit Advanced Mode?<br>If yes, any step in PartoEdi will be aborted.
+        </p>
+        <button class="button" ng-click="hidePartoEdiMessage()">No</button>
+        <button class="button" ng-click="switchToSimplePartition()">Yes</button>
+      </div>
+      <div ng-show="applyAdvancedModeMessage" class="fade">
+        <p>
+          <br>
+          There should be at least one partition set up as root filesystem
+          <br>
+          <button class="button" ng-click="hidePartoEdiMessage()">OK</button>
+        </p>
+      </div>
+      <table style="margin-top:10px;width:{{selectedDrive.driveWidth}}px" ng-hide="exitAdvancedModeMessage || applyAdvancedModeMessage">
               <tr>
                 <td>Partition</td>
                 <td>File System</td>

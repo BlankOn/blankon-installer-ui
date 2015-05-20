@@ -13,7 +13,7 @@ angular.module("partition",[])
   var minimumPartitionSize = 4 * gbSize;
   var driveBlockWidth = 600;
 
-  // there are 4 legal action for current partoedi :
+  // there are 4 legal action for the current version of partoedi :
   // - delete
   // - create
   // - format
@@ -103,9 +103,22 @@ angular.module("partition",[])
       }
     }
   }
+  $scope.switchToSimplePartitionWarning = function(){
+    $scope.exitAdvancedModeMessage = true;
+  }
   $scope.switchToSimplePartition = function(){
+    $scope.exitAdvancedModeMessage = false;
     $rootScope.advancedPartition = false;
     $scope.title = "Installation Target";
+    $rootScope.partitionState.currentState = angular.copy($rootScope.partitionState.history[0].state);
+    $scope.selectedDrive.partitionList = angular.copy($rootScope.partitionState.history[0].state);
+    console.log($scope.selectedDrive.partitionList);
+    $rootScope.partitionState.stateIndex = 0;
+    console.log($rootScope.partitionState);
+  }
+  $scope.hidePartoEdiMessage = function(){
+    $scope.exitAdvancedModeMessage = false;
+    $scope.applyAdvancedModeMessage = false;
   }
   $scope.selectInstallationTarget = function(devicePath, partition) {
     console.log(partition)
@@ -315,7 +328,8 @@ angular.module("partition",[])
   
       var index = $scope.selectedDrive.partitionList.indexOf(partition);
       if ($scope.undoHistory) {
-        $rootScope.partitionState.history.splice(index);
+        $rootScope.partitionState.history.splice($rootScope.partitionState.stateIndex+1);
+        /* $rootScope.partitionState.history.splice(index); */
       }
       step.state = angular.copy($scope.selectedDrive.partitionList);
       if (mountPoint === "swap") {
@@ -485,7 +499,8 @@ angular.module("partition",[])
     }
     $timeout(function(){
       if ($scope.undoHistory) {
-        $rootScope.partitionState.history.splice(index);
+        /* $rootScope.partitionState.history.splice(index); */
+        $rootScope.partitionState.history.splice($rootScope.partitionState.stateIndex+1);
       }
       step.state = angular.copy($scope.selectedDrive.partitionList);
       $rootScope.partitionState.history.push(step);
@@ -506,7 +521,8 @@ angular.module("partition",[])
     $scope.selectedDrive.partitionList[formatIndex] = angular.copy(partition);
     $scope.selectedDrive.partitionList[formatIndex].format = true;
     if ($scope.undoHistory) {
-      $rootScope.partitionState.history.splice(formatIndex);
+      /* $rootScope.partitionState.history.splice(formatIndex); */
+      $rootScope.partitionState.history.splice($rootScope.partitionState.stateIndex+1);
     }
     // example : "format;2;ext4;/home"
     var step = {
@@ -526,14 +542,21 @@ angular.module("partition",[])
         step.action +=";home";
       }
     }
-    $rootScope.partitionState.history.push(step);
-    $scope.undoHistory = false;
-    $rootScope.partitionState.currentState = angular.copy($scope.selectedDrive.partitionList);
-    $rootScope.partitionState.stateIndex++;
-    console.log($rootScope.partitionState);
-    $scope.formatDialog = false;
-    $scope.actionDialog = false;
+    $timeout(function(){
+      if ($scope.undoHistory) {
+        $rootScope.partitionState.history.splice($rootScope.partitionState.stateIndex+1);
+      }
+      step.state = angular.copy($scope.selectedDrive.partitionList);
+      $rootScope.partitionState.history.push(step);
+      $scope.undoHistory = false;
+      $rootScope.partitionState.currentState = angular.copy($scope.selectedDrive.partitionList);
+      $rootScope.partitionState.stateIndex++;
+      console.log($rootScope.partitionState);
+      $scope.formatDialog = false;
+      $scope.actionDialog = false;
+    }, 100);
   }
+
   $scope.partitionFormatCancel = function() {
     $scope.formatDialog = false;
     $scope.actionDialog = false;
@@ -551,7 +574,12 @@ angular.module("partition",[])
       state:angular.copy($scope.selectedDrive.partitionList)
     }
     $rootScope.partitionState.mountPoint.home = $rootScope.selectedDrive.path + partition.id;
-    step.action += ";" + partition.filesystem;
+    step.action += ";" + partition.id + ";" + partition.filesystem;
+
+    if ($scope.undoHistory) {
+      $rootScope.partitionState.history.splice($rootScope.partitionState.stateIndex+1);
+    }
+    step.state = angular.copy($scope.selectedDrive.partitionList);
     $rootScope.partitionState.history.push(step);
     $scope.undoHistory = false;
     $rootScope.partitionState.currentState = angular.copy($scope.selectedDrive.partitionList);
@@ -571,15 +599,16 @@ angular.module("partition",[])
       console.log($rootScope.partitionSteps);
       $rootScope.next();
     } else {
-      //should shout a warning 
+      //should shout a warning
+      $scope.applyAdvancedModeMessage = true;
     }
   }
 
   if (!$rootScope.installationData.partition) {
     // give time for transition
     $timeout(function(){
-      $rootScope.devices = Parted.getDevices();
-      /* $rootScope.devices = [{"path":"/dev/sda","size":53687091200,"model":"ATA VBOX HARDDISK","label":"msdos","partitions":[{"id":-1,"parent":-1,"start":32256,"end":1048064,"size":1016320,"type":"DEVICE_PARTITION_TYPE_FREESPACE","filesystem":"","description":""},{"id":1,"parent":-1,"start":1048576,"end":15570304512,"size":15569256448,"type":"DEVICE_PARTITION_TYPE_NORMAL","filesystem":"ext4","description":""},{"id":2,"parent":-1,"start":15570305024,"end":17780702720,"size":2210398208,"type":"DEVICE_PARTITION_TYPE_NORMAL","filesystem":"ext4","description":""},{"id":-1,"parent":-1,"start":17780703232,"end":27044871680,"size":9264168960,"type":"DEVICE_PARTITION_TYPE_FREESPACE","filesystem":"","description":""},{"id":3,"parent":-1,"start":27044872192,"end":53687090688,"size":26642219008,"type":"DEVICE_PARTITION_TYPE_EXTENDED","filesystem":"","description":""},{"id":-1,"parent":-1,"start":27044872192,"end":27044872192,"size":512,"type":"DEVICE_PARTITION_TYPE_FREESPACE","filesystem":"","description":""},{"id":-1,"parent":-1,"start":27044872704,"end":27045920256,"size":1048064,"type":"DEVICE_PARTITION_TYPE_FREESPACE","filesystem":"","description":""},{"id":5,"parent":-1,"start":27045920768,"end":50703891968,"size":23657971712,"type":"DEVICE_PARTITION_TYPE_LOGICAL","filesystem":"ext4","description":""},{"id":-1,"parent":-1,"start":50703892480,"end":53687090688,"size":2983198720,"type":"DEVICE_PARTITION_TYPE_FREESPACE","filesystem":"","description":""}],"$$hashKey":"00T"}]; */
+      /* $rootScope.devices = Parted.getDevices(); */
+      $rootScope.devices = [{"path":"/dev/sda","size":53687091200,"model":"ATA VBOX HARDDISK","label":"msdos","partitions":[{"id":-1,"parent":-1,"start":32256,"end":1048064,"size":1016320,"type":"DEVICE_PARTITION_TYPE_FREESPACE","filesystem":"","description":""},{"id":1,"parent":-1,"start":1048576,"end":15570304512,"size":15569256448,"type":"DEVICE_PARTITION_TYPE_NORMAL","filesystem":"ext4","description":""},{"id":2,"parent":-1,"start":15570305024,"end":17780702720,"size":2210398208,"type":"DEVICE_PARTITION_TYPE_NORMAL","filesystem":"ext4","description":""},{"id":-1,"parent":-1,"start":17780703232,"end":27044871680,"size":9264168960,"type":"DEVICE_PARTITION_TYPE_FREESPACE","filesystem":"","description":""},{"id":3,"parent":-1,"start":27044872192,"end":53687090688,"size":26642219008,"type":"DEVICE_PARTITION_TYPE_EXTENDED","filesystem":"","description":""},{"id":-1,"parent":-1,"start":27044872192,"end":27044872192,"size":512,"type":"DEVICE_PARTITION_TYPE_FREESPACE","filesystem":"","description":""},{"id":-1,"parent":-1,"start":27044872704,"end":27045920256,"size":1048064,"type":"DEVICE_PARTITION_TYPE_FREESPACE","filesystem":"","description":""},{"id":5,"parent":-1,"start":27045920768,"end":50703891968,"size":23657971712,"type":"DEVICE_PARTITION_TYPE_LOGICAL","filesystem":"ext4","description":""},{"id":-1,"parent":-1,"start":50703892480,"end":53687090688,"size":2983198720,"type":"DEVICE_PARTITION_TYPE_FREESPACE","filesystem":"","description":""}],"$$hashKey":"00T"}];
       $scope.scanning = true;
     }, 1000);
   }
