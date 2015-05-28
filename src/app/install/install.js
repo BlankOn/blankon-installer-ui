@@ -3,6 +3,9 @@ angular.module("install",[])
     "$scope", "$window", "$rootScope","$timeout","$interval", 
     function ($scope, $window, $rootScope, $timeout, $interval){
     console.log(JSON.stringify($rootScope.installationData));
+        
+    Installation.setTimezone($rootScope.installationData.timezone);
+    
     var showError = function(){
       console.log("error");
       $scope.error = true;
