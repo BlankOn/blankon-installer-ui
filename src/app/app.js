@@ -143,7 +143,7 @@ angular.module('Biui', [
       }
     }
 
-$rootScope.installationData = {};
+    $rootScope.installationData = {};
     $rootScope.states = [
       "hello",
       "timezone",
@@ -163,6 +163,13 @@ $rootScope.installationData = {};
     $rootScope.simplePartitioning = true;
     $rootScope.back = false;
     $rootScope.forward = true;
+    
+    // initiate partition state early
+    $rootScope.partitionState = {
+      mountPoint: {},
+      stateIndex : 0,
+      history : [],
+    }
     
     $rootScope.next = function() {
       $rootScope.back = false;
