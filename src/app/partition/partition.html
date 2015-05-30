@@ -22,7 +22,7 @@
         <a href="" ng-repeat="partition in selectedDrive.partitionList" ng-hide="partition.hidden" class="partition-block" ng-click="selectInstallationTarget(partition)" ng-class="{selected:partition.selected, disallow:partition.disallow, freespace:partition.freespace, normal:partition.normal, extended:partition.extended}">
           <span class="pop fade" style="color:white">
            Size : {{partition.sizeGb}} GB<br>
-           File System : {{partition.filesystem}}<br>
+           File System : {{partition.filesystem || "-"}}<br>
            {{partition.description}}
           </span>
           <div style="width:{{partition.blockWidth}}px;">
