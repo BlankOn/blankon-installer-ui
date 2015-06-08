@@ -107,8 +107,8 @@
                    <a class="button tiny partoedi-button" ng-click="partitionDelete(partition)"><span >Delete</span></a>
                 </td>
                 <td class="td-partition" ng-show="partition.id > 0 && !partition.new && !partition.format && !partition.extended && !partition.mountPoint">
-                   <a class="button tiny dropdown partoedi-button" dropdown-toggle="#action-{{partition.size}}" ng-hide="partition.extended"><span >Action</span></a>
-                   <ul id="action-{{partition.size}}" class="f-dropdown" ng-show="partition.id > 0">
+                   <a class="button tiny dropdown partoedi-button" dropdown-toggle="#action-{{partition.start}}" ng-hide="partition.extended"><span >Action</span></a>
+                   <ul id="action-{{partition.start}}" class="f-dropdown" ng-show="partition.id > 0">
                      <li>
                       <a ng-click="partitionDelete(partition)">Delete</a>
                      </li>
