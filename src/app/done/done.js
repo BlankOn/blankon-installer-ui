@@ -1,10 +1,11 @@
 angular.module("done",[])
 .controller("DoneCtrl", [
-    "$scope", "$window", 
-    function ($scope, $window){
-  $scope.languages = $window.BiLanguage.available();
+    "$scope", "$window", "$rootScope", 
+    function ($scope, $window, $rootScope){
+      $scope.reboot = function(){
+        console.log("reboot");
+        Installation.reboot();
+      };
 
-  $scope.setLanguage = function(lang) {
-    console.log(lang);
-  }
+
 }])
