@@ -8,9 +8,9 @@ angular.module("hello",[])
         console.log(lang);
         $rootScope.installationData.lang = lang.id;
         $rootScope.selectedLang = lang.title;
-        $translate.use("id");
+        $translate.use(lang.id);
       }
       // TODO : language selection
-      Installation.setLocale("C.UTF-8");
+      /* Installation.setLocale("C.UTF-8"); */
 
 }])
