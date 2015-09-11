@@ -2,7 +2,8 @@
 angular.module('Biui', [
   "ui.router", 
   "ngAnimate",
-  "ngSlider",
+  "pascalprecht.translate",
+  "angularAwesomeSlider",
   "html",
   "mm.foundation",
   "hello",
@@ -13,6 +14,11 @@ angular.module('Biui', [
   "install",
   "done"
 ])
+.config(function ($translateProvider) {
+  $translateProvider.translations("enUS", en);
+  $translateProvider.translations("id", id);
+  $translateProvider.preferredLanguage("enUS");
+})
 .config(function($stateProvider) {
   $stateProvider
   .state("hello", {
@@ -89,8 +95,9 @@ angular.module('Biui', [
   )
 })
 
-.run([ "$rootScope", "$state", "$stateParams", "$timeout", "$location", 
-  function ($rootScope, $state, $stateParams, $timeout, $location) {
+.run([ "$rootScope", "$state", "$stateParams", "$timeout", "$location", "$translate",
+  function ($rootScope, $state, $stateParams, $timeout, $location, $translate) {
+    $translate.use("enUS");
     $rootScope.steps = [
       {
         seq : 0,
