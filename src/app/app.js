@@ -2,6 +2,7 @@
 angular.module('Biui', [
   "ui.router", 
   "ngAnimate",
+  "pascalprecht.translate",
   "ngSlider",
   "html",
   "mm.foundation",
@@ -89,8 +90,9 @@ angular.module('Biui', [
   )
 })
 
-.run([ "$rootScope", "$state", "$stateParams", "$timeout", "$location", 
-  function ($rootScope, $state, $stateParams, $timeout, $location) {
+.run([ "$rootScope", "$state", "$stateParams", "$timeout", "$location", "$translate",
+  function ($rootScope, $state, $stateParams, $timeout, $location, $translate) {
+    $translate.use("en");
     $rootScope.steps = [
       {
         seq : 0,
