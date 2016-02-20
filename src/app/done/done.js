@@ -1,11 +1,8 @@
 angular.module("done",[])
-.controller("DoneCtrl", [
-    "$scope", "$window", "$rootScope", 
-    function ($scope, $window, $rootScope){
-      $scope.reboot = function(){
-        console.log("reboot");
-        Installation.reboot();
-      };
-
-
+.controller("DoneCtrl", ["$scope", "$window", "$rootScope", 
+  function ($scope, $window, $rootScope){
+    $scope.reboot = function(){
+      console.log("reboot");
+      Installation.reboot();
+    };
 }])

@@ -1,9 +1,8 @@
 angular.module("install",[])
-.controller("InstallCtrl", [
-    "$scope", "$window", "$rootScope","$timeout","$interval", 
-    function ($scope, $window, $rootScope, $timeout, $interval){
+.controller("InstallCtrl", ["$scope", "$window", "$rootScope","$timeout","$interval", 
+  function ($scope, $window, $rootScope, $timeout, $interval){
+ 
     console.log(JSON.stringify($rootScope.installationData));
-        
     Installation.setTimezone($rootScope.installationData.timezone);
     
     var showError = function(){
@@ -32,6 +31,7 @@ angular.module("install",[])
         $scope.loadingDot += " .";
       }
     }, 500);
+
     var params = "";
     params += "&partition=" + $rootScope.installationData.partition;
     params += "&device=" + $rootScope.installationData.device;
@@ -56,7 +56,5 @@ angular.module("install",[])
       $scope.currentStep = "";
       statusUpdater = $interval(updateStatus, 1000);
     }, 1000);
-
-
 
 }])
