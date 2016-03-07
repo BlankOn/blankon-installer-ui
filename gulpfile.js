@@ -51,7 +51,7 @@ gulp.task("serve", function(){
 });
 
 gulp.task("clean", function() {
- del("dist/**");
+  del("dist/**");
 });
 
 
