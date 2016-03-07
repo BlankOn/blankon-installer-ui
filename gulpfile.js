@@ -51,7 +51,7 @@ gulp.task("serve", function(){
 });
 
 gulp.task("clean", function() {
-  return gulp.src(["dist/*"], {read:false}).pipe(clean());
+  return gulp.src(["dist/*"]);
 });
 
 gulp.task("libs", function() {
