@@ -8,7 +8,7 @@ var files   = require("./files.json");
 var runSequence = require('run-sequence');
 var ngHtml2Js = require("gulp-ng-html2js");
 var minifyHtml = require("gulp-minify-html");
-
+var del = require("del");
 var lr;
 
 var EXPRESS_PORT = 8000;
@@ -51,8 +51,9 @@ gulp.task("serve", function(){
 });
 
 gulp.task("clean", function() {
-  return gulp.src(["dist/*"], {read:false}).pipe(clean());
+ del("dist/**");
 });
+
 
 gulp.task("libs", function() {
   gulp.src(files.libs)
