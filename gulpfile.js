@@ -50,7 +50,7 @@ gulp.task("serve", function(){
   startServer();
 });
 
-gulp.task("clean", function() {
+gulp.task("clean", function(){
   del("dist/**");
 });
 
