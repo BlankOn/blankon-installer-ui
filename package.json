@@ -16,9 +16,9 @@
     "gulp-concat": "~2.2.0",
     "gulp-minify-html": "^0.1.4",
     "gulp-ng-html2js": "^0.1.7",
-    "gulp-rimraf": "^0.1.0",
     "gulp-uglify": "^0.3.1",
     "run-sequence": "^0.3.6",
+    "del": "^2.2.0",
     "tiny-lr": "0.0.9"
   },
   "repository": {
@@ -33,8 +33,5 @@
   "bugs": {
     "url": "https://github.com/BlankOn/blankon-installer-ui/issues"
   },
-  "homepage": "https://github.com/BlankOn/blankon-installer-ui",
-  "dependencies": {
-    "del": "^2.2.0"
-  }
+  "homepage": "https://github.com/BlankOn/blankon-installer-ui"
 }
