@@ -3,7 +3,6 @@ var tinyLr = require('tiny-lr');
 var express = require ("express");
 var uglify = require("gulp-uglify");
 var concat  = require("gulp-concat");
-var clean   = require("gulp-rimraf");
 var files   = require("./files.json");
 var runSequence = require('run-sequence');
 var ngHtml2Js = require("gulp-ng-html2js");
@@ -51,7 +50,7 @@ gulp.task("serve", function(){
 });
 
 gulp.task("clean", function() {
-  del("dist/**");
+  return del("dist/**");
 });
 
 gulp.task("libs", function() {
