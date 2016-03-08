@@ -1,6 +1,80 @@
 <div class="row">
-  <div class="small-6 large-centered columns">
+  <div class="columns content">
+  <h1>Personalization</h1>
+<form name="personalization" novalidation>
+  <p>Please enter your personalization preference below...</p>
+  <div class="personalization-form">
+    <div class="row small-8">
+      <div class="small-4 columns">
+        <label class="right inline">Computer Name</label>
+      </div>
+      <div class="small-8 columns">
+        <input type="text" ng-model="installationData.hostname"/>
+      </div>
+    </div>
+    <div class="row small-8">
+      <div class="small-4 columns">
+        <label class="right inline">Your Name</label>
+      </div>
+      <div class="small-8 columns">
+        <input type="text" ng-model="installationData.fullname"/>
+      </div>
+    </div>
+    <div class="row small-8">
+      <div class="small-4 columns">
+        <label class="right inline">User Name</label>
+      </div>
+      <div class="small-8 columns">
+        <input type="text" ng-model="installationData.username"/>
+      </div>
+    </div>
+    <div class="row small-8">
+      <div class="small-4 columns">
+        <label class="right inline">Password</label>
+      </div>
+      <div class="small-8 columns">
+              <input type="password" ng-model="installationData.password" placeholder="At least 8 characters"/>
+              <div ng-show="enforceStrongPassword">
+              <div style="margin-top:-16px;height:4px;background-color:red;width:33%" ng-show="passwordStrength == 'weak'"></div>
+              <div style="margin-top:-16px;height:4px;background-color:yellow;width:66%" ng-show="passwordStrength == 'strong'"></div>
+              <div style="margin-top:-16px;height:4px;background-color:#438FB9;" ng-show="passwordStrength == 'veryStrong'"></div>
+              </div>
+      </div>
+    </div>
+    <div class="row small-8">
+      <div class="small-4 columns">
+        <label class="right inline">Repeat Password</label>
+      </div>
+      <div class="small-8 columns">
+        <input type="password" ng-model="installationData.passwordRepeat" place-holder="Type the password again"/>
+              <div style="margin-top:-16px;height:4px;background-color:#438FB9;" ng-show="isSamePassword"></div>
+              <div style="margin-top:-16px;height:4px;background-color:red;" ng-show="!isSamePassword && installationData.passwordRepeat[0]"></div>
+      </div>
+    </div>
+    <div class="row small-8">
+      <div class="small-4 columns">
+        <label class="right inline">Automatically login</label>
+      </div>
+      <div class="small-8 columns">
+        <input type="checkbox" ng-model="installationData.autologin">
+      </div>
+    </div>
+    <div class="row small-8">
+      <div class="small-4 columns">
+        <label class="right inline">Enforce strong password</label>
+      </div>
+      <div class="small-8 columns">
+        <input type="checkbox" ng-model="enforceStrongPassword">
+      </div>
+    </div>
+  </div>
+</form>
+  <p ng-show="enforceStrongPassword">Your password must contain at least 8 letters, a capital, and a numeric</p>
+  <p ng-show="personalizationError"><strong>Please fill all the required form.</strong><br></p>
+  </div>
+  <div class="columns nav-button">
     <button class='button' ng-click="previous()">Previous</button>
-    <button class='button' ng-click="next()">Next</button>
+    <button class='button' ng-click="validatePersonalization(installationData, validPassword, isSamePassword)">Next</button>
   </div>
 </div>
+
