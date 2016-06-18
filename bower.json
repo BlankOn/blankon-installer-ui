@@ -24,8 +24,15 @@
     "angular-foundation": "~0.3.0",
     "foundation": "~5.3.1",
     "angular-ui-router": "~0.2.10",
-    "angular-translate": "~2.2.0",
+    "angular-translate": "~2.7.2",
     "animate.css": "~3.2.0",
-    "angular-animate": "~1.2.23"
+    "angular-animate": "~1.2.23",
+    "jquery": "~2.1.3",
+    "maphilight": "~1.3.0",
+    "ng-slider": "~2.2.6"
+  },
+  "resolutions": {
+    "angular": "~1.2.21",
+    "angular-translate": "~2.2.0"
   }
 }
