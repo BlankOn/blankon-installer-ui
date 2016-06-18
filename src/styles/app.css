@@ -1,12 +1,30 @@
-.row {
-  width: 1000px;
+body {
+  background:black;
+  color: white;
+  height:100%;
+  overflow:hidden !important;
+  ::-webkit-scrollbar { 
+    display: none; 
+  }
 }
-
+.logo {
+  margin:30px 30px -50px -20px;
+}
+.content {
+  height: 530px;
+  padding: 30px;
+}
+h1 {
+  color: #438EB9 !important;
+}
+.page {
+  float:left;
+}
+.timeline {
+  width:10vw;
+}
 .wrapper {
-  margin-left:auto;
-  margin-right:auto;
   position:relative;
-  width:1000px;
   height:auto;
   background:#ccc">
 }
@@ -17,12 +35,516 @@
   animation-duration: 1s;
 }
 
-.fade.ng-enter {
+.forward.ng-enter {
+  -webkit-animation-name: fadeInUp;
+  animation-name: fadeInUp;
+}
+
+.forward.ng-leave {
+  -webkit-animation-name: fadeOutUp;
+  animation-name: fadeOutUp;
+}
+
+.back.ng-enter {
   -webkit-animation-name: fadeInDown;
   animation-name: fadeInDown;
 }
 
-.fade.ng-leave {
+.back.ng-leave {
   -webkit-animation-name: fadeOutDown;
   animation-name: fadeOutDown;
+}
+
+.timezone-picker {
+  width: 700px !important;
+}
+
+.line {
+  margin-left:19px; 
+  position:absolute;
+  background:#6D6D6D;
+  width:2px;
+  /* margin-top:10vh; */
+  /* height:75vh; */
+  z-index:1000;
+}
+
+.step-container {
+  position:absolute;
+  z-index:2001;
+  /* margin-top:10vh; */
+}
+
+.step-container.ng-hide-add.ng-hide-add-active,
+.step-container.ng-hide-remove.ng-hide-remove-active {
+  -webkit-transition: all linear 0.5s;
+  transition: all linear 0.5s;
+}
+.step-line {
+  position:absolute;
+  z-index:0;
+}
+.step {
+  background:#6D6D6D;
+  width:10px;
+  height:10px;
+  margin-left:15px; 
+  border-radius:5px;
+  /* margin-bottom:calc(15vh - 10px); */
+}
+.step:hover {
+  border : 5px solid;
+  border-color: #438EB9;
+  cursor:pointer;
+}
+.step-big {
+  background:#438FB9;
+  width:30px;
+  height:30px; 
+  border-radius:15px;
+  /* margin-bottom:calc(15vh - 30px); */
+  margin-left:5px;
+  padding-top:4px;
+  text-align:center;
+}
+
+.pull-right {
+  float:right
+}
+
+.nav-button {
+  padding-left: 30px;
+}
+.personalization-form {
+  width:600px;
+}
+.partoedi-action-dialog-form {
+  width:500px;
+}
+.drive-block {
+  background:#494949;
+  padding:8px 0px 8px 0px;
+  height:50px;
+}
+.partition-block {
+  float:left;
+  height:34px;
+  margin-left:8px;
+  width:auto
+}
+
+.partition-block:hover {
+  background:#0082AC;
+  cursor:pointer;
+}
+
+.partition-block-hover {
+  background:#0082AC !important;
+}
+
+.normal {
+  background:green;
+}
+
+.primary {
+  background:#FFC35C;
+}
+
+.logical {
+  background:#FFEC8A;
+}
+
+.selected {
+  background:#0082AC !important;
+  color:white !important;
+}
+.highlight {
+  background-color:#DBDBDB !important;
+}
+
+.disallow {
+  background:grey !important;
+  cursor: default;
+  /* pointer-events: none; */
+}
+
+.freespace {
+  background:white;
+}
+.extended {
+ margin-left:0px !important;
+}
+
+.top-bar-partition {
+  height:37px;
+  margin-bottom: 10px;
+}
+.legend-partition-primary {
+  background-color:#FFC35C;
+  padding:1px 4px 1px 4px;
+  font-size:12px;
+  color:black;
+}
+.legend-partition-normal {
+  background-color:green;
+  padding:1px 4px 1px 4px;
+  font-size:12px;
+}
+.legend-partition-disallow {
+  background-color:grey;
+  padding:1px 4px 1px 4px;
+  font-size:12px;
+}
+.legend-partition-logical {
+  background-color:#FFEC8A;
+  padding:1px 4px 1px 4px;
+  font-size:12px;
+  color:black;
+}
+.legend-partition-freespace {
+  background-color:white;
+  padding:1px 4px 1px 4px;
+  font-size:12px;
+  color:black;
+}
+
+.partition-block:hover span {
+  display:block;
+  background:#0082AC;
+  color:black;
+  padding:4px 8px 4px 8px;
+  margin-top:50px;
+  top:inherit;
+  position:absolute;
+  z-index:9999;
+}
+
+.partition-block span {
+  display:none;
+}
+
+.td-partition {
+  height:30px !important;
+  padding-top:0px !important;
+  padding-bottom:0px !important;
+}
+
+.partoedi-button {
+  width:100px !important;
+  margin:0px !important;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+
+  position: relative;
+  margin: 100px auto;
+  text-align:center;
+}
+
+.double-bounce1, .double-bounce2 {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: #0082AC;
+  opacity: 0.6;
+  position: absolute;
+  top: 0;
+  left: 0;
+  
+  -webkit-animation: bounce 2.0s infinite ease-in-out;
+  animation: bounce 2.0s infinite ease-in-out;
+}
+
+.double-bounce2 {
+  -webkit-animation-delay: -1.0s;
+  animation-delay: -1.0s;
+}
+
+@-webkit-keyframes bounce {
+  0%, 100% { -webkit-transform: scale(0.0) }
+  50% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes bounce {
+  0%, 100% { 
+    transform: scale(0.0);
+    -webkit-transform: scale(0.0);
+  } 50% { 
+    transform: scale(1.0);
+    -webkit-transform: scale(1.0);
+  }
+}
+
+.meter { 
+  height: 20px;  /* Can be anything */
+  position: relative;
+  margin: 60px 0 20px 0; /* Just for demo spacing */
+  background: #555;
+  -moz-border-radius: 25px;
+  -webkit-border-radius: 25px;
+  border-radius: 25px;
+  padding: 10px;
+  -webkit-box-shadow: inset 0 -1px 1px rgba(255,255,255,0.3);
+  -moz-box-shadow   : inset 0 -1px 1px rgba(255,255,255,0.3);
+  box-shadow        : inset 0 -1px 1px rgba(255,255,255,0.3);
+}
+.meter > span {
+  display: block;
+  height: 7px;
+  margin-top: -3px;
+     -webkit-border-top-right-radius: 8px;
+  -webkit-border-bottom-right-radius: 8px;
+             border-top-right-radius: 8px;
+          border-bottom-right-radius: 8px;
+      -webkit-border-top-left-radius: 20px;
+   -webkit-border-bottom-left-radius: 20px;
+              border-top-left-radius: 20px;
+           border-bottom-left-radius: 20px;
+  background-color: #0082AC;
+  -webkit-box-shadow: 
+    inset 0 2px 9px  rgba(255,255,255,0.3),
+    inset 0 -2px 6px rgba(0,0,0,0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+.fade.ng-hide-remove {
+  -webkit-animation: enter_sequence 0.25s linear; /* Safari/Chrome */
+  animation: enter_sequence 0.25s linear; /* IE10+ and Future Browsers */
+}
+/* .fade.ng-hide-add { */
+  /* -webkit-animation: leave_sequence 1s linear; /1* Safari/Chrome *1/ */
+  /* animation: leave_sequence 1s linear; /1* IE10+ and Future Browsers *1/ */
+/* } */
+
+@-webkit-keyframes enter_sequence {
+  0% { opacity:0; }
+  100% { opacity:1; }
+}
+@keyframes enter_sequence {
+  0% { opacity:0; }
+  100% { opacity:1; }
+}
+
+@-webkit-keyframes leave_sequence {
+  0% { opacity:1; }
+  100% { opacity:0; }
+}
+
+@keyframes leave_sequence {
+  0% { opacity:1; }
+  100% { opacity:0; }
+}
+
+/* page specific animations ------------------------ */
+
+/* home -------------------------- */
+/* .page-home.ng-leave         {
+    -webkit-transform-origin: 0% 0%;
+  -webkit-animation: rotateFall 1s both ease-in;
+  -moz-transform-origin: 0% 0%;
+  -moz-animation: rotateFall 1s both ease-in;
+  transform-origin: 0% 0%;
+  animation: rotateFall 1s both ease-in;
+}
+.page-home.ng-enter     {  
+    -webkit-animation:scaleUp 0.5s both ease-in;
+  -moz-animation:scaleUp 0.5s both ease-in;
+  animation:scaleUp 0.5s both ease-in;    
+} */
+
+/** 
+* @license ng-slider - v2.2.5
+* (c) 2013 Julien VALERY https://github.com/darul75/ng-slider
+* License: MIT 
+**/
+
+.jslider {
+    position: relative;
+    top: .6em;
+    background-color:#494949;
+    cursor: pointer;
+    display: block;
+    width: 500px;
+    height: 50px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.jslider.disabled {
+    opacity: .5;
+}
+.jslider table {
+    border-collapse: collapse;
+    border: 0;
+    width: 100%}
+.jslider table td, .jslider table th {
+    width: 100%;
+    border: 0;
+    padding: 0;
+    text-align: left;
+    vertical-align: top;
+}
+.jslider div.jslider-bg i, .jslider div.jslider-pointer {
+  background-color:#438FB9;
+}
+.jslider div.jslider-bg {
+    position: relative;
+}
+.jslider div.jslider-bg i {
+    margin-top:8px;
+    position: absolute;
+    top: 0;
+    height: 34px;
+}
+.jslider div.jslider-bg i.l {
+    left: 0;
+    width: 50%;
+    background-position: 0 0;
+}
+.jslider div.jslider-bg i.r {
+    left: 50%;
+    width: 50%;
+    background-position: right 0;
+}
+.jslider div.jslider-bg i.v {
+    position: absolute;
+    top: 0;
+    left: 20%;
+    width: 60%;
+    height: 5px;
+    z-index: 1;
+    background-repeat: repeat-x;
+    background-position: 0 -40px;
+}
+.jslider div.jslider-bg i.s {
+    left: 0;
+    width: 1px;
+    z-index: 1;
+    background-color: #185f83;
+}
+.jslider.jslider-single div.jslider-pointer-to, .jslider.jslider-single div.jslider-value-to, .jslider.jslider-single div.jslider-bg .v, .jslider.jslider-single .jslider-limitless .jslider-label {
+    display: none;
+}
+.jslider div.jslider-pointer {
+    background-color:#007295 !important;
+    position: absolute;
+    left: 20%;
+    z-index: 2;
+    width: 15px;
+    height: 15px;
+    background-position: 2px -60px;
+    margin-left: -8px;
+    cursor: pointer;
+    cursor: hand;
+}
+.jslider div.jslider-pointer.jslider-pointer-to {
+    left: 80%}
+.jslider div.jslider-pointer.jslider-pointer-hover {
+    background-position: -19px -60px;
+}
+.jslider div.jslider-label small, .jslider div.jslider-value small {
+    position: relative;
+    top: -.4em;
+}
+.jslider div.jslider-label {
+    position: absolute;
+    top: -18px;
+    left: 0;
+    padding: 0 2px;
+    opacity: .4;
+    color: #000;
+    font-size: 9px;
+    line-height: 12px;
+    white-space: nowrap;
+}
+.jslider div.jslider-label.jslider-label-to {
+    left: auto;
+    right: 0;
+}
+.jslider div.jslider-value {
+    display:none;
+    position: absolute;
+    top: -19px;
+    left: 0;
+    padding: 1px 2px 0;
+    background: #fff;
+    font-size: 9px;
+    line-height: 12px;
+    white-space: nowrap;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    -o-border-radius: 2px;
+    border-radius: 2px;
+}
+.jslider div.jslider-value.jslider-value-to {
+    left: 80%}
+.jslider div.jslider-scale {
+    position: relative;
+    top: 9px;
+}
+.jslider div.jslider-scale span {
+    position: absolute;
+    height: 5px;
+    border-left: 1px solid #999;
+    font-size: 0;
+}
+.jslider div.jslider-scale ins {
+    position: absolute;
+    top: 5px;
+    left: 0;
+    font-size: 9px;
+    text-decoration: none;
+    color: #999;
+}
+.jslider.sliderCSS div.jslider-bg i.l {
+    left: 0;
+    width: 50%;
+    background-color: silver;
+    background-image: none;
+}
+.jslider.sliderCSS div.jslider-bg i.r {
+    width: 50%;
+    left: 50%;
+    background-color: silver;
+    background-image: none;
+}
+.jslider.sliderCSS div.jslider-bg i.p {
+    left: 0;
+    width: 1px;
+    background-color: rgba(92, 98, 203, .89);
+    background-image: none;
+}
+.jslider.sliderCSS div.jslider-bg i.s {
+    left: 0;
+    width: 1px;
+    z-index: 1;
+    background-color: #fff;
+    background-image: none;
+}
+.jslider.sliderCSS div.jslider-bg i.f {
+    left: 0;
+    background-color: #0e1773;
+    background-image: none;
+}
+.jslider.sliderCSS div.jslider-bg i.v {
+    position: absolute;
+    top: 0;
+    left: 20%;
+    width: 60%;
+    height: 5px;
+    z-index: 1;
+    background-image: none;
+    background-color: #777575;
+}
+.jslider.sliderCSS div.jslider-pointer {
+    top: -3px;
+    left: 15px;
+    width: 10px;
+    height: 10px;
+    background-color: silver;
+    background-color: #615959;
+    border-radius: 50%}
+.jslider.sliderCSS div.jslider-bg i, .jslider.sliderCSS div.jslider-pointer {
+    background: 0 0;
 }
