@@ -3,7 +3,7 @@ BlankOn Installer UI
 
 *First time installation*
 ```
-$ npm -g install bower gulp
+$ sudo npm -g install bower gulp
 $ npm install
 ```
 

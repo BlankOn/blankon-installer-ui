@@ -3,12 +3,11 @@ var tinyLr = require('tiny-lr');
 var express = require ("express");
 var uglify = require("gulp-uglify");
 var concat  = require("gulp-concat");
-var clean   = require("gulp-rimraf");
 var files   = require("./files.json");
 var runSequence = require('run-sequence');
 var ngHtml2Js = require("gulp-ng-html2js");
 var minifyHtml = require("gulp-minify-html");
-
+var del = require("del");
 var lr;
 
 var EXPRESS_PORT = 8000;
@@ -51,7 +50,7 @@ gulp.task("serve", function(){
 });
 
 gulp.task("clean", function() {
-  return gulp.src(["dist/*"], {read:false}).pipe(clean());
+  return del("dist/**");
 });
 
 gulp.task("libs", function() {
@@ -68,7 +67,7 @@ gulp.task("styles", function() {
 
 gulp.task("images", function() {
   gulp.src(files.images)
-  .pipe(gulp.dest("./dist/images"))
+  .pipe(gulp.dest("./dist"))
 });
 
 gulp.task("fonts", function() {
@@ -76,8 +75,15 @@ gulp.task("fonts", function() {
   .pipe(gulp.dest("./dist/fonts"))
 });
 
+gulp.task("json", function() {
+  gulp.src(files.json)
+  .pipe(gulp.dest("./dist/"))
+});
+
 gulp.task("html", function() {
   gulp.src("src/index.html")
+  .pipe(gulp.dest("./dist"));
+  gulp.src("src/timezone.html")
   .pipe(gulp.dest("./dist"));
 
   gulp.src(files.html)
@@ -106,4 +112,4 @@ gulp.task("watch", function(){
   gulp.watch(["src/**", "src/**/**"], notifyLivereload);
 });
 
-gulp.task("default", ["clean", "styles", "libs", "src", "fonts"]);
+gulp.task("default", ["clean", "styles", "libs", "src", "fonts", "json"]);
