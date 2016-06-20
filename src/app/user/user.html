@@ -56,8 +56,9 @@
         <label class="right inline">Automatically login</label>
       </div>
       <div class="small-8 columns">
-              <input type="checkbox" ng-model="installationData.autologin">
-              <div class="checkbox" ng-class="{'checkbox-checked':installationData.autologin}" ng-click="check('installationData.autologin');"></div>
+        <div class="checkbox" ng-class="{'checkbox-checked':installationData.autologin}" ng-click="installationData.autologin=!installationData.autologin">
+          <div class="checkbox-dot" ng-show="installationData.autologin"></div>
+        </div>
       </div>
     </div>
     <div class="row small-8">
@@ -65,12 +66,14 @@
         <label class="right inline">Enforce strong password</label>
       </div>
       <div class="small-8 columns">
-        <input type="checkbox" ng-model="enforceStrongPassword">
+        <div class="checkbox" ng-class="{'checkbox-checked':enforceStrongPassword}" ng-click="enforceStrongPassword=!enforceStrongPassword">
+          <div class="checkbox-dot" ng-show="enforceStrongPassword"></div>
+        </div>
+        <span class="checkbox-label" ng-show="enforceStrongPassword">Your password must contain at least 8 letters, a capital, and a numeric</span>
       </div>
     </div>
   </div>
 </form>
-  <p ng-show="enforceStrongPassword">Your password must contain at least 8 letters, a capital, and a numeric</p>
   <p ng-show="personalizationError"><strong>Please fill all the required form.</strong><br></p>
   </div>
   <div class="columns nav-button">

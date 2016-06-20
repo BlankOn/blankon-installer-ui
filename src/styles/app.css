@@ -556,14 +556,25 @@ h1 {
     background: 0 0;
 }
 .checkbox {
+  display:inline-block;
   width:20px;
   height:20px;
   background:white;
-  border:3px solid black;
+  border:1px solid black;
+  margin-top:8px
 }
 
-.checkbox-checked {
+.checkbox-dot {
+  width:14px;
+  height:14px;
   background:#008CBA !important;
+}
+.checkbox-checked {
   padding:2px;
-  border:3px solid #008CBA !important;
+  border:1px solid white;
+}
+.checkbox-label {
+  margin-left:10px;
+  position:absolute;
+  font-size:small;
 }
