@@ -56,7 +56,8 @@
         <label class="right inline">Automatically login</label>
       </div>
       <div class="small-8 columns">
-        <input type="checkbox" ng-model="installationData.autologin">
+              <input type="checkbox" ng-model="installationData.autologin">
+              <div class="checkbox" ng-class="{'checkbox-checked':installationData.autologin}" ng-click="check('installationData.autologin');"></div>
       </div>
     </div>
     <div class="row small-8">

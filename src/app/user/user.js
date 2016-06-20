@@ -76,4 +76,14 @@ angular.module("user",[])
         $rootScope.personalizationError = true;
       }
     }
+    $scope.check = function(val) {
+      setTimeout(function(){
+      console.log('arst');
+      console.log(val);
+      console.log($scope[val]);
+      $scope[val] = !$scope[val];
+      console.log($scope[val]);
+      $scope.$apply();
+      }, 100)
+    }
 }])
