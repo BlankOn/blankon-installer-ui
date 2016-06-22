@@ -1,11 +1,11 @@
 <div class="row">
   <div class="columns content">
     <div ng-show="error">
-      <h1>Installation Error Occured</h1>
-       <p>Please take a look at installion log : /var/log/blankon-installer.log</p>
+      <h1>{{"install_error" | translate}}</h1>
+       <p>{{"install_error_info" | translate}}</p>
     </div>
     <div ng-hide="error">
-      <h1>Installation</h1>
+      <h1>{{"install_info" | translate}}</h1>
       <p>{{currentStep}} {{loadingDot}}</p>
       <div class="meter">
         <span style="width:{{progressBarWidth}}%"></span>
@@ -13,6 +13,6 @@
     </div>
   </div>
   <div class="columns nav-button" ng-show="error">
-    <button class='button' ng-click="exit()">Exit</button>
+    <button class='button' ng-click="exit()">{{"button_exit" | translate}}</button>
   </div>
 </div>
