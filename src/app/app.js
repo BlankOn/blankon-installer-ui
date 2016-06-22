@@ -200,11 +200,6 @@ angular.module('Biui', [
         if ($rootScope.currentState - 1 >= 0) {
           $rootScope.currentState--;
           $state.go($rootScope.states[$rootScope.currentState]);
-          /* $timeout(function(){ */
-            /* $rootScope.back = false; */
-            /* $rootScope.forward = true; */
-            /* console.log($rootScope.back); */
-          /* }, 1100); */
         }
       }, 100);
     }
@@ -215,8 +210,8 @@ angular.module('Biui', [
       console.log($(window).width());
       // Fix layout according to screen size
       $(".page").css("width", ($(window).width()*(70/100)).toString() + "px");
-      $(".content").css("height", ($(window).height()*(70/100)).toString() + "px !important");
-      $(".page").css("margin-left", ($(window).width()*(7/100)).toString() + "px");
+      $(".page").css("margin-left", ($(window).width()*(3/100)).toString() + "px");
+      $(".content").css("height", ($(window).height()*(87/100)).toString() + "px");
       $(".line").css("height", ($(window).height()*(72/100)).toString() + "px");
       $(".line").css("margin-top", ($(window).height()*(10/100)).toString() + "px");
       $(".step-container").css("margin-top", ($(window).height()*(10/100)).toString() + "px");
@@ -224,7 +219,7 @@ angular.module('Biui', [
       $(".step-big").css("margin-bottom", (($(window).height()*(12/100))-30).toString() + "px");
       $state.go($rootScope.states[$rootScope.currentState]);
       $rootScope.started = true;
-    }, 500);
+    }, 100);
     $timeout(function(){
       $rootScope.showStepLine = true;
     }, 1000);
