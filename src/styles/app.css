@@ -1,3 +1,6 @@
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
 body {
   background:black;
   color: white;
@@ -26,6 +29,9 @@ h1 {
 .wrapper {
   position:relative;
   height:auto;
+}
+.button {
+	padding:12px 15px;
 }
 .button:focus,
 .button:active,
