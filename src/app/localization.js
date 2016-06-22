@@ -12,7 +12,7 @@ var en = {
   install_user2 : "Computer Name",
   install_user3 : "Your Name",
   install_user4 : "Username",
-  install_user5 : "password"
+  install_user5 : "password",
   install_user6 : "Repeat Password",
   install_user7 : "Automatically login",
   install_user8 : "Enforce strong password",
