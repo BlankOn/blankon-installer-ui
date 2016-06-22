@@ -3,7 +3,7 @@ angular.module("install",[])
   function ($scope, $window, $rootScope, $timeout, $interval){
 
     console.log(JSON.stringify($rootScope.installationData));
-    //Installation.setTimezone($rootScope.installationData.timezone);
+    Installation.setTimezone($rootScope.installationData.timezone);
 
     var showError = function(){
       console.log("error");
@@ -51,8 +51,8 @@ angular.module("install",[])
     // give time for view transition
     $timeout(function(){
       console.log(params);
-      //$rootScope.installation = new Installation(params);
-      //$rootScope.installation.start();
+      $rootScope.installation = new Installation(params);
+      $rootScope.installation.start();
       $scope.currentStep = "";
       statusUpdater = $interval(updateStatus, 1000);
     }, 1000);

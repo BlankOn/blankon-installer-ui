@@ -5,12 +5,12 @@
   {{'install_summary_info' | translate}}
   </p>
   <p>
-    Target device : {{selectedDrive.model}}
-    <br>Target parttition : {{selectedDrive.path}}{{installationData.partition}}
-    <br>Computer name : {{installationData.hostname}}
-    <br>Full name : {{installationData.fullname}}
-    <br>User name : {{installationData.username}}
-    <br>Automatically login : <span ng-show="installationData.autologin">Yes</span><span ng-show="!installationData.autologin">No</span>
+    {{'target_device' | translate}} : {{selectedDrive.model}}
+    <br>{{'target_partition' | translate}} : {{selectedDrive.path}}{{installationData.partition}}
+    <br>{{'computer_name' | translate}} : {{installationData.hostname}}
+    <br>{{'full_name' | translate}} : {{installationData.fullname}}
+    <br>{{'username' | translate}} : {{installationData.username}}
+    <br>{{'automatically_login' | translate}} : <span ng-show="installationData.autologin">{{'yes' | translate}}</span><span ng-show="!installationData.autologin">{{'no' | translate}}</span>
   </p>
   </div>
   <div class="columns nav-button">
