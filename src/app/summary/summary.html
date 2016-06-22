@@ -1,8 +1,8 @@
 <div class="row">
   <div class="columns content">
-  <h1>Installation Summary</h1>
+  <h1>{{'installation_summary'  | translate}}</h1>
   <p>
-  This is our installation summary. Please proceed if you're agree. Beyond this point, the installer will make changes to your system and you can't go  
+  {{'install_summary_info' | translate}}
   </p>
   <p>
     Target device : {{selectedDrive.model}}
@@ -14,7 +14,7 @@
   </p>
   </div>
   <div class="columns nav-button">
-    <button class='button' ng-click="previous()">Previous</button>
-    <button class='button' ng-click="next()">Install</button>
+    <button class='button' ng-click="previous()">{{'previous' | translate}}</button>
+    <button class='button' ng-click="next()">{{'install' | translate}}</button>
   </div>
 </div>
