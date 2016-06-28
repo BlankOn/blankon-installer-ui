@@ -1,6 +1,9 @@
 angular.module("user",[])
 .controller("UserCtrl", ["$scope", "$window", "$rootScope", 
   function ($scope, $window, $rootScope){
+    
+    $(".content").css("height", $rootScope.contentHeight);
+
     $scope.enforceStrongPassword = false;
     $rootScope.installationData.autologin = false;
     $scope.$watch("installationData.hostname", function(value){

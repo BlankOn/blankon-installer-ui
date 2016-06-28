@@ -1,6 +1,8 @@
 angular.module("install",[])
 .controller("InstallCtrl", ["$scope", "$window", "$rootScope","$timeout","$interval",
   function ($scope, $window, $rootScope, $timeout, $interval){
+    
+    $(".content").css("height", $rootScope.contentHeight);
 
     console.log(JSON.stringify($rootScope.installationData));
     Installation.setTimezone($rootScope.installationData.timezone);

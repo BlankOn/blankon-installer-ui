@@ -211,7 +211,6 @@ angular.module('Biui', [
       // Fix layout according to screen size
       $(".page").css("width", ($(window).width()*(70/100)).toString() + "px");
       $(".page").css("margin-left", ($(window).width()*(3/100)).toString() + "px");
-      $(".content").css("height", ($(window).height()*(87/100)).toString() + "px");
       $(".line").css("height", ($(window).height()*(72/100)).toString() + "px");
       $(".line").css("margin-top", ($(window).height()*(10/100)).toString() + "px");
       $(".step-container").css("margin-top", ($(window).height()*(10/100)).toString() + "px");

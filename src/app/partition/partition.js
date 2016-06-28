@@ -2,6 +2,8 @@ angular.module("partition",[])
 .controller("PartitionCtrl", ["$scope", "$window", "$timeout", "$rootScope", 
   function ($scope, $window, $timeout, $rootScope){
     
+    $(".content").css("height", $rootScope.contentHeight);
+    
     /*
 
     There are 4 basic action for the current version of partoedi :

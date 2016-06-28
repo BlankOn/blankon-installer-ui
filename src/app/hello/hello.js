@@ -1,6 +1,9 @@
 angular.module("hello",[])
 .controller("HelloCtrl", ["$scope", "$window", "$rootScope", "$translate",
   function ($scope, $window, $rootScope, $translate){
+    
+    $rootScope.contentHeight = $rootScope.contentHeight || ($(window).height()*(87/100)).toString() + "px"; 
+    $(".content").css("height", $rootScope.contentHeight);
 
     $scope.languages = [
       { id: "en_US.utf8", title: "English US" },
