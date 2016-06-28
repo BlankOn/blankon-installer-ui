@@ -1,6 +1,20 @@
 <div class="row">
-  <div class="small-6 large-centered columns">
-    <button class='button' ng-click="previous()">Previous</button>
-    <button class='button' ng-click="next()">Next</button>
+  <div class="columns content">
+  <h1>{{'installation_summary'  | translate}}</h1>
+  <p>
+  {{'install_summary_info' | translate}}
+  </p>
+  <p>
+    {{'target_device' | translate}} : {{selectedDrive.model}}
+    <br>{{'target_partition' | translate}} : {{selectedDrive.path}}{{installationData.partition}}
+    <br>{{'computer_name' | translate}} : {{installationData.hostname}}
+    <br>{{'full_name' | translate}} : {{installationData.fullname}}
+    <br>{{'username' | translate}} : {{installationData.username}}
+    <br>{{'automatically_login' | translate}} : <span ng-show="installationData.autologin">{{'yes' | translate}}</span><span ng-show="!installationData.autologin">{{'no' | translate}}</span>
+  </p>
+  </div>
+  <div class="columns nav-button">
+    <button class='button' ng-click="previous()">{{'previous' | translate}}</button>
+    <button class='button' ng-click="next()">{{'install' | translate}}</button>
   </div>
 </div>
