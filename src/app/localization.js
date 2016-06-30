@@ -9,7 +9,7 @@ var en = {
   install_partition : "Installation Target",
   installation_summary : "Installation Summary",
   install_summary_info : "This is our installation summary. Please proceed if you're agree. Beyond this point, the installer will make changes to your system and you can't go.",
-  personalization : "personalization",
+  personalization : "Personalization",
   please_enter_personalization : "Please enter your personalization preference below...",
   computer_name : "Computer Name",
   full_name : "Your Name",
