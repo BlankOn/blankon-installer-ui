@@ -138,10 +138,6 @@ angular.module("partition",[])
     }
     $scope.selectInstallationTarget = function(partition) {
       console.log(partition)
-      /* if (partition.id < 0) { */
-      /*   partition.id = 0; */
-      /*   console.log(partition.id) */
-      /* } */
       if (!partition.disallow) {
         $rootScope.installationData.partition = $rootScope.selectedDrive.partitionList.indexOf(partition);
         if (partition.id > 0) {
@@ -419,21 +415,14 @@ angular.module("partition",[])
           }
         }
       }
+
       if (
-        $scope.selectedDrive.partitionList[(index+1)] && 
-        $scope.selectedDrive.partitionList[(index-1)] && 
-        $scope.selectedDrive.partitionList[(index-1)].type === "DEVICE_PARTITION_TYPE_FREESPACE" && 
-        $scope.selectedDrive.partitionList[(index+1)].type === "DEVICE_PARTITION_TYPE_FREESPACE"
+        ($scope.selectedDrive.partitionList[(index-1)] && 
+        $scope.selectedDrive.partitionList[(index-1)].type === "DEVICE_PARTITION_TYPE_FREESPACE") 
       ) {
-        // the prev and next partition of this partition are freespace. merge them.
-        //////////////////////
-        if (extended) {
-          $scope.selectedDrive.partitionList[(index-1)].size += $scope.selectedDrive.partitionList[index].size;
-          $scope.selectedDrive.partitionList[(index-1)].end = $scope.selectedDrive.partitionList[index].end;
-        } else {
-          $scope.selectedDrive.partitionList[(index-1)].size += $scope.selectedDrive.partitionList[index].size + $scope.selectedDrive.partitionList[(index+1)].size;
-          $scope.selectedDrive.partitionList[(index-1)].end = $scope.selectedDrive.partitionList[(index+1)].end;
-        }
+        // the prev partition of this partition are freespace. merge them.
+        $scope.selectedDrive.partitionList[(index-1)].size += $scope.selectedDrive.partitionList[index].size;
+        $scope.selectedDrive.partitionList[(index-1)].end = $scope.selectedDrive.partitionList[index].end;
         var size = $scope.selectedDrive.partitionList[(index-1)].size;
         $scope.selectedDrive.partitionList[(index-1)].hidden = false;
         $scope.selectedDrive.partitionList[(index-1)].blockWidth = parseInt(((size/$rootScope.selectedDrive.size)*driveBlockWidth));
@@ -449,7 +438,36 @@ angular.module("partition",[])
           $scope.selectedDrive.partitionList[(index-1)].logicalFreespace = true;
           $scope.selectedDrive.partitionList[(index-1)].freeSpace = true;
         }
-        $scope.selectedDrive.partitionList.splice(index,2);
+        $scope.selectedDrive.partitionList.splice(index,1);
+      } else if (
+        ($scope.selectedDrive.partitionList[(index+1)] && 
+        $scope.selectedDrive.partitionList[(index+1)].type === "DEVICE_PARTITION_TYPE_FREESPACE") 
+      ) {
+        // the next partition of this partition are freespace. merge them.
+        if (extended) {
+          $scope.selectedDrive.partitionList[index].size += $scope.selectedDrive.partitionList[(index+1)].size;
+          $scope.selectedDrive.partitionList[index].end = $scope.selectedDrive.partitionList[(index+1)].end;
+        } else {
+          $scope.selectedDrive.partitionList[index].size += $scope.selectedDrive.partitionList[(index+1)].size;
+          $scope.selectedDrive.partitionList[index].end = $scope.selectedDrive.partitionList[(index+1)].end;
+        }
+        var size = $scope.selectedDrive.partitionList[index].size;
+        $scope.selectedDrive.partitionList[index].hidden = false;
+        $scope.selectedDrive.partitionList[index].blockWidth = parseInt(((size/$rootScope.selectedDrive.size)*driveBlockWidth));
+        if ($scope.selectedDrive.partitionList[index+1].freespace & !extended) {
+          $scope.selectedDrive.partitionList[index].blockWidth += 8;
+        }
+        if ($scope.selectedDrive.partitionList[(index+1)].freespace) {
+        }
+        $scope.selectedDrive.partitionList[index].blockWidth += 8;
+
+        $scope.selectedDrive.partitionList[index].freespace = true;
+        $scope.selectedDrive.partitionList[index].sizeGb = (size/gbSize).toFixed(2);
+        if (p.logical) {
+          $scope.selectedDrive.partitionList[index].logicalFreespace = true;
+          $scope.selectedDrive.partitionList[index].freeSpace = true;
+        }
+        $scope.selectedDrive.partitionList.splice((index+1),1);
       } else if (
       ($scope.selectedDrive.partitionList[(index+1)] && 
       $scope.selectedDrive.partitionList[(index-1)] && 
