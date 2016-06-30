@@ -97,6 +97,7 @@ angular.module('Biui', [
 
 .run([ "$rootScope", "$state", "$stateParams", "$timeout", "$location", "$translate",
   function ($rootScope, $state, $stateParams, $timeout, $location, $translate) {
+    $rootScope.release = Installation.getRelease();
     $translate.use("enUS");
     $rootScope.steps = [
       {
