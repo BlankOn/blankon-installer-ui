@@ -6,6 +6,7 @@ angular.module('Biui', [
   "angularAwesomeSlider",
   "html",
   "mm.foundation",
+  "debounce",
   "hello",
   "timezone",
   "partition",

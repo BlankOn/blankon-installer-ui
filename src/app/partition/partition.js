@@ -3,7 +3,82 @@ angular.module("partition",[])
   function ($scope, $window, $timeout, $rootScope){
     
     $(".content").css("height", $rootScope.contentHeight);
-    
+   
+    $scope.slider = {
+    	start : 0,
+    	end : 1.0,
+    	currentMode : 'start',
+    	currentMiddle : 0,
+    	windowRelativeFix : 40,
+    }
+    $scope.slidebarInit = function() {
+    	$scope.slider.start = 0;
+    	$scope.slider.end = 1.0;
+      $scope.slider.bar = document.getElementById('bar');
+      $scope.slider.slider = document.getElementById('slider');
+      $scope.slider.bar.addEventListener('mousedown', $scope.slider.startSlide, false); 
+      $scope.slider.bar.addEventListener('mouseup', $scope.slider.stopSlide, false);
+      
+      $scope.slider.slider.style.marginLeft = ($scope.slider.start & 100) + '%';
+      $scope.slider.slider.style.width = ($scope.slider.end * 100) + '%';
+    }
+    $scope.slider.startSlide = function(event) {
+			
+			if ($scope.updating) return;
+			$scope.updating = true;
+	
+			console.log(JSON.parse(JSON.stringify($scope.slider)));
+      var set_perc = ((((event.clientX - $scope.slider.windowRelativeFix - $scope.slider.bar.offsetLeft) / $scope.slider.bar.offsetWidth)));
+    	$scope.slider.currentMiddle = ((parseFloat($scope.slider.end)-parseFloat($scope.slider.start))/2) + parseFloat($scope.slider.start);
+      if (set_perc <= $scope.slider.currentMiddle) {
+    		console.log('$scope.slider.start side');
+        currentMode = '$scope.slider.start';
+        $scope.slider.slider.style.width = ((parseFloat($scope.slider.end)-parseFloat(set_perc)) * 100) + '%';
+        $scope.slider.slider.style.marginLeft = (parseFloat(set_perc) * 100) + '%';
+      } else {
+    		console.log('$scope.slider.end side');
+        currentMode = '$scope.slider.end';
+        $scope.slider.slider.style.marginLeft = (parseFloat($scope.slider.start) * 100) + '%';
+        $scope.slider.slider.style.width = ((parseFloat(set_perc) - parseFloat($scope.slider.start)) * 100) + '%';
+      }
+      $scope.slider.bar.addEventListener('mousemove', $scope.slider.moveSlide, false);  
+    }
+    $scope.slider.moveSlide = function(event) {
+      var set_perc = ((((event.clientX - $scope.slider.windowRelativeFix - $scope.slider.bar.offsetLeft) / $scope.slider.bar.offsetWidth)));
+      if (currentMode === '$scope.slider.start') {
+        $scope.slider.slider.style.width = ((parseFloat($scope.slider.end)-parseFloat(set_perc)) * 100) + '%';
+        $scope.slider.slider.style.marginLeft = (parseFloat(set_perc) * 100) + '%';
+      } else if (currentMode === '$scope.slider.end') {
+        $scope.slider.slider.style.marginLeft = (parseFloat($scope.slider.start) * 100) + '%';
+        $scope.slider.slider.style.width = ((parseFloat(set_perc) - parseFloat($scope.slider.start)) * 100) + '%';
+      }
+    }
+    $scope.slider.stopSlide = function(event){
+			
+			$timeout(function(){ $scope.updating = false; }, 200);
+			
+			var clientX = event.clientX;
+
+      var set_perc = ((((clientX - $scope.slider.windowRelativeFix - $scope.slider.bar.offsetLeft) / $scope.slider.bar.offsetWidth)));
+			console.log('stopSlide ' + set_perc);
+      $scope.slider.bar.removeEventListener('mousemove', $scope.slider.moveSlide, false);
+      if (currentMode === '$scope.slider.start') {
+        $scope.slider.slider.style.width = ((parseFloat($scope.slider.end)-parseFloat(set_perc)) * 100) + '%';
+        $scope.slider.slider.style.marginLeft = (parseFloat(set_perc) * 100) + '%';
+        $scope.slider.start = parseFloat(set_perc);
+      } else if (currentMode === '$scope.slider.end') {
+        $scope.slider.slider.style.marginLeft = (parseFloat($scope.slider.start) * 100) + '%';
+        $scope.slider.slider.style.width = ((parseFloat(set_perc) - parseFloat($scope.slider.start)) * 100) + '%';
+        $scope.slider.end = parseFloat(set_perc);
+      }
+			console.log('slider start ' + $scope.slider.start);
+			console.log('slider end ' + $scope.slider.end);
+    	$scope.createSliderValue = ($scope.slider.start * 100) + ';' + ($scope.slider.end * 100);
+    	$scope.$apply();
+			
+    }
+
+
     /*
 
     There are 4 basic action for the current version of partoedi :
@@ -183,6 +258,9 @@ angular.module("partition",[])
       }
       console.log("primext " + primExt);
       if (primExt < 4 || partition.logicalFreespace) {
+				
+				$scope.slidebarInit();
+
         $scope.createSliderValue = "0;100";
         console.log("dialog");
         console.log(partition);
@@ -199,6 +277,7 @@ angular.module("partition",[])
     }
     var percentage;
     $scope.$watch("createSliderValue", function(value){
+			console.log('watch createSliderValue');
       console.log(value);
       var val = value.split(";");
       var offset = val[0];
@@ -208,14 +287,131 @@ angular.module("partition",[])
       var end = $scope.createDialogSelected.endOrigin; 
       var size = $scope.createDialogSelected.size;
       var sizeOrigin = $scope.createDialogSelected.sizeOrigin;
-      $scope.createDialogSelected.start = start + Math.round(sizeOrigin*(val[0]/100));
-      $scope.createDialogSelected.end = end - Math.round(sizeOrigin*((100-val[1])/100));
+
+			// Update values
+      $scope.createDialogSelected.start = start + Math.round(sizeOrigin*(parseFloat(val[0])/100));
+      $scope.createDialogSelected.end = end - Math.round(sizeOrigin*((100-parseFloat(val[1]))/100));
       $scope.createDialogSelected.size = $scope.createDialogSelected.end - $scope.createDialogSelected.start;
-  
       $scope.createDialogSelected.sizeGb = ($scope.createDialogSelected.size/gbSize).toFixed(2);
+      $scope.createDialogSelected.sizeGbBefore = (Math.round(sizeOrigin*(parseFloat(val[0])/100))/gbSize).toFixed(2);
+      $scope.createDialogSelected.sizeGbAfter = (Math.round(sizeOrigin*((100-parseFloat(val[1]))/100))/gbSize).toFixed(2);
       $scope.createDialogSelected.percentage = percentage;
-  
     });
+		$scope.$watch("createDialogSelected.sizeGb", function(value) {
+			if ($scope.updating) return;
+			$scope.updating = true;
+			$timeout(function(){ $scope.updating = false; }, 200);
+			
+			console.log('watch sizeGb');
+			console.log(value);
+			// Measure the percentage
+			var percentage = (((value*gbSize)/$scope.createDialogSelected.sizeOrigin) * 100);
+			if (percentage > 100) {
+				percentage = 100;
+			}
+			// keep start, but update end
+			$scope.slider.end = ((parseFloat($scope.slider.start)*100) + (parseFloat(percentage))) / 100;
+			
+			// Update slider
+      $scope.slider.slider.style.marginLeft = (parseFloat($scope.slider.start) * 100) + '%';
+      $scope.slider.slider.style.width = parseFloat($scope.slider.end) * 100 + '%';
+
+			// Update values
+			var value = parseFloat($scope.slider.start)*100 + ';' + parseFloat($scope.slider.end)*100;
+			var val = value.split(";");
+      var offset = val[0];
+      percentage = val[1]-val[0];
+      var start = $scope.createDialogSelected.startOrigin; 
+      var end = $scope.createDialogSelected.endOrigin; 
+      var size = $scope.createDialogSelected.size;
+      var sizeOrigin = $scope.createDialogSelected.sizeOrigin;
+
+      $scope.createDialogSelected.start = start + Math.round(sizeOrigin*(parseFloat(val[0])/100));
+      $scope.createDialogSelected.end = end - Math.round(sizeOrigin*((100-parseFloat(val[1]))/100));
+      $scope.createDialogSelected.size = $scope.createDialogSelected.end - $scope.createDialogSelected.start;
+      /* $scope.createDialogSelected.sizeGb = ($scope.createDialogSelected.size/gbSize).toFixed(2); */
+      $scope.createDialogSelected.sizeGbBefore = (Math.round(sizeOrigin*(parseFloat(val[0])/100))/gbSize).toFixed(2);
+      $scope.createDialogSelected.sizeGbAfter = (Math.round(sizeOrigin*((100-parseFloat(val[1]))/100))/gbSize).toFixed(2);
+      $scope.createDialogSelected.percentage = percentage;
+		});
+		$scope.$watch("createDialogSelected.sizeGbAfter", function(value) {
+			if ($scope.updating) return;
+			$scope.updating = true;
+			$timeout(function(){ $scope.updating = false; }, 200);
+			
+			console.log('watch sizeGbAfter');
+			console.log(value);
+			// Measure the percentage
+			var percentage = (((value*gbSize)/$scope.createDialogSelected.sizeOrigin) * 100);
+			percentage = 100 - percentage;
+			if (percentage > 100) {
+				percentage = 100;
+			}
+			// keep start, but update end
+			$scope.slider.end = parseFloat(percentage) / 100;
+			
+			// Update slider
+      $scope.slider.slider.style.marginLeft = (parseFloat($scope.slider.start) * 100) + '%';
+      $scope.slider.slider.style.width = (parseFloat($scope.slider.end) - parseFloat($scope.slider.start)) * 100 + '%';
+
+			// Update values
+			var value = parseFloat($scope.slider.start)*100 + ';' + parseFloat($scope.slider.end)*100;
+			var val = value.split(";");
+      var offset = val[0];
+      percentage = val[1]-val[0];
+      var start = $scope.createDialogSelected.startOrigin; 
+      var end = $scope.createDialogSelected.endOrigin; 
+      var size = $scope.createDialogSelected.size;
+      var sizeOrigin = $scope.createDialogSelected.sizeOrigin;
+
+      $scope.createDialogSelected.start = start + Math.round(sizeOrigin*(parseFloat(val[0])/100));
+      $scope.createDialogSelected.end = end - Math.round(sizeOrigin*((100-parseFloat(val[1]))/100));
+      $scope.createDialogSelected.size = $scope.createDialogSelected.end - $scope.createDialogSelected.start;
+      $scope.createDialogSelected.sizeGb = ($scope.createDialogSelected.size/gbSize).toFixed(2);
+      $scope.createDialogSelected.sizeGbBefore = (Math.round(sizeOrigin*(parseFloat(val[0])/100))/gbSize).toFixed(2);
+      /* $scope.createDialogSelected.sizeGbAfter = (Math.round(sizeOrigin*((100-parseFloat(val[1]))/100))/gbSize).toFixed(2); */
+      $scope.createDialogSelected.percentage = percentage;
+		});
+		$scope.$watch("createDialogSelected.sizeGbBefore", function(value) {
+			if ($scope.updating) return;
+			$scope.updating = true;
+			$timeout(function(){ $scope.updating = false; }, 200);
+			
+			console.log('watch sizeGbBefore');
+			console.log(value);
+			// Measure the percentage
+			var percentage = 100 - (((value*gbSize)/$scope.createDialogSelected.sizeOrigin) * 100);
+			percentage = 100 - percentage;
+			if (percentage > 100) {
+				percentage = 100;
+			}
+			// keep end, but update start
+			$scope.slider.start = parseFloat(percentage) / 100;
+			
+			// Update slider
+      $scope.slider.slider.style.marginLeft = (parseFloat($scope.slider.start) * 100) + '%';
+      $scope.slider.slider.style.width = (parseFloat($scope.slider.end) - parseFloat($scope.slider.start)) * 100 + '%';
+
+			// Update values
+			var value = parseFloat($scope.slider.start)*100 + ';' + parseFloat($scope.slider.end)*100;
+			var val = value.split(";");
+      var offset = val[0];
+      percentage = val[1]-val[0];
+      var start = $scope.createDialogSelected.startOrigin; 
+      var end = $scope.createDialogSelected.endOrigin; 
+      var size = $scope.createDialogSelected.size;
+      var sizeOrigin = $scope.createDialogSelected.sizeOrigin;
+
+      $scope.createDialogSelected.start = start + Math.round(sizeOrigin*(parseFloat(val[0])/100));
+      $scope.createDialogSelected.end = end - Math.round(sizeOrigin*((100-parseFloat(val[1]))/100));
+      $scope.createDialogSelected.size = $scope.createDialogSelected.end - $scope.createDialogSelected.start;
+      $scope.createDialogSelected.sizeGb = ($scope.createDialogSelected.size/gbSize).toFixed(2);
+      /* $scope.createDialogSelected.sizeGbBefore = (Math.round(sizeOrigin*(parseFloat(val[0])/100))/gbSize).toFixed(2); */
+      $scope.createDialogSelected.sizeGbAfter = (Math.round(sizeOrigin*((100-parseFloat(val[1]))/100))/gbSize).toFixed(2);
+      $scope.createDialogSelected.percentage = percentage;
+		});
+
+
     $scope.partitionCreateApply = function(partition){
       var step = {
         action : "create",
@@ -535,7 +731,7 @@ angular.module("partition",[])
         $rootScope.partitionState.currentState = angular.copy($scope.selectedDrive.partitionList);
         $rootScope.partitionState.stateIndex++;
         console.log($rootScope.partitionState);
-      }, 100);
+      }, 400);
     }
     $scope.partitionFormat = function(partition) {
       console.log(partition);
