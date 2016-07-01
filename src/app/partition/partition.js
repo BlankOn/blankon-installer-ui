@@ -3,7 +3,95 @@ angular.module("partition",[])
   function ($scope, $window, $timeout, $rootScope){
     
     $(".content").css("height", $rootScope.contentHeight);
-    
+   
+    $scope.slider = {
+    	start : 0,
+    	end : 1.0,
+    	currentMode : 'start',
+    	currentMiddle : 0,
+    	windowRelativeFix : 70,
+    }
+    $scope.slidebarInit = function() {
+    	$scope.slider.start = 0;
+    	$scope.slider.end = 1.0;
+      $scope.slider.bar = document.getElementById('bar');
+      $scope.slider.slider = document.getElementById('slider');
+      $scope.slider.bar.addEventListener('mousedown', $scope.slider.startSlide, false); 
+      $scope.slider.bar.addEventListener('mouseup', $scope.slider.stopSlide, false);
+      
+      $scope.slider.slider.style.marginLeft = ($scope.slider.start & 100) + '%';
+      $scope.slider.slider.style.width = ($scope.slider.end * 100) + '%';
+    }
+    $scope.slider.startSlide = function(event) {
+		  	
+			if ($scope.updating) return;
+			$scope.updating = true;
+	
+      var set_perc = ((((event.clientX - $scope.slider.windowRelativeFix - $scope.slider.bar.offsetLeft) / $scope.slider.bar.offsetWidth)));
+    	$scope.slider.currentMiddle = ((parseFloat($scope.slider.end)-parseFloat($scope.slider.start))/2) + parseFloat($scope.slider.start);
+      if (set_perc <= $scope.slider.currentMiddle) {
+        set_perc = ((((event.clientX - $scope.slider.windowRelativeFix - 10 - $scope.slider.bar.offsetLeft) / $scope.slider.bar.offsetWidth)));
+    		console.log('$scope.slider.start side');
+        currentMode = '$scope.slider.start';
+        $scope.slider.slider.style.width = ((parseFloat($scope.slider.end)-parseFloat(set_perc)) * 100) + '%';
+        $scope.slider.slider.style.marginLeft = (parseFloat(set_perc) * 100) + '%';
+      } else {
+        set_perc = ((((event.clientX - $scope.slider.windowRelativeFix + 10 - $scope.slider.bar.offsetLeft) / $scope.slider.bar.offsetWidth)));
+    		console.log('$scope.slider.end side');
+        currentMode = '$scope.slider.end';
+        $scope.slider.slider.style.marginLeft = (parseFloat($scope.slider.start) * 100) + '%';
+        $scope.slider.slider.style.width = ((parseFloat(set_perc) - parseFloat($scope.slider.start)) * 100) + '%';
+      }
+      $scope.slider.bar.addEventListener('mousemove', $scope.slider.moveSlide, false);  
+    }
+    $scope.slider.moveSlide = function(event) {
+      var set_perc = ((((event.clientX - $scope.slider.windowRelativeFix - $scope.slider.bar.offsetLeft) / $scope.slider.bar.offsetWidth)));
+      if (currentMode === '$scope.slider.start') {
+        set_perc = ((((event.clientX - $scope.slider.windowRelativeFix - 10 - $scope.slider.bar.offsetLeft) / $scope.slider.bar.offsetWidth)));
+        $scope.slider.slider.style.width = ((parseFloat($scope.slider.end)-parseFloat(set_perc)) * 100) + '%';
+        $scope.slider.slider.style.marginLeft = (parseFloat(set_perc) * 100) + '%';
+      } else if (currentMode === '$scope.slider.end') {
+        set_perc = ((((event.clientX - $scope.slider.windowRelativeFix + 10 - $scope.slider.bar.offsetLeft) / $scope.slider.bar.offsetWidth)));
+        $scope.slider.slider.style.marginLeft = (parseFloat($scope.slider.start) * 100) + '%';
+        $scope.slider.slider.style.width = ((parseFloat(set_perc) - parseFloat($scope.slider.start)) * 100) + '%';
+      }
+    }
+    $scope.slider.stopSlide = function(event){
+      
+      console.log(event.clientX);
+
+			$scope.updatingTimeout = $timeout(function(){ $scope.updating = false; }, 200);
+			
+			var clientX = event.clientX;
+      if (clientX > 555) {
+        clientX = 555;
+      } 
+      if (clientX < 85) {
+        clientX = 85;
+      }
+
+      var set_perc = ((((clientX - $scope.slider.windowRelativeFix - $scope.slider.bar.offsetLeft) / $scope.slider.bar.offsetWidth)));
+			console.log('stopSlide ' + set_perc);
+      $scope.slider.bar.removeEventListener('mousemove', $scope.slider.moveSlide, false);
+      if (currentMode === '$scope.slider.start') {
+        set_perc = ((((clientX - $scope.slider.windowRelativeFix - 10 - $scope.slider.bar.offsetLeft) / $scope.slider.bar.offsetWidth)));
+        $scope.slider.slider.style.width = ((parseFloat($scope.slider.end)-parseFloat(set_perc)) * 100) + '%';
+        $scope.slider.slider.style.marginLeft = (parseFloat(set_perc) * 100) + '%';
+        $scope.slider.start = parseFloat(set_perc);
+      } else if (currentMode === '$scope.slider.end') {
+        set_perc = ((((clientX - $scope.slider.windowRelativeFix + 10 - $scope.slider.bar.offsetLeft) / $scope.slider.bar.offsetWidth)));
+        $scope.slider.slider.style.marginLeft = (parseFloat($scope.slider.start) * 100) + '%';
+        $scope.slider.slider.style.width = ((parseFloat(set_perc) - parseFloat($scope.slider.start)) * 100) + '%';
+        $scope.slider.end = parseFloat(set_perc);
+      }
+			console.log('slider start ' + $scope.slider.start);
+			console.log('slider end ' + $scope.slider.end);
+    	$scope.createSliderValue = ($scope.slider.start * 100) + ';' + ($scope.slider.end * 100);
+    	$scope.$apply();
+			
+    }
+
+
     /*
 
     There are 4 basic action for the current version of partoedi :
@@ -183,6 +271,8 @@ angular.module("partition",[])
       }
       console.log("primext " + primExt);
       if (primExt < 4 || partition.logicalFreespace) {
+				
+
         $scope.createSliderValue = "0;100";
         console.log("dialog");
         console.log(partition);
@@ -195,10 +285,15 @@ angular.module("partition",[])
         $scope.createDialogSelected.endOrigin = angular.copy($scope.createDialogSelected.end);
         $scope.createDialogSelected.sizeGbOrigin = angular.copy($scope.createDialogSelected.sizeGb);
         $scope.createDialogSelected.blockWidthOrigin = angular.copy($scope.createDialogSelected.blockWidth);
+        clearTimeout($scope.updatingTimeout); 
+        $timeout(function(){
+				  $scope.slidebarInit();
+        }, 500)
       }
     }
     var percentage;
     $scope.$watch("createSliderValue", function(value){
+			console.log('watch createSliderValue');
       console.log(value);
       var val = value.split(";");
       var offset = val[0];
@@ -208,14 +303,131 @@ angular.module("partition",[])
       var end = $scope.createDialogSelected.endOrigin; 
       var size = $scope.createDialogSelected.size;
       var sizeOrigin = $scope.createDialogSelected.sizeOrigin;
-      $scope.createDialogSelected.start = start + Math.round(sizeOrigin*(val[0]/100));
-      $scope.createDialogSelected.end = end - Math.round(sizeOrigin*((100-val[1])/100));
+
+			// Update values
+      $scope.createDialogSelected.start = start + Math.round(sizeOrigin*(parseFloat(val[0])/100));
+      $scope.createDialogSelected.end = end - Math.round(sizeOrigin*((100-parseFloat(val[1]))/100));
       $scope.createDialogSelected.size = $scope.createDialogSelected.end - $scope.createDialogSelected.start;
-  
       $scope.createDialogSelected.sizeGb = ($scope.createDialogSelected.size/gbSize).toFixed(2);
+      $scope.createDialogSelected.sizeGbBefore = (Math.round(sizeOrigin*(parseFloat(val[0])/100))/gbSize).toFixed(2);
+      $scope.createDialogSelected.sizeGbAfter = (Math.round(sizeOrigin*((100-parseFloat(val[1]))/100))/gbSize).toFixed(2);
       $scope.createDialogSelected.percentage = percentage;
-  
     });
+		$scope.$watch("createDialogSelected.sizeGb", function(value) {
+			if ($scope.updating) return;
+			$scope.updating = true;
+			$scope.updatingTimeout = $timeout(function(){ $scope.updating = false; }, 200);
+			
+			console.log('watch sizeGb');
+			console.log(value);
+			// Measure the percentage
+			var percentage = (((value*gbSize)/$scope.createDialogSelected.sizeOrigin) * 100);
+			if (percentage > 100) {
+				percentage = 100;
+			}
+			// keep start, but update end
+			$scope.slider.end = ((parseFloat($scope.slider.start)*100) + (parseFloat(percentage))) / 100;
+			
+			// Update slider
+      $scope.slider.slider.style.marginLeft = (parseFloat($scope.slider.start) * 100) + '%';
+      $scope.slider.slider.style.width = parseFloat($scope.slider.end) * 100 + '%';
+
+			// Update values
+			var value = parseFloat($scope.slider.start)*100 + ';' + parseFloat($scope.slider.end)*100;
+			var val = value.split(";");
+      var offset = val[0];
+      percentage = val[1]-val[0];
+      var start = $scope.createDialogSelected.startOrigin; 
+      var end = $scope.createDialogSelected.endOrigin; 
+      var size = $scope.createDialogSelected.size;
+      var sizeOrigin = $scope.createDialogSelected.sizeOrigin;
+
+      $scope.createDialogSelected.start = start + Math.round(sizeOrigin*(parseFloat(val[0])/100));
+      $scope.createDialogSelected.end = end - Math.round(sizeOrigin*((100-parseFloat(val[1]))/100));
+      $scope.createDialogSelected.size = $scope.createDialogSelected.end - $scope.createDialogSelected.start;
+      /* $scope.createDialogSelected.sizeGb = ($scope.createDialogSelected.size/gbSize).toFixed(2); */
+      $scope.createDialogSelected.sizeGbBefore = (Math.round(sizeOrigin*(parseFloat(val[0])/100))/gbSize).toFixed(2);
+      $scope.createDialogSelected.sizeGbAfter = (Math.round(sizeOrigin*((100-parseFloat(val[1]))/100))/gbSize).toFixed(2);
+      $scope.createDialogSelected.percentage = percentage;
+		});
+		$scope.$watch("createDialogSelected.sizeGbAfter", function(value) {
+			if ($scope.updating) return;
+			$scope.updating = true;
+			$scope.updatingTimeout = $timeout(function(){ $scope.updating = false; }, 200);
+			
+			console.log('watch sizeGbAfter');
+			console.log(value);
+			// Measure the percentage
+			var percentage = (((value*gbSize)/$scope.createDialogSelected.sizeOrigin) * 100);
+			percentage = 100 - percentage;
+			if (percentage > 100) {
+				percentage = 100;
+			}
+			// keep start, but update end
+			$scope.slider.end = parseFloat(percentage) / 100;
+			
+			// Update slider
+      $scope.slider.slider.style.marginLeft = (parseFloat($scope.slider.start) * 100) + '%';
+      $scope.slider.slider.style.width = (parseFloat($scope.slider.end) - parseFloat($scope.slider.start)) * 100 + '%';
+
+			// Update values
+			var value = parseFloat($scope.slider.start)*100 + ';' + parseFloat($scope.slider.end)*100;
+			var val = value.split(";");
+      var offset = val[0];
+      percentage = val[1]-val[0];
+      var start = $scope.createDialogSelected.startOrigin; 
+      var end = $scope.createDialogSelected.endOrigin; 
+      var size = $scope.createDialogSelected.size;
+      var sizeOrigin = $scope.createDialogSelected.sizeOrigin;
+
+      $scope.createDialogSelected.start = start + Math.round(sizeOrigin*(parseFloat(val[0])/100));
+      $scope.createDialogSelected.end = end - Math.round(sizeOrigin*((100-parseFloat(val[1]))/100));
+      $scope.createDialogSelected.size = $scope.createDialogSelected.end - $scope.createDialogSelected.start;
+      $scope.createDialogSelected.sizeGb = ($scope.createDialogSelected.size/gbSize).toFixed(2);
+      $scope.createDialogSelected.sizeGbBefore = (Math.round(sizeOrigin*(parseFloat(val[0])/100))/gbSize).toFixed(2);
+      /* $scope.createDialogSelected.sizeGbAfter = (Math.round(sizeOrigin*((100-parseFloat(val[1]))/100))/gbSize).toFixed(2); */
+      $scope.createDialogSelected.percentage = percentage;
+		});
+		$scope.$watch("createDialogSelected.sizeGbBefore", function(value) {
+			if ($scope.updating) return;
+			$scope.updating = true;
+			$scope.updatingTimeout = $timeout(function(){ $scope.updating = false; }, 200);
+			
+			console.log('watch sizeGbBefore');
+			console.log(value);
+			// Measure the percentage
+			var percentage = 100 - (((value*gbSize)/$scope.createDialogSelected.sizeOrigin) * 100);
+			percentage = 100 - percentage;
+			if (percentage > 100) {
+				percentage = 100;
+			}
+			// keep end, but update start
+			$scope.slider.start = parseFloat(percentage) / 100;
+			
+			// Update slider
+      $scope.slider.slider.style.marginLeft = (parseFloat($scope.slider.start) * 100) + '%';
+      $scope.slider.slider.style.width = (parseFloat($scope.slider.end) - parseFloat($scope.slider.start)) * 100 + '%';
+
+			// Update values
+			var value = parseFloat($scope.slider.start)*100 + ';' + parseFloat($scope.slider.end)*100;
+			var val = value.split(";");
+      var offset = val[0];
+      percentage = val[1]-val[0];
+      var start = $scope.createDialogSelected.startOrigin; 
+      var end = $scope.createDialogSelected.endOrigin; 
+      var size = $scope.createDialogSelected.size;
+      var sizeOrigin = $scope.createDialogSelected.sizeOrigin;
+
+      $scope.createDialogSelected.start = start + Math.round(sizeOrigin*(parseFloat(val[0])/100));
+      $scope.createDialogSelected.end = end - Math.round(sizeOrigin*((100-parseFloat(val[1]))/100));
+      $scope.createDialogSelected.size = $scope.createDialogSelected.end - $scope.createDialogSelected.start;
+      $scope.createDialogSelected.sizeGb = ($scope.createDialogSelected.size/gbSize).toFixed(2);
+      /* $scope.createDialogSelected.sizeGbBefore = (Math.round(sizeOrigin*(parseFloat(val[0])/100))/gbSize).toFixed(2); */
+      $scope.createDialogSelected.sizeGbAfter = (Math.round(sizeOrigin*((100-parseFloat(val[1]))/100))/gbSize).toFixed(2);
+      $scope.createDialogSelected.percentage = percentage;
+		});
+
+
     $scope.partitionCreateApply = function(partition){
       var step = {
         action : "create",
@@ -535,7 +747,7 @@ angular.module("partition",[])
         $rootScope.partitionState.currentState = angular.copy($scope.selectedDrive.partitionList);
         $rootScope.partitionState.stateIndex++;
         console.log($rootScope.partitionState);
-      }, 100);
+      }, 400);
     }
     $scope.partitionFormat = function(partition) {
       console.log(partition);
@@ -638,10 +850,13 @@ angular.module("partition",[])
     if (!$rootScope.installationData.partition) {
       // give time for transition
       $timeout(function(){
-        $rootScope.devices = Parted.getDevices();
+        if (window.Parted) {
+          $rootScope.devices = Parted.getDevices();
+        } else {
+          // Used for debugging
+          $rootScope.devices = [{"path":"/dev/sda","size":53687091200,"model":"ATA VBOX HARDDISK","label":"msdos","partitions":[{"id":-1,"parent":-1,"start":32256,"end":1048064,"size":1016320,"type":"DEVICE_PARTITION_TYPE_FREESPACE","filesystem":"","description":""},{"id":1,"parent":-1,"start":1048576,"end":15570304512,"size":15569256448,"type":"DEVICE_PARTITION_TYPE_NORMAL","filesystem":"ext4","description":""},{"id":2,"parent":-1,"start":15570305024,"end":17780702720,"size":2210398208,"type":"DEVICE_PARTITION_TYPE_NORMAL","filesystem":"ext4","description":""},{"id":-1,"parent":-1,"start":17780703232,"end":27044871680,"size":9264168960,"type":"DEVICE_PARTITION_TYPE_FREESPACE","filesystem":"","description":""},{"id":3,"parent":-1,"start":27044872192,"end":53687090688,"size":26642219008,"type":"DEVICE_PARTITION_TYPE_EXTENDED","filesystem":"","description":""},{"id":-1,"parent":-1,"start":27044872192,"end":27044872192,"size":512,"type":"DEVICE_PARTITION_TYPE_FREESPACE","filesystem":"","description":""},{"id":-1,"parent":-1,"start":27044872704,"end":27045920256,"size":1048064,"type":"DEVICE_PARTITION_TYPE_FREESPACE","filesystem":"","description":""},{"id":5,"parent":-1,"start":27045920768,"end":50703891968,"size":23657971712,"type":"DEVICE_PARTITION_TYPE_LOGICAL","filesystem":"ext4","description":""},{"id":-1,"parent":-1,"start":50703892480,"end":53687090688,"size":2983198720,"type":"DEVICE_PARTITION_TYPE_FREESPACE","filesystem":"","description":""}],"$$hashKey":"00T"}];
+        }
 
-        // This commented line bellow is used for debugging
-        /* $rootScope.devices = [{"path":"/dev/sda","size":53687091200,"model":"ATA VBOX HARDDISK","label":"msdos","partitions":[{"id":-1,"parent":-1,"start":32256,"end":1048064,"size":1016320,"type":"DEVICE_PARTITION_TYPE_FREESPACE","filesystem":"","description":""},{"id":1,"parent":-1,"start":1048576,"end":15570304512,"size":15569256448,"type":"DEVICE_PARTITION_TYPE_NORMAL","filesystem":"ext4","description":""},{"id":2,"parent":-1,"start":15570305024,"end":17780702720,"size":2210398208,"type":"DEVICE_PARTITION_TYPE_NORMAL","filesystem":"ext4","description":""},{"id":-1,"parent":-1,"start":17780703232,"end":27044871680,"size":9264168960,"type":"DEVICE_PARTITION_TYPE_FREESPACE","filesystem":"","description":""},{"id":3,"parent":-1,"start":27044872192,"end":53687090688,"size":26642219008,"type":"DEVICE_PARTITION_TYPE_EXTENDED","filesystem":"","description":""},{"id":-1,"parent":-1,"start":27044872192,"end":27044872192,"size":512,"type":"DEVICE_PARTITION_TYPE_FREESPACE","filesystem":"","description":""},{"id":-1,"parent":-1,"start":27044872704,"end":27045920256,"size":1048064,"type":"DEVICE_PARTITION_TYPE_FREESPACE","filesystem":"","description":""},{"id":5,"parent":-1,"start":27045920768,"end":50703891968,"size":23657971712,"type":"DEVICE_PARTITION_TYPE_LOGICAL","filesystem":"ext4","description":""},{"id":-1,"parent":-1,"start":50703892480,"end":53687090688,"size":2983198720,"type":"DEVICE_PARTITION_TYPE_FREESPACE","filesystem":"","description":""}],"$$hashKey":"00T"}]; */
 
         $scope.scanning = true;
       }, 1000);

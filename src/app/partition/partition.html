@@ -156,7 +156,14 @@
       <h2>Create Partition</h2>
       <p>{{createDialogSelected.sizeGbOrigin}} GB available ({{createDialogSelected.start}} - {{createDialogSelected.end}})</p>
       <div style="height:75px">
-      <input ng-model="createSliderValue"  type="text" id="createSlider" slider options="createSliderOptions"/>
+        <!--input ng-model="createSliderValue"  type="text" id="createSlider" slider options="createSliderOptions"/-->
+	      <div id="bar-container">
+	        <div id="bar">
+            <div id="slider">
+            </div>
+          </div>
+				</div>
+
       </div>
       <div class="partoedi-action-dialog-form">
         <div class="row small-8">
@@ -164,7 +171,20 @@
             <label class="right inline">{{'new_size' | translate}}</label>
           </div>
           <div class="small-8 columns">
-            <input type="text" value="{{createDialogSelected.sizeGb}} GB" disabled>
+            <input type="text" ng-model="createDialogSelected.sizeGb" debounce="500">
+          </div>
+        </div>
+        <div class="row small-8">
+          <div class="small-4 columns">
+					&nbsp;
+          </div>
+          <div class="small-4 columns">
+						Before<br>
+            <input type="text" ng-model="createDialogSelected.sizeGbBefore" debounce="500">
+          </div>
+          <div class="small-4 columns">
+						After<br>
+            <input type="text" ng-model="createDialogSelected.sizeGbAfter" debounce="500">
           </div>
         </div>
         <div class="row small-8" ng-hide="createDialogSelected.logicalFreespace">
@@ -191,16 +211,25 @@
             </select>
           </div>
         </div>
-        <div ng-show="createDialogSelected.type=='DEVICE_PARTITION_TYPE_NORMAL' || createDialogSelected.logicalFreespace">
-          <p ng-show="(createDialogSelected.mountPoint=='-' || createDialogSelected.mountPoint=='/' || createDialogSelected.mountPoint=='/home') && createDialogSelected.type=='DEVICE_PARTITION_TYPE_NORMAL'">This will be formatted as ext4 filesystem.</p>
-          <p ng-show="createDialogSelected.mountPoint=='swap'">This will be formatted as swap filesystem.</p>
+        <div class="row small-8" ng-show="createDialogSelected.type=='DEVICE_PARTITION_TYPE_NORMAL' || createDialogSelected.logicalFreespace">
+          <div class="small-4 columns">
+            <label class="right inline">&nbsp;</label>
+          </div>
+          <div class="small-8 columns">
+              <p ng-show="(createDialogSelected.mountPoint=='-' || createDialogSelected.mountPoint=='/' || createDialogSelected.mountPoint=='/home') && createDialogSelected.type=='DEVICE_PARTITION_TYPE_NORMAL'">This will be formatted as ext4 filesystem.</p>
+              <p ng-show="createDialogSelected.mountPoint=='swap'">This will be formatted as swap filesystem.</p>
+          </div>
+        </div>
+        <div class="row small-8">
+          <div class="small-4 columns">
+            <label class="right inline">&nbsp;</label>
+          </div>
+          <div class="small-8 columns">
+            <button class='button' ng-click="partitionCreateCancel()">Cancel</button>
+            <button class='button' ng-click="partitionCreateApply(createDialogSelected)">Apply</button>
+          </div>
         </div>
       </div>
-      <div>
-        <button class='button' ng-click="partitionCreateCancel()">Cancel</button>
-        <button class='button' ng-click="partitionCreateApply(createDialogSelected)">Apply</button>
-      </div>
-
     </div>
   </div>
   <div class="columns nav-button" ng-show="devices[0] && !actionDialog && !advancedPartition">

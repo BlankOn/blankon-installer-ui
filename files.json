@@ -9,6 +9,7 @@
     "bower_components/angular-foundation/mm-foundation.min.js",
     "bower_components/ng-slider/dist/angular-awesome-slider.min.js",
     "bower_components/angular-translate/angular-translate.min.js",
+    "bower_components/ng-debounce/angular-debounce.js",
     "libs/*.js"
   ],
   "styles": [

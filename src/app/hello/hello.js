@@ -14,7 +14,9 @@ angular.module("hello",[])
       $rootScope.installationData.lang = lang.id;
       $rootScope.selectedLang = lang.title;
       $translate.use(lang.id);
-      Installation.setLocale(lang.id);
+      if (window.Installation) {
+        Installation.setLocale(lang.id);
+      }
     }
     $scope.setLanguage($scope.languages[0]);
 }])
