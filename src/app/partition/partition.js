@@ -9,7 +9,7 @@ angular.module("partition",[])
     	end : 1.0,
     	currentMode : 'start',
     	currentMiddle : 0,
-    	windowRelativeFix : 40,
+    	windowRelativeFix : 70,
     }
     $scope.slidebarInit = function() {
     	$scope.slider.start = 0;
@@ -23,19 +23,20 @@ angular.module("partition",[])
       $scope.slider.slider.style.width = ($scope.slider.end * 100) + '%';
     }
     $scope.slider.startSlide = function(event) {
-			
+		  	
 			if ($scope.updating) return;
 			$scope.updating = true;
 	
-			console.log(JSON.parse(JSON.stringify($scope.slider)));
       var set_perc = ((((event.clientX - $scope.slider.windowRelativeFix - $scope.slider.bar.offsetLeft) / $scope.slider.bar.offsetWidth)));
     	$scope.slider.currentMiddle = ((parseFloat($scope.slider.end)-parseFloat($scope.slider.start))/2) + parseFloat($scope.slider.start);
       if (set_perc <= $scope.slider.currentMiddle) {
+        set_perc = ((((event.clientX - $scope.slider.windowRelativeFix - 10 - $scope.slider.bar.offsetLeft) / $scope.slider.bar.offsetWidth)));
     		console.log('$scope.slider.start side');
         currentMode = '$scope.slider.start';
         $scope.slider.slider.style.width = ((parseFloat($scope.slider.end)-parseFloat(set_perc)) * 100) + '%';
         $scope.slider.slider.style.marginLeft = (parseFloat(set_perc) * 100) + '%';
       } else {
+        set_perc = ((((event.clientX - $scope.slider.windowRelativeFix + 10 - $scope.slider.bar.offsetLeft) / $scope.slider.bar.offsetWidth)));
     		console.log('$scope.slider.end side');
         currentMode = '$scope.slider.end';
         $scope.slider.slider.style.marginLeft = (parseFloat($scope.slider.start) * 100) + '%';
@@ -46,27 +47,39 @@ angular.module("partition",[])
     $scope.slider.moveSlide = function(event) {
       var set_perc = ((((event.clientX - $scope.slider.windowRelativeFix - $scope.slider.bar.offsetLeft) / $scope.slider.bar.offsetWidth)));
       if (currentMode === '$scope.slider.start') {
+        set_perc = ((((event.clientX - $scope.slider.windowRelativeFix - 10 - $scope.slider.bar.offsetLeft) / $scope.slider.bar.offsetWidth)));
         $scope.slider.slider.style.width = ((parseFloat($scope.slider.end)-parseFloat(set_perc)) * 100) + '%';
         $scope.slider.slider.style.marginLeft = (parseFloat(set_perc) * 100) + '%';
       } else if (currentMode === '$scope.slider.end') {
+        set_perc = ((((event.clientX - $scope.slider.windowRelativeFix + 10 - $scope.slider.bar.offsetLeft) / $scope.slider.bar.offsetWidth)));
         $scope.slider.slider.style.marginLeft = (parseFloat($scope.slider.start) * 100) + '%';
         $scope.slider.slider.style.width = ((parseFloat(set_perc) - parseFloat($scope.slider.start)) * 100) + '%';
       }
     }
     $scope.slider.stopSlide = function(event){
-			
-			$timeout(function(){ $scope.updating = false; }, 200);
+      
+      console.log(event.clientX);
+
+			$scope.updatingTimeout = $timeout(function(){ $scope.updating = false; }, 200);
 			
 			var clientX = event.clientX;
+      if (clientX > 555) {
+        clientX = 555;
+      } 
+      if (clientX < 85) {
+        clientX = 85;
+      }
 
       var set_perc = ((((clientX - $scope.slider.windowRelativeFix - $scope.slider.bar.offsetLeft) / $scope.slider.bar.offsetWidth)));
 			console.log('stopSlide ' + set_perc);
       $scope.slider.bar.removeEventListener('mousemove', $scope.slider.moveSlide, false);
       if (currentMode === '$scope.slider.start') {
+        set_perc = ((((clientX - $scope.slider.windowRelativeFix - 10 - $scope.slider.bar.offsetLeft) / $scope.slider.bar.offsetWidth)));
         $scope.slider.slider.style.width = ((parseFloat($scope.slider.end)-parseFloat(set_perc)) * 100) + '%';
         $scope.slider.slider.style.marginLeft = (parseFloat(set_perc) * 100) + '%';
         $scope.slider.start = parseFloat(set_perc);
       } else if (currentMode === '$scope.slider.end') {
+        set_perc = ((((clientX - $scope.slider.windowRelativeFix + 10 - $scope.slider.bar.offsetLeft) / $scope.slider.bar.offsetWidth)));
         $scope.slider.slider.style.marginLeft = (parseFloat($scope.slider.start) * 100) + '%';
         $scope.slider.slider.style.width = ((parseFloat(set_perc) - parseFloat($scope.slider.start)) * 100) + '%';
         $scope.slider.end = parseFloat(set_perc);
@@ -259,7 +272,6 @@ angular.module("partition",[])
       console.log("primext " + primExt);
       if (primExt < 4 || partition.logicalFreespace) {
 				
-				$scope.slidebarInit();
 
         $scope.createSliderValue = "0;100";
         console.log("dialog");
@@ -273,6 +285,10 @@ angular.module("partition",[])
         $scope.createDialogSelected.endOrigin = angular.copy($scope.createDialogSelected.end);
         $scope.createDialogSelected.sizeGbOrigin = angular.copy($scope.createDialogSelected.sizeGb);
         $scope.createDialogSelected.blockWidthOrigin = angular.copy($scope.createDialogSelected.blockWidth);
+        clearTimeout($scope.updatingTimeout); 
+        $timeout(function(){
+				  $scope.slidebarInit();
+        }, 500)
       }
     }
     var percentage;
@@ -300,7 +316,7 @@ angular.module("partition",[])
 		$scope.$watch("createDialogSelected.sizeGb", function(value) {
 			if ($scope.updating) return;
 			$scope.updating = true;
-			$timeout(function(){ $scope.updating = false; }, 200);
+			$scope.updatingTimeout = $timeout(function(){ $scope.updating = false; }, 200);
 			
 			console.log('watch sizeGb');
 			console.log(value);
@@ -337,7 +353,7 @@ angular.module("partition",[])
 		$scope.$watch("createDialogSelected.sizeGbAfter", function(value) {
 			if ($scope.updating) return;
 			$scope.updating = true;
-			$timeout(function(){ $scope.updating = false; }, 200);
+			$scope.updatingTimeout = $timeout(function(){ $scope.updating = false; }, 200);
 			
 			console.log('watch sizeGbAfter');
 			console.log(value);
@@ -375,7 +391,7 @@ angular.module("partition",[])
 		$scope.$watch("createDialogSelected.sizeGbBefore", function(value) {
 			if ($scope.updating) return;
 			$scope.updating = true;
-			$timeout(function(){ $scope.updating = false; }, 200);
+			$scope.updatingTimeout = $timeout(function(){ $scope.updating = false; }, 200);
 			
 			console.log('watch sizeGbBefore');
 			console.log(value);
