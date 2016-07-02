@@ -44,7 +44,7 @@
         <span ng-show="selectedDrive" class="legend-partition-logical">Logical</span>
         <span ng-show="selectedDrive" class="legend-partition-freespace">Free space</span>
         <span ng-hide="exitAdvancedModeMessage || applyAdvancedModeMessage">
-          <a class="button tiny right" ng-click="partitionApply()"><span >Apply</span></a>
+          <a class="button tiny right" ng-click="partitionApply()"><span >{{'apply' | translate}}</span></a>
           <a class="button tiny right" ng-click="redo()"><span >Redo</span></a>
           <a class="button tiny right" ng-click="undo()"><span >Undo</span></a>
           <a class="button tiny right" ng-click="switchToSimplePartitionWarning()"><span >{{'exit_advanced_mode' | translate}}</span></a>
@@ -126,7 +126,7 @@
       </table>
     </div>
     <div ng-show="formatDialog" class="fade">
-      <h2>Format Partition</h2>
+      <h2>{{'format_partition' | translate}}</h2>
       <p>{{formatDialogSelected.sizeGbOrigin}} GB size ({{formatDialogSelected.start}} - {{formatDialogSelected.end}})</p>
       <div class="partoedi-action-dialog-form">
         <div class="row small-8">
@@ -223,8 +223,8 @@
             <label class="right inline">&nbsp;</label>
           </div>
           <div class="small-8 columns">
-            <button class='button' ng-click="partitionCreateCancel()">Cancel</button>
-            <button class='button' ng-click="partitionCreateApply(createDialogSelected)">Apply</button>
+            <button class='button' ng-click="partitionCreateCancel()">{{'cancel' | translate}}</button>
+            <button class='button' ng-click="partitionCreateApply(createDialogSelected)">{{'create_partition' | translate}}</button>
           </div>
         </div>
       </div>
