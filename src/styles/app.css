@@ -10,6 +10,9 @@ body {
     display: none; 
   }
 }
+h2 {
+  color: white !important;
+}
 .logo {
   margin:30px 30px -50px -20px;
 }
