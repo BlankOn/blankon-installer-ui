@@ -1,7 +1,6 @@
 var gulp    = require("gulp");
 var tinyLr = require('tiny-lr');
 var express = require ("express");
-var uglify = require("gulp-uglify");
 var concat  = require("gulp-concat");
 var files   = require("./files.json");
 var runSequence = require('run-sequence');
@@ -96,7 +95,6 @@ gulp.task("html", function() {
     moduleName: "html"
   }))
   .pipe(concat("html.min.js"))
-  .pipe(uglify())
   .pipe(gulp.dest("./dist"))
 });
 
