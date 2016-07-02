@@ -512,9 +512,6 @@ angular.module("partition",[])
             id : -1,
           }
           extendedFreespace.blockWidth = parseInt(((partition.size/partition.sizeOrigin)*partition.blockWidth));
-          if (percentage < 100) {
-            extendedFreespace.blockWidth -= 4;
-          }
           $scope.selectedDrive.partitionList.splice((partition.index+1),0, extendedFreespace);
           $scope.selectedDrive.partitionList[partition.index].blockWidth = 0;
         }
@@ -530,10 +527,9 @@ angular.module("partition",[])
             size : ($scope.selectedDrive.partitionList[partition.index].start - 1) - $scope.selectedDrive.partitionList[partition.index].startOrigin,
             sizeGb : ((($scope.selectedDrive.partitionList[partition.index].start - 1) - $scope.selectedDrive.partitionList[partition.index].startOrigin)/gbSize).toFixed(2),
             id : -1,
-            blockWidth : (($scope.createSliderValue.split(";")[0]/100)*partition.blockWidthOrigin) - 4,
+            blockWidth : (($scope.createSliderValue.split(";")[0]/100)*partition.blockWidthOrigin),
           }
           if (logical) before.logicalFreespace = true;
-          $scope.selectedDrive.partitionList[partition.index].blockWidth -= 4; 
           $scope.selectedDrive.partitionList.splice((partition.index),0, before)
         }
         // or, after...
@@ -548,9 +544,8 @@ angular.module("partition",[])
             size : partition.endOrigin - (partition.end + 1),
             sizeGb : ((partition.endOrigin - (partition.end + 1))/gbSize).toFixed(2),
             id : -1,
-            blockWidth : (((100-$scope.createSliderValue.split(";")[1])/100)*partition.blockWidthOrigin) - 4,
+            blockWidth : (((100-$scope.createSliderValue.split(";")[1])/100)*partition.blockWidthOrigin),
           }
-          $scope.selectedDrive.partitionList[partition.index].blockWidth -= 4;
           if (logical) after.logicalFreespace = true;
           console.log("after");
           console.log(after);
@@ -610,7 +605,6 @@ angular.module("partition",[])
         partition.freespace = true;
         partition.type = "DEVICE_PARTITION_TYPE_FREESPACE";
         partition.id = -1;
-        partition.blockWidth += 8;
         for (var i = 0; i < $rootScope.selectedDrive.partitionList.length; i++) {
           var current = $rootScope.selectedDrive.partitionList[i];
           if (current.type != "DEVICE_PARTITION_TYPE_EXTENDED" &&
@@ -663,12 +657,6 @@ angular.module("partition",[])
         var size = $scope.selectedDrive.partitionList[(index-1)].size;
         $scope.selectedDrive.partitionList[(index-1)].hidden = false;
         $scope.selectedDrive.partitionList[(index-1)].blockWidth = parseInt(((size/$rootScope.selectedDrive.size)*driveBlockWidth));
-        if ($scope.selectedDrive.partitionList[(index-1)].freespace & !extended) {
-          $scope.selectedDrive.partitionList[(index-1)].blockWidth += 8;
-        }
-        if ($scope.selectedDrive.partitionList[(index+1)].freespace) {
-          $scope.selectedDrive.partitionList[(index-1)].blockWidth += 8;
-        }
         $scope.selectedDrive.partitionList[(index-1)].freespace = true;
         $scope.selectedDrive.partitionList[(index-1)].sizeGb = (size/gbSize).toFixed(2);
         if (p.logical) {
@@ -692,12 +680,8 @@ angular.module("partition",[])
         var size = $scope.selectedDrive.partitionList[index].size;
         $scope.selectedDrive.partitionList[index].hidden = false;
         $scope.selectedDrive.partitionList[index].blockWidth = parseInt(((size/$rootScope.selectedDrive.size)*driveBlockWidth));
-        if ($scope.selectedDrive.partitionList[index+1].freespace & !extended) {
-          $scope.selectedDrive.partitionList[index].blockWidth += 8;
-        }
         if ($scope.selectedDrive.partitionList[(index+1)].freespace) {
         }
-        $scope.selectedDrive.partitionList[index].blockWidth += 8;
 
         $scope.selectedDrive.partitionList[index].freespace = true;
         $scope.selectedDrive.partitionList[index].sizeGb = (size/gbSize).toFixed(2);
@@ -721,9 +705,6 @@ angular.module("partition",[])
         var size = $scope.selectedDrive.partitionList[(index-1)].size;
         $scope.selectedDrive.partitionList[(index-1)].hidden = false;
         $scope.selectedDrive.partitionList[(index-1)].blockWidth = parseInt(((size/$rootScope.selectedDrive.size)*driveBlockWidth));
-        if ($scope.selectedDrive.partitionList[(index-1)].freespace) {
-          $scope.selectedDrive.partitionList[(index-1)].blockWidth += 8;
-        }
         $scope.selectedDrive.partitionList[(index-1)].freespace = true;
         $scope.selectedDrive.partitionList[(index-1)].sizeGb = (size/gbSize).toFixed(2);
         if (p.logical) {
@@ -748,9 +729,6 @@ angular.module("partition",[])
         $scope.selectedDrive.partitionList[(index+1)].hidden = false;
         $scope.selectedDrive.partitionList[(index+1)].freespace = true;
         $scope.selectedDrive.partitionList[(index+1)].blockWidth = parseInt(((size/$rootScope.selectedDrive.size)*driveBlockWidth));
-        if ($scope.selectedDrive.partitionList[(index+1)].freespace && !extended) {
-          $scope.selectedDrive.partitionList[(index+1)].blockWidth += 8;
-        }
         $scope.selectedDrive.partitionList[(index+1)].sizeGb = (size/gbSize).toFixed(2);
         if (p.logical) {
           $scope.selectedDrive.partitionList[(index+1)].logicalFreespace = true;
@@ -902,7 +880,7 @@ angular.module("partition",[])
           $rootScope.selectedDrive = $rootScope.devices[i];
           $rootScope.selectedDrive.id = i;
           $rootScope.selectedDrive.partitionList = [];
-          $rootScope.selectedDrive.driveWidth = 8;
+          $rootScope.selectedDrive.driveWidth = 16 + 1; // Add 1 pixel tolerance
           $rootScope.selectedDrive.sizeGb = $rootScope.selectedDrive.size * gbSize;
           $rootScope.selectedDrive.hasExtended = false;
           for (j = 0; j < $rootScope.selectedDrive.partitions.length; j++) {
@@ -912,7 +890,7 @@ angular.module("partition",[])
             if ( 
               (p.type.indexOf("NORMAL") > 0 || p.type.indexOf("LOGICAL") > 0 || p.type.indexOf("FREESPACE") > 0) && p.size > (0.01*gbSize)) {
               p.blockWidth = parseInt(((p.size/$rootScope.selectedDrive.size)*driveBlockWidth));
-              $rootScope.selectedDrive.driveWidth += (8+p.blockWidth);
+              $rootScope.selectedDrive.driveWidth += (p.blockWidth);
               p.sizeGb = (p.size/gbSize).toFixed(2);
               p.selected = false;
               p.normal = true;
