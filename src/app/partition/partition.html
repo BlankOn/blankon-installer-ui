@@ -1,6 +1,6 @@
 <div class="row">
   <div class="columns content">
-      <h1>{{'install_partition' | translate}} <small ng-show="advancedPartition">Partition Editor</small></h1>
+      <h1>{{'install_partition' | translate}} <small ng-show="advancedPartition">PartoEdi</small></h1>
     <p ng-hide="devices[0]" class="fade">{{'please_wait_system_scanned' | translate}} </p>
     <p ng-show="devices[0] && !advancedPartition" class="fade"><a class="button dropdown" dropdown-toggle="#drive-selection"><span ng-show="!selectedDrive">{{'select_drive' | translate}}</span><span ng-show="selectedDrive">{{selectedDrive.path}} - {{selectedDrive.model}}</span></a><p>
     <ul id="drive-selection" class="f-dropdown">
@@ -44,7 +44,7 @@
         <span ng-show="selectedDrive" class="legend-partition-logical">Logical</span>
         <span ng-show="selectedDrive" class="legend-partition-freespace">Free space</span>
         <span ng-hide="exitAdvancedModeMessage || applyAdvancedModeMessage">
-          <a class="button tiny right" ng-click="partitionApply()"><span >Apply</span></a>
+          <a class="button tiny right" ng-click="partitionApply()"><span >{{'apply' | translate}}</span></a>
           <a class="button tiny right" ng-click="redo()"><span >Redo</span></a>
           <a class="button tiny right" ng-click="undo()"><span >Undo</span></a>
           <a class="button tiny right" ng-click="switchToSimplePartitionWarning()"><span >{{'exit_advanced_mode' | translate}}</span></a>
@@ -126,7 +126,7 @@
       </table>
     </div>
     <div ng-show="formatDialog" class="fade">
-      <h2>Format Partition</h2>
+      <h2>{{'format_partition' | translate}}</h2>
       <p>{{formatDialogSelected.sizeGbOrigin}} GB size ({{formatDialogSelected.start}} - {{formatDialogSelected.end}})</p>
       <div class="partoedi-action-dialog-form">
         <div class="row small-8">
@@ -153,10 +153,8 @@
       </div>
     </div>
     <div ng-show="createDialog" class="fade">
-      <h2>Create Partition</h2>
       <p>{{createDialogSelected.sizeGbOrigin}} GB available ({{createDialogSelected.start}} - {{createDialogSelected.end}})</p>
-      <div style="height:75px">
-        <!--input ng-model="createSliderValue"  type="text" id="createSlider" slider options="createSliderOptions"/-->
+      <div style="height:50px">
 	      <div id="bar-container">
 	        <div id="bar">
             <div id="slider">
@@ -168,7 +166,7 @@
       <div class="partoedi-action-dialog-form">
         <div class="row small-8">
           <div class="small-4 columns">
-            <label class="right inline">{{'new_size' | translate}}</label>
+            <label class="right inline">{{'new_size' | translate}} (GB)</label>
           </div>
           <div class="small-8 columns">
             <input type="text" ng-model="createDialogSelected.sizeGb" debounce="500">
@@ -225,8 +223,8 @@
             <label class="right inline">&nbsp;</label>
           </div>
           <div class="small-8 columns">
-            <button class='button' ng-click="partitionCreateCancel()">Cancel</button>
-            <button class='button' ng-click="partitionCreateApply(createDialogSelected)">Apply</button>
+            <button class='button' ng-click="partitionCreateCancel()">{{'cancel' | translate}}</button>
+            <button class='button' ng-click="partitionCreateApply(createDialogSelected)">{{'create_partition' | translate}}</button>
           </div>
         </div>
       </div>

@@ -9,7 +9,8 @@ angular.module("partition",[])
     	end : 1.0,
     	currentMode : 'start',
     	currentMiddle : 0,
-    	windowRelativeFix : 70,
+    	windowRelativeStart : 60,
+    	windowRelativeEnd : 50,
     }
     $scope.slidebarInit = function() {
     	$scope.slider.start = 0;
@@ -27,16 +28,16 @@ angular.module("partition",[])
 			if ($scope.updating) return;
 			$scope.updating = true;
 	
-      var set_perc = ((((event.clientX - $scope.slider.windowRelativeFix - $scope.slider.bar.offsetLeft) / $scope.slider.bar.offsetWidth)));
+      var set_perc = ((((event.clientX - $scope.slider.windowRelativeStart - $scope.slider.bar.offsetLeft) / $scope.slider.bar.offsetWidth)));
     	$scope.slider.currentMiddle = ((parseFloat($scope.slider.end)-parseFloat($scope.slider.start))/2) + parseFloat($scope.slider.start);
       if (set_perc <= $scope.slider.currentMiddle) {
-        set_perc = ((((event.clientX - $scope.slider.windowRelativeFix - 10 - $scope.slider.bar.offsetLeft) / $scope.slider.bar.offsetWidth)));
+        set_perc = ((((event.clientX - $scope.slider.windowRelativeStart + 4 - $scope.slider.bar.offsetLeft) / $scope.slider.bar.offsetWidth)));
     		console.log('$scope.slider.start side');
         currentMode = '$scope.slider.start';
         $scope.slider.slider.style.width = ((parseFloat($scope.slider.end)-parseFloat(set_perc)) * 100) + '%';
         $scope.slider.slider.style.marginLeft = (parseFloat(set_perc) * 100) + '%';
       } else {
-        set_perc = ((((event.clientX - $scope.slider.windowRelativeFix + 10 - $scope.slider.bar.offsetLeft) / $scope.slider.bar.offsetWidth)));
+        set_perc = ((((event.clientX - $scope.slider.windowRelativeEnd - 3 - $scope.slider.bar.offsetLeft) / $scope.slider.bar.offsetWidth)));
     		console.log('$scope.slider.end side');
         currentMode = '$scope.slider.end';
         $scope.slider.slider.style.marginLeft = (parseFloat($scope.slider.start) * 100) + '%';
@@ -45,13 +46,19 @@ angular.module("partition",[])
       $scope.slider.bar.addEventListener('mousemove', $scope.slider.moveSlide, false);  
     }
     $scope.slider.moveSlide = function(event) {
-      var set_perc = ((((event.clientX - $scope.slider.windowRelativeFix - $scope.slider.bar.offsetLeft) / $scope.slider.bar.offsetWidth)));
+      if (event.clientX > 542) {
+        return $scope.slider.stopSlide(event);
+      } 
+      if (event.clientX < 66) {
+        return $scope.slider.stopSlide(event);
+      }
+      var set_perc = ((((event.clientX - $scope.slider.windowRelativeStart - $scope.slider.bar.offsetLeft) / $scope.slider.bar.offsetWidth)));
       if (currentMode === '$scope.slider.start') {
-        set_perc = ((((event.clientX - $scope.slider.windowRelativeFix - 10 - $scope.slider.bar.offsetLeft) / $scope.slider.bar.offsetWidth)));
+        set_perc = ((((event.clientX - $scope.slider.windowRelativeStart + 4 - $scope.slider.bar.offsetLeft) / $scope.slider.bar.offsetWidth)));
         $scope.slider.slider.style.width = ((parseFloat($scope.slider.end)-parseFloat(set_perc)) * 100) + '%';
         $scope.slider.slider.style.marginLeft = (parseFloat(set_perc) * 100) + '%';
       } else if (currentMode === '$scope.slider.end') {
-        set_perc = ((((event.clientX - $scope.slider.windowRelativeFix + 10 - $scope.slider.bar.offsetLeft) / $scope.slider.bar.offsetWidth)));
+        set_perc = ((((event.clientX - $scope.slider.windowRelativeEnd - 3 - $scope.slider.bar.offsetLeft) / $scope.slider.bar.offsetWidth)));
         $scope.slider.slider.style.marginLeft = (parseFloat($scope.slider.start) * 100) + '%';
         $scope.slider.slider.style.width = ((parseFloat(set_perc) - parseFloat($scope.slider.start)) * 100) + '%';
       }
@@ -63,23 +70,23 @@ angular.module("partition",[])
 			$scope.updatingTimeout = $timeout(function(){ $scope.updating = false; }, 200);
 			
 			var clientX = event.clientX;
-      if (clientX > 555) {
-        clientX = 555;
+      if (clientX > 543) {
+        clientX = 542;
       } 
-      if (clientX < 85) {
-        clientX = 85;
+      if (clientX < 66) {
+        clientX = 66;
       }
 
-      var set_perc = ((((clientX - $scope.slider.windowRelativeFix - $scope.slider.bar.offsetLeft) / $scope.slider.bar.offsetWidth)));
+      var set_perc = ((((clientX - $scope.slider.windowRelativeStart - $scope.slider.bar.offsetLeft) / $scope.slider.bar.offsetWidth)));
 			console.log('stopSlide ' + set_perc);
       $scope.slider.bar.removeEventListener('mousemove', $scope.slider.moveSlide, false);
       if (currentMode === '$scope.slider.start') {
-        set_perc = ((((clientX - $scope.slider.windowRelativeFix - 10 - $scope.slider.bar.offsetLeft) / $scope.slider.bar.offsetWidth)));
+        set_perc = ((((clientX - $scope.slider.windowRelativeStart + 4 - $scope.slider.bar.offsetLeft) / $scope.slider.bar.offsetWidth)));
         $scope.slider.slider.style.width = ((parseFloat($scope.slider.end)-parseFloat(set_perc)) * 100) + '%';
         $scope.slider.slider.style.marginLeft = (parseFloat(set_perc) * 100) + '%';
         $scope.slider.start = parseFloat(set_perc);
       } else if (currentMode === '$scope.slider.end') {
-        set_perc = ((((clientX - $scope.slider.windowRelativeFix + 10 - $scope.slider.bar.offsetLeft) / $scope.slider.bar.offsetWidth)));
+        set_perc = ((((clientX - $scope.slider.windowRelativeEnd - 3 - $scope.slider.bar.offsetLeft) / $scope.slider.bar.offsetWidth)));
         $scope.slider.slider.style.marginLeft = (parseFloat($scope.slider.start) * 100) + '%';
         $scope.slider.slider.style.width = ((parseFloat(set_perc) - parseFloat($scope.slider.start)) * 100) + '%';
         $scope.slider.end = parseFloat(set_perc);
@@ -88,12 +95,9 @@ angular.module("partition",[])
 			console.log('slider end ' + $scope.slider.end);
     	$scope.createSliderValue = ($scope.slider.start * 100) + ';' + ($scope.slider.end * 100);
     	$scope.$apply();
-			
     }
 
-
     /*
-
     There are 4 basic action for the current version of partoedi :
     - Delete
     - Create
@@ -327,10 +331,14 @@ angular.module("partition",[])
 			}
 			// keep start, but update end
 			$scope.slider.end = ((parseFloat($scope.slider.start)*100) + (parseFloat(percentage))) / 100;
+      if ($scope.slider.end > 1) {
+        $scope.slider.start += $scope.slider.end 
+        $scope.slider.end = 1;
+      }
 			
 			// Update slider
       $scope.slider.slider.style.marginLeft = (parseFloat($scope.slider.start) * 100) + '%';
-      $scope.slider.slider.style.width = parseFloat($scope.slider.end) * 100 + '%';
+      $scope.slider.slider.style.width = (parseFloat($scope.slider.end) - parseFloat($scope.slider.start)) * 100 + '%';
 
 			// Update values
 			var value = parseFloat($scope.slider.start)*100 + ';' + parseFloat($scope.slider.end)*100;

@@ -10,6 +10,9 @@ body {
     display: none; 
   }
 }
+h2 {
+  color: white !important;
+}
 .logo {
   margin:30px 30px -50px -20px;
 }
@@ -572,11 +575,11 @@ label {
   height:35px;
   position:relative;
 	background:grey;
-	padding:5px;
+	padding:10px;
 }
 #bar{
-  width:490px;
-  height:25px;
+  width:480px;
+  height:15px;
   position:relative;
 	background:lightgrey;
 }
@@ -588,4 +591,8 @@ label {
   left:0px;
   position:absolute;
   cursor:pointer;
+}
+
+.f-dropdown {
+  z-index:9999;
 }
