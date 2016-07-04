@@ -27,6 +27,8 @@
           </span>
           <div style="width:{{partition.blockWidth}}px;">
           </div>
+          <div ng-class="{'partition-block-separator':partition.blockWidth > 5}">
+          </div>
         </a>
       </div>
       <div ng-show="validInstallationTarget">
@@ -53,6 +55,8 @@
       <div class="drive-block" ng-show="selectedDrive" style="width:{{selectedDrive.driveWidth}}px !important;">
         <div ng-repeat="partition in selectedDrive.partitionList"><a href=""  ng-hide="partition.hidden" class="partition-block" ng-class="{selected:(partition.selected || partition.highlighted), freespace:partition.freespace, primary:partition.normal, extended:partition.extended, logical:partition.logical}" ng-mouseover="highlight(partition)" ng-mouseleave="unhighlight(partition)">
           <div style="width:{{partition.blockWidth}}px;">
+          </div>
+          <div ng-class="{'partition-block-separator':partition.blockWidth > 5}">
           </div>
         </a>
       </div>

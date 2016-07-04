@@ -884,7 +884,7 @@ angular.module("partition",[])
           $rootScope.selectedDrive = $rootScope.devices[i];
           $rootScope.selectedDrive.id = i;
           $rootScope.selectedDrive.partitionList = [];
-          $rootScope.selectedDrive.driveWidth = 16 + 1; // Add 1 pixel tolerance
+          $rootScope.selectedDrive.driveWidth = 8 + 1; // Add 1 pixel tolerance
           $rootScope.selectedDrive.sizeGb = $rootScope.selectedDrive.size * gbSize;
           $rootScope.selectedDrive.hasExtended = false;
           for (j = 0; j < $rootScope.selectedDrive.partitions.length; j++) {
