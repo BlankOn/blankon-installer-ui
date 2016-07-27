@@ -73,6 +73,7 @@ var en = {
   cleaning_up : "Cleaning up",
   create_partition : "Create partition",
   format_partition : "Format Partition",
+  partitioning_in_advancedMode : "Partitioning in Advanced Mode",
 }
 
 var id = {
@@ -150,4 +151,5 @@ var id = {
   cleaning_up : "Merapikan sistem",
   create_partition : "Buat partisi",
   format_partition : "Format Partisi",
+  partitioning_in_advancedMode : "Partisi dalam moda mahir",
 }
