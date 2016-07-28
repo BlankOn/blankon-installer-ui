@@ -151,5 +151,5 @@ var id = {
   cleaning_up : "Merapikan sistem",
   create_partition : "Buat partisi",
   format_partition : "Format Partisi",
-  partitioning_in_advancedMode : "Partisi dalam moda Mahir",
+  partitioning_in_advancedMode : "Mengatur partisi dalam moda Mahir",
 }
