@@ -50,6 +50,13 @@ angular.module("install",[])
     if ($rootScope.advancedPartition) {
         params += "&steps=" + $rootScope.partitionSteps;
     }
+    if (
+      (!$rootScope.isEfi && $rootScope.currentPartitionTable === 'gpt' && !$rootScope.isBiosBootExists) ||
+      ($rootScope.isEfi && $rootScope.currentPartitionTable === 'gpt' && !$rootScope.isESPExists)
+    ) {
+      // The installer will create one.
+      params += "&createESPPartition=true";
+    }
     // give time for view transition
     $timeout(function(){
       console.log(params);

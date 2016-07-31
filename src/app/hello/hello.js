@@ -18,5 +18,9 @@ angular.module("hello",[])
         Installation.setLocale(lang.id);
       }
     }
+    $rootScope.isEfi = parseInt(Installation.isEfi())==1 ? true : false;
+    $rootScope.isESPExists = Installation.isESPExists()=='true' ? true : false ;
+    $rootScope.isBiosBootExists = Installation.isBiosBootExists()=='true' ? true : false;
+
     $scope.setLanguage($scope.languages[0]);
 }])
