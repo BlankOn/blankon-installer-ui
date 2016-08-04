@@ -4,6 +4,7 @@ angular.module("partition",[])
     
     $(".content").css("height", $rootScope.contentHeight);
    
+    $scope.cleanInstall = false;
     $scope.slider = {
     	start : 0,
     	end : 1.0,
@@ -132,8 +133,13 @@ angular.module("partition",[])
     var driveBlockWidth = 600;
     
     $scope.partitionSimpleNext = function(){
-      if ($rootScope.selectedInstallationTarget || $rootScope.cleanInstall) {
+      console.log($rootScope.selectedInstallationTarget);
+      console.log($scope.cleanInstall);
+      if ($rootScope.selectedInstallationTarget || $scope.cleanInstall) {
+        $rootScope.cleanInstall = $scope.cleanInstall;
         $rootScope.next(); 
+      } else {
+        console.log('bah');
       }
     }
   
@@ -883,7 +889,7 @@ angular.module("partition",[])
       $rootScope.currentPartitionTable = drive.label;
       $rootScope.installationData.device_path = path;
       // If it's not a GPT and booted up on UEFI system, do the clean install
-      $rootScope.cleanInstall = ($rootScope.currentPartitionTable !== 'gpt' && $rootScope.isEfi);
+      $scope.cleanInstall = ($rootScope.currentPartitionTable !== 'gpt' && $rootScope.isEfi);
       console.log(JSON.stringify($rootScope.devices));
       $rootScope.validInstallationTarget = false;
       for (i = 0; i < $rootScope.devices.length; i++)

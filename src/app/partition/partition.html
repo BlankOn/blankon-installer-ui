@@ -9,8 +9,12 @@
       </li>
     </ul>
     <div ng-show="cleanInstall" class="fade">
-      <p class="fade">{{'clean_install_warning' | translate}}
-      <button ng-show="!isEfi" class="button" ng-click="cleanInstall=false;">{{'cancel_clean_install' | translate}}</button>
+      <p class="fade">
+        {{'clean_install_warning' | translate}}
+      </p>
+      <p>
+        <button ng-show="!(isEfi && currentPartitionTable!='gpt')" class="button" ng-click="cleanInstall=false;">{{'cancel_clean_install' | translate}}</button>
+      </p>
     </div>
     <div ng-hide="advancedPartition || cleanInstall" class="fade">
       <p ng-show="selectedDrive" class="fade">{{'please_choose_partition' | translate}}<br>

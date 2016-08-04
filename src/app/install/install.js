@@ -33,6 +33,11 @@ angular.module("install",[])
         $scope.loadingDot += " .";
       }
     }, 500);
+   
+    // password value got reset after next(). Refill it.
+    if ($rootScope.autofill) {
+      $rootScope.installationData.password = 'test';
+    }
 
     var params = "";
     params += "&partition=" + $rootScope.installationData.partition;

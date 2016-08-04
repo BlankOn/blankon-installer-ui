@@ -8,4 +8,10 @@ angular.module("timezone",[])
       $rootScope.installationData.timezone = $("select").val();
       console.log($rootScope.installationData);
     });
+    
+    if ($rootScope.autofill) {
+      setTimeout(function(){
+        $rootScope.next();
+      }, 1000)
+    }
 }])
