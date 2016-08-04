@@ -48,7 +48,7 @@ angular.module("install",[])
     params += "&autologin=" + $rootScope.installationData.autologin;
     params += "&advancedMode=" + $rootScope.advancedPartition;
     if ($rootScope.advancedPartition) {
-        params += "&steps=" + $rootScope.partitionSteps;
+      params += "&steps=" + $rootScope.partitionSteps;
     }
     if (
       (!$rootScope.isEfi && $rootScope.currentPartitionTable === 'gpt' && !$rootScope.isBiosBootExists) ||
@@ -57,6 +57,12 @@ angular.module("install",[])
       // The installer will create one.
       params += "&createESPPartition=true";
     }
+    if ($rootScope.cleanInstall) {
+      params += "&cleanInstall=true";
+      // There is no EFI partition. Instaler will create one;
+      params += "&efiPartition=false";
+    }
+
     // give time for view transition
     $timeout(function(){
       console.log(params);
