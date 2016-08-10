@@ -956,7 +956,7 @@ angular.module("partition",[])
         if ($rootScope.scenario.split('_')[2] === 'CLEANINSTALL') {
           $rootScope.installationData.device = 0;
           $rootScope.installationData.device_path = '/dev/sda';
-          $scope.cleanInstall = true;
+          $rootScope.cleanInstall = true;
           $rootScope.next();
         }
       }
