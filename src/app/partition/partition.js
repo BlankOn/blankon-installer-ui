@@ -138,8 +138,6 @@ angular.module("partition",[])
       if ($rootScope.selectedInstallationTarget || $scope.cleanInstall) {
         $rootScope.cleanInstall = $scope.cleanInstall;
         $rootScope.next(); 
-      } else {
-        console.log('bah');
       }
     }
   
@@ -951,5 +949,14 @@ angular.module("partition",[])
           }
         }
       } 
+    }
+
+    // BIFT
+
+    if ($rootScope.scenario && $rootScope.scenario.length > 0) {
+      if ($rootScope.scenario.split('_')[2] === 'CLEANINSTALL') {
+        $scope.cleanInstall = true;
+        $rootScope.next();
+      }
     }
 ])
