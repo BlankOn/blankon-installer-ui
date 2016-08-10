@@ -18,5 +18,19 @@ angular.module("hello",[])
         Installation.setLocale(lang.id);
       }
     }
+    if (window.Installation) {
+      $rootScope.isEfi = parseInt(Installation.isEfi())==1 ? true : false;
+      $rootScope.isESPExists = Installation.isESPExists()=='true' ? true : false ;
+      $rootScope.isBiosBootExists = Installation.isBiosBootExists()=='true' ? true : false;
+      $rootScope.debug = Installation.debug()=='true' ? true : false;
+      $rootScope.autofill = Installation.autofill()=='true' ? true : false;
+    }
+
+    if ($rootScope.autofill) {
+      setTimeout(function(){
+        $rootScope.next();
+      }, 1000)
+    }
+
     $scope.setLanguage($scope.languages[0]);
 }])

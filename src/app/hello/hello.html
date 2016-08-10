@@ -15,7 +15,7 @@
   </div>
   <div class="columns nav-button">
     <button class='button' ng-click="exit()">{{'continue_using_livecd' | translate}}</button>
-    <button class='button' ng-click="next()">{{'install_blankon' | translate}}</button>
+    <button class='button' ng-click="next()" ng-disabled="autofill">{{'install_blankon' | translate}}</button>
     <div class="release-tag">&nbsp;{{release}}</div>
   </div>
 </div>

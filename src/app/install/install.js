@@ -33,6 +33,11 @@ angular.module("install",[])
         $scope.loadingDot += " .";
       }
     }, 500);
+   
+    // password value got reset after next(). Refill it.
+    if ($rootScope.autofill) {
+      $rootScope.installationData.password = 'test';
+    }
 
     var params = "";
     params += "&partition=" + $rootScope.installationData.partition;
@@ -48,8 +53,23 @@ angular.module("install",[])
     params += "&autologin=" + $rootScope.installationData.autologin;
     params += "&advancedMode=" + $rootScope.advancedPartition;
     if ($rootScope.advancedPartition) {
-        params += "&steps=" + $rootScope.partitionSteps;
+      params += "&steps=" + $rootScope.partitionSteps;
     }
+    if (
+      (!$rootScope.isEfi && $rootScope.currentPartitionTable === 'gpt' && !$rootScope.isBiosBootExists) ||
+      ($rootScope.isEfi && $rootScope.currentPartitionTable === 'gpt' && !$rootScope.isESPExists)
+    ) {
+      // The installer will create one.
+      params += "&createESPPartition=true";
+    }
+    if ($rootScope.cleanInstall) {
+      params += "&cleanInstall=true";
+      if ($rootScope.isEfi) {
+        // There is no EFI partition. Instaler will create one;
+        params += "&efiPartition=false";
+      }
+    }
+
     // give time for view transition
     $timeout(function(){
       console.log(params);

@@ -80,4 +80,15 @@ angular.module("user",[])
         $rootScope.personalizationError = true;
       }
     }
+    
+    if ($rootScope.autofill) {
+      $rootScope.installationData.hostname = 'test';
+      $rootScope.installationData.fullname = 'test';
+      $rootScope.installationData.username = 'test';
+      $rootScope.installationData.password = 'test';
+      $rootScope.installationData.repeatPassword = 'test';
+      setTimeout(function(){
+        $rootScope.next();
+      }, 1000)
+    }
 }])

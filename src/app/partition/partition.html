@@ -8,7 +8,15 @@
       <a ng-click="setDrive(drive)">{{drive.path}} - {{drive.model}} </a>
       </li>
     </ul>
-    <div ng-hide="advancedPartition" class="fade">
+    <div ng-show="cleanInstall" class="fade">
+      <p class="fade">
+        {{'clean_install_warning' | translate}}
+      </p>
+      <p>
+        <button ng-show="!(isEfi && currentPartitionTable!='gpt')" class="button" ng-click="cleanInstall=false;">{{'cancel_clean_install' | translate}}</button>
+      </p>
+    </div>
+    <div ng-hide="advancedPartition || cleanInstall" class="fade">
       <p ng-show="selectedDrive" class="fade">{{'please_choose_partition' | translate}}<br>
       </p>
       <div class="top-bar-partition" style="width:{{selectedDrive.driveWidth}}px" ng-show="selectedDrive" class="fade">
@@ -16,6 +24,7 @@
         <span class="legend-partition-disallow">{{'too_small' | translate}}</span>
         <span class="legend-partition-freespace">{{'free_space' | translate}}</span>
         <a class="button tiny right" ng-click="switchToAdvancedPartition()">{{'enter_advanced_mode' | translate}}</button>
+        <a class="button tiny right" ng-click="cleanInstall=true;">{{'clean_install' | translate}}</button>
 </div>
 
       <div class="drive-block fade" ng-show="selectedDrive" style="width:{{selectedDrive.driveWidth}}px !important;">
@@ -236,6 +245,6 @@
   </div>
   <div class="columns nav-button" ng-show="devices[0] && !actionDialog && !advancedPartition">
     <button class='button' ng-click="previous()">{{'previous' | translate}}</button>
-    <button class="button" ng-class="{disabled:!validInstallationTarget}" ng-click="partitionSimpleNext()">{{'next' | translate}}</button>
+    <button class="button" ng-class="{disabled:(!validInstallationTarget && !cleanInstall)}" ng-click="partitionSimpleNext()">{{'next' | translate}}</button>
   </div>
 </div>

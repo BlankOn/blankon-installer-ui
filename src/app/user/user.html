@@ -77,6 +77,6 @@
   </div>
   <div class="columns nav-button">
     <button class='button' ng-click="previous()">{{'previous' | translate}}</button>
-    <button class='button' ng-click="validatePersonalization(installationData, validPassword, isSamePassword)">{{'next' | translate}}</button>
+    <button class='button' ng-click="validatePersonalization(installationData, validPassword, isSamePassword)" ng-disabled="autofill">{{'next' | translate}}</button>
   </div>
 </div>
