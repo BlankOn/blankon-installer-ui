@@ -882,9 +882,9 @@ angular.module("partition",[])
     }
     $scope.setDrive = function(drive) {
       // TODO : reset UI
-      $rootScope.installationData.device = $rootScope.devices.indexOf(drive);
       var path = drive.path;
       $rootScope.currentPartitionTable = drive.label;
+      $rootScope.installationData.device = $rootScope.devices.indexOf(drive);
       $rootScope.installationData.device_path = path;
       // If it's not a GPT and booted up on UEFI system, do the clean install
       $scope.cleanInstall = ($rootScope.currentPartitionTable !== 'gpt' && $rootScope.isEfi);
@@ -949,14 +949,17 @@ angular.module("partition",[])
           }
         }
       } 
-    }
-
-    // BIFT
-
-    if ($rootScope.scenario && $rootScope.scenario.length > 0) {
-      if ($rootScope.scenario.split('_')[2] === 'CLEANINSTALL') {
-        $scope.cleanInstall = true;
-        $rootScope.next();
+      
+      // BIFT
+  
+      if ($rootScope.scenario && $rootScope.scenario.length > 0) {
+        if ($rootScope.scenario.split('_')[2] === 'CLEANINSTALL') {
+          $rootScope.installationData.device = 0;
+          $rootScope.installationData.device_path = '/dev/sda';
+          $scope.cleanInstall = true;
+          $rootScope.next();
+        }
       }
     }
+
 ])
