@@ -953,12 +953,16 @@ angular.module("partition",[])
       // BIFT
   
       if ($rootScope.scenario && $rootScope.scenario.length > 0) {
-        if ($rootScope.scenario.split('_')[2] === 'CLEANINSTALL') {
+        if ($rootScope.scenario.split('_')[2] === 'cleaninstall') {
           $rootScope.installationData.device = 0;
           $rootScope.installationData.device_path = '/dev/sda';
           $rootScope.cleanInstall = true;
-          $rootScope.next();
+        } else if ($rootScope.scenario.split('_')[2] === 'easy' && $rootScope.scenario.split('_')[3] === 'emptydisk') {
+          $rootScope.installationData.device = 0;
+          $rootScope.installationData.device_path = '/dev/sda';
+          $rootScope.installationData.partition = 0;
         }
+        $rootScope.next();
       }
     }
 
