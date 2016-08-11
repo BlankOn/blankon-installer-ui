@@ -957,10 +957,14 @@ angular.module("partition",[])
           $rootScope.installationData.device = 0;
           $rootScope.installationData.device_path = '/dev/sda';
           $rootScope.cleanInstall = true;
-        } else if ($rootScope.scenario.split('_')[2] === 'easy' && $rootScope.scenario.split('_')[3] === 'emptydisk') {
+        } else if ($rootScope.scenario === 'legacy_mbr_easy_emptydisk') {
           $rootScope.installationData.device = 0;
           $rootScope.installationData.device_path = '/dev/sda';
           $rootScope.installationData.partition = 0;
+        } else if ($rootScope.scenario === 'legacy_mbr_easy_reinstall_on_root') {
+          $rootScope.installationData.device = 0;
+          $rootScope.installationData.device_path = '/dev/sda';
+          $rootScope.installationData.partition = 6;
         }
         $rootScope.next();
       }
