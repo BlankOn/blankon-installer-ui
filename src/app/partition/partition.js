@@ -953,18 +953,17 @@ angular.module("partition",[])
       // BIFT
   
       if ($rootScope.scenario && $rootScope.scenario.length > 0) {
-        if ($rootScope.scenario.split('_')[2] === 'cleaninstall') {
-          $rootScope.installationData.device = 0;
-          $rootScope.installationData.device_path = '/dev/sda';
-          $rootScope.cleanInstall = true;
-        } else if ($rootScope.scenario === 'legacy_mbr_easy_emptydisk') {
-          $rootScope.installationData.device = 0;
-          $rootScope.installationData.device_path = '/dev/sda';
-          $rootScope.installationData.partition = 0;
-        } else if ($rootScope.scenario === 'legacy_mbr_easy_reinstall_on_root') {
-          $rootScope.installationData.device = 0;
-          $rootScope.installationData.device_path = '/dev/sda';
-          $rootScope.installationData.partition = 6;
+        var scenario = JSON.parse($rootScope.scenario);
+        console.log('Scenario');
+        console.log(scenario);
+        var keys = Object.keys(scenario.data);
+        for (var i in keys) {
+          $rootScope.installationData[keys[i]] = scenario.data[keys[i]];
+          console.log($rootScope.installationData[keys[i]]);
+          // Some values are not included in installationData object, catch it
+          if (keys[i] === 'cleanInstall' || keys[i] === 'partitionSteps' || keys[i] === 'advancedPartition') {
+            $rootScope[keys[i]] = scenario.data[keys[i]]
+          }
         }
         $rootScope.next();
       }
