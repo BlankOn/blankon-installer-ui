@@ -24,6 +24,7 @@ angular.module("hello",[])
       $rootScope.isBiosBootExists = Installation.isBiosBootExists()=='true' ? true : false;
       $rootScope.debug = Installation.debug()=='true' ? true : false;
       $rootScope.autofill = Installation.autofill()=='true' ? true : false;
+      $rootScope.scenario = Installation.getScenario();
     }
 
     if ($rootScope.autofill) {
