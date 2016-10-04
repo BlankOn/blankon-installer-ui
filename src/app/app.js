@@ -208,7 +208,7 @@ angular.module('Biui', [
       }, 100);
     }
     $rootScope.exit = function(){
-      Installation.shutdown();
+      Installation.exit();
     }
     $timeout(function(){
       console.log($(window).width());
