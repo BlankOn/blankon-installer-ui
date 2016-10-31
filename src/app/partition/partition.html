@@ -9,14 +9,20 @@
       </li>
     </ul>
     <div ng-show="cleanInstall" class="fade">
-      <p class="fade">
+      <p class="fade" ng-hide="lowDiskSize">
         {{'clean_install_warning' | translate}}
+      </p>
+      <p ng-show="lowDiskSize">
+        <br>{{'low_disk_size_warning' | translate }}
       </p>
       <p>
         <button ng-show="!(isEfi && currentPartitionTable!='gpt')" class="button" ng-click="cleanInstall=false;">{{'cancel_clean_install' | translate}}</button>
       </p>
     </div>
-    <div ng-hide="advancedPartition || cleanInstall" class="fade">
+    <p ng-show="lowDiskSize">
+    <br>{{'low_disk_size_warning' | translate }}
+    </p>
+    <div ng-hide="advancedPartition || cleanInstall || lowDiskSize" class="fade">
       <p ng-show="selectedDrive" class="fade">{{'please_choose_partition' | translate}}<br>
       </p>
       <div class="top-bar-partition" style="width:{{selectedDrive.driveWidth}}px" ng-show="selectedDrive" class="fade">
@@ -24,7 +30,7 @@
         <span class="legend-partition-disallow">{{'too_small' | translate}}</span>
         <span class="legend-partition-freespace">{{'free_space' | translate}}</span>
         <a class="button tiny right" ng-click="switchToAdvancedPartition()">{{'enter_advanced_mode' | translate}}</button>
-        <a class="button tiny right" ng-click="cleanInstall=true;">{{'clean_install' | translate}}</button>
+        <a class="button tiny right" ng-click="switchToCleanInstall()">{{'clean_install' | translate}}</button>
 </div>
 
       <div class="drive-block fade" ng-show="selectedDrive" style="width:{{selectedDrive.driveWidth}}px !important;">
@@ -46,6 +52,9 @@
           {{'you_are_choosing' | translate}} {{selectedInstallationTarget}} {{'to_be_installed_with' | translate}}.<br>
           <strong>{{'warning' | translate}} : </strong>
           {{'the_selected_partition_will_be_wiped_out' | translate}}
+        </p>
+        <p ng-show="lowPartitionSize">
+        {{'low_partition_size_warning' | translate }}
         </p>
       </div>
     </div>
@@ -245,6 +254,6 @@
   </div>
   <div class="columns nav-button" ng-show="devices[0] && !actionDialog && !advancedPartition">
     <button class='button' ng-click="previous()">{{'previous' | translate}}</button>
-    <button class="button" ng-class="{disabled:(!validInstallationTarget && !cleanInstall)}" ng-click="partitionSimpleNext()">{{'next' | translate}}</button>
+    <button class="button" ng-class="{disabled:((!validInstallationTarget && !cleanInstall) || lowPartitionSize || lowDiskSize )}" ng-click="partitionSimpleNext()">{{'next' | translate}}</button>
   </div>
 </div>
