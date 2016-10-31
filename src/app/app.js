@@ -100,6 +100,10 @@ angular.module('Biui', [
   function ($rootScope, $state, $stateParams, $timeout, $location, $translate) {
     if (window.Installation) {
       $rootScope.release = Installation.getRelease();
+      var memTotal = parseInt(Installation.getMemTotal());
+      if (memTotal < 1000000) {
+        $rootScope.lowMemory = true;
+      }
     }
     $translate.use("enUS");
     $rootScope.steps = [

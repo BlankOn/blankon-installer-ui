@@ -237,6 +237,7 @@ angular.module("partition",[])
       $scope.applyAdvancedModeMessage = false;
     }
     $scope.selectInstallationTarget = function(partition) {
+      $rootScope.lowPartitonSize = false;
       console.log(partition)
       if (!partition.disallow) {
         $rootScope.installationData.partition = $rootScope.selectedDrive.partitionList.indexOf(partition);
@@ -244,6 +245,9 @@ angular.module("partition",[])
           $rootScope.selectedInstallationTarget = $rootScope.selectedDrive.path + partition.id + " ("+partition.sizeGb+" GB)";
         } else {
           $rootScope.selectedInstallationTarget = "a freespace partition";
+        }
+        if (parseInt(partition.sizeGb) < 7.5 ) {
+          $rootScope.lowPartitonSize = true;
         }
         for (j = 0; j < $rootScope.selectedDrive.partitions.length; j++) {
           if ($rootScope.selectedDrive.partitions[j].id === partition.id) {
@@ -880,8 +884,16 @@ angular.module("partition",[])
         $scope.scanning = true;
       }, 1000);
     }
+    $scope.switchToCleanInstall = function() {
+      $rootScope.lowPartitonSize = false;
+      $scope.cleanInstall = true;
+    }
     $scope.setDrive = function(drive) {
       // TODO : reset UI
+      $rootScope.lowDiskSize = false;
+      if (parseInt(drive.size) < 8000000000 ) {
+        $rootScope.lowDiskSize = true;
+      }
       var path = drive.path;
       $rootScope.currentPartitionTable = drive.label;
       $rootScope.installationData.device = $rootScope.devices.indexOf(drive);

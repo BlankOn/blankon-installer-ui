@@ -4,7 +4,8 @@
     <p>
     {{'welcome_to_program' | translate}}
     </p>
-    <Please choose your language and region below to continue. If your choice is not on the list, you can choose the default values and set again later after the system is fully installed in the Settings application.
+    <p>
+    {{'please_choose_lang' | translate }}
     </p>
     <p><a class="button dropdown" dropdown-toggle="#language-selection"><span ng-hide="selectedLang">Change language</span><span>{{selectedLang}}</span></a><p>
     <ul id="language-selection" class="f-dropdown">
@@ -12,10 +13,13 @@
       <a ng-click="setLanguage(lang)">{{lang.title}}</a>
       </li>
     </ul>
+    <p ng-show="lowMemory">
+    {{'low_memory_warning' | translate }}
+    </p>
   </div>
   <div class="columns nav-button">
     <button class='button' ng-click="exit()">{{'continue_using_livecd' | translate}}</button>
-    <button class='button' ng-click="next()" ng-disabled="autofill">{{'install_blankon' | translate}}</button>
+    <button class='button' ng-click="next()" ng-disabled="autofill || lowMemory">{{'install_blankon' | translate}}</button>
     <div class="release-tag">&nbsp;{{release}}</div>
   </div>
 </div>
