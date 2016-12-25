@@ -287,22 +287,28 @@ angular.module("partition",[])
       }
       console.log("primext " + primExt);
       if (primExt < 4 || partition.logicalFreespace) {
-        $scope.createSliderValue = "0;100";
-        console.log("dialog");
-        console.log(partition);
-        $scope.createDialog = true;
-        $scope.actionDialog = true;
-        $scope.createDialogSelected = angular.copy(partition);
-        $scope.createDialogSelected.index = $scope.selectedDrive.partitionList.indexOf(partition);
-        $scope.createDialogSelected.sizeOrigin = angular.copy($scope.createDialogSelected.size);
-        $scope.createDialogSelected.startOrigin = angular.copy($scope.createDialogSelected.start);
-        $scope.createDialogSelected.endOrigin = angular.copy($scope.createDialogSelected.end);
-        $scope.createDialogSelected.sizeGbOrigin = angular.copy($scope.createDialogSelected.sizeGb);
-        $scope.createDialogSelected.blockWidthOrigin = angular.copy($scope.createDialogSelected.blockWidth);
-        clearTimeout($scope.updatingTimeout); 
-        $timeout(function(){
-				  $scope.slidebarInit();
-        }, 500)
+			  $scope.updating = true;
+        $scope.createSliderValue = "0;0";
+        setTimeout(function(){
+			    $scope.updating = false;
+          $scope.createSliderValue = "0;100";
+          console.log("dialog");
+          console.log(partition);
+          $scope.createDialog = true;
+          $scope.actionDialog = true;
+          $scope.createDialogSelected = angular.copy(partition);
+          $scope.createDialogSelected.index = $scope.selectedDrive.partitionList.indexOf(partition);
+          $scope.createDialogSelected.sizeOrigin = angular.copy($scope.createDialogSelected.size);
+          $scope.createDialogSelected.startOrigin = angular.copy($scope.createDialogSelected.start);
+          $scope.createDialogSelected.endOrigin = angular.copy($scope.createDialogSelected.end);
+          $scope.createDialogSelected.sizeGb = (parseFloat($scope.createDialogSelected.size)/gbSize).toFixed(2);
+          $scope.createDialogSelected.sizeGbOrigin = angular.copy($scope.createDialogSelected.sizeGb);
+          $scope.createDialogSelected.blockWidthOrigin = angular.copy($scope.createDialogSelected.blockWidth);
+          clearTimeout($scope.updatingTimeout); 
+          $timeout(function(){
+				    $scope.slidebarInit();
+          }, 500)
+        }, 10)
       }
     }
     var percentage;
@@ -326,7 +332,7 @@ angular.module("partition",[])
       $scope.createDialogSelected.start = start + Math.round(sizeOrigin*(parseFloat(val[0])/100));
       $scope.createDialogSelected.end = end - Math.round(sizeOrigin*((100-parseFloat(val[1]))/100));
       $scope.createDialogSelected.size = $scope.createDialogSelected.end - $scope.createDialogSelected.start;
-      $scope.createDialogSelected.sizeGb = ($scope.createDialogSelected.size/gbSize).toFixed(2);
+      $scope.createDialogSelected.sizeGb = (parseFloat($scope.createDialogSelected.size)/gbSize).toFixed(2);
       $scope.createDialogSelected.sizeGbBefore = (Math.round(sizeOrigin*(parseFloat(val[0])/100))/gbSize).toFixed(2);
       $scope.createDialogSelected.sizeGbAfter = (Math.round(sizeOrigin*((100-parseFloat(val[1]))/100))/gbSize).toFixed(2);
       $scope.createDialogSelected.percentage = percentage;
@@ -406,7 +412,7 @@ angular.module("partition",[])
       $scope.createDialogSelected.start = start + Math.round(sizeOrigin*(parseFloat(val[0])/100));
       $scope.createDialogSelected.end = end - Math.round(sizeOrigin*((100-parseFloat(val[1]))/100));
       $scope.createDialogSelected.size = $scope.createDialogSelected.end - $scope.createDialogSelected.start;
-      $scope.createDialogSelected.sizeGb = ($scope.createDialogSelected.size/gbSize).toFixed(2);
+      $scope.createDialogSelected.sizeGb = (parseFloat($scope.createDialogSelected.size)/gbSize).toFixed(2);
       $scope.createDialogSelected.sizeGbBefore = (Math.round(sizeOrigin*(parseFloat(val[0])/100))/gbSize).toFixed(2);
       /* $scope.createDialogSelected.sizeGbAfter = (Math.round(sizeOrigin*((100-parseFloat(val[1]))/100))/gbSize).toFixed(2); */
       $scope.createDialogSelected.percentage = percentage;
@@ -445,7 +451,7 @@ angular.module("partition",[])
       $scope.createDialogSelected.start = start + Math.round(sizeOrigin*(parseFloat(val[0])/100));
       $scope.createDialogSelected.end = end - Math.round(sizeOrigin*((100-parseFloat(val[1]))/100));
       $scope.createDialogSelected.size = $scope.createDialogSelected.end - $scope.createDialogSelected.start;
-      $scope.createDialogSelected.sizeGb = ($scope.createDialogSelected.size/gbSize).toFixed(2);
+      $scope.createDialogSelected.sizeGb = (parseFloat($scope.createDialogSelected.size)/gbSize).toFixed(2);
       /* $scope.createDialogSelected.sizeGbBefore = (Math.round(sizeOrigin*(parseFloat(val[0])/100))/gbSize).toFixed(2); */
       $scope.createDialogSelected.sizeGbAfter = (Math.round(sizeOrigin*((100-parseFloat(val[1]))/100))/gbSize).toFixed(2);
       $scope.createDialogSelected.percentage = percentage;
