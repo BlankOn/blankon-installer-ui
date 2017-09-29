@@ -167,5 +167,5 @@ var id = {
   low_memory_warning : "Memori komputer Anda berukuran di bawah 1 GB, tidak memenuhi standar minimal. Pemasangan tidak dapat dilanjutkan.",
   low_partition_size_warning : "Partisi yang Anda pilih berukuran di bawah 8 GB, tidak memenuhi standar minimal. Pilih partisi lain yang lebih besar atau pemasangan tidak dapat dilanjutkan.",
   low_disk_size_warning : "Diska yang Anda pilih berukuran di bawah 8 GB, tidak memenuhi standar minimal. Pilih diska lain yang lebih besar atau pemasangan tidak dapat dilanjutkan.",
-  partoedi_warning : "PERINGATAN : Fitur dalam moda mahir masih dalam pengembangan. Anda mungkin akan menemui beberapa kutu dan kesalahan yang dapat berujung pada kehilangan data. Jika itu terjadi, silakan laporkan  http://http://dev.blankon.id/newticket."
+  partoedi_warning : "PERINGATAN : Fitur dalam moda mahir masih dalam pengembangan. Anda mungkin akan menemui beberapa kutu dan kesalahan yang dapat berujung pada kehilangan data. Jika itu terjadi, silakan laporkan  http://dev.blankon.id/newticket."
 }
