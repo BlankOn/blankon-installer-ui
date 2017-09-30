@@ -1,6 +1,10 @@
 BlankOn Installer UI
 ====================
 
+*Requirement*
+
+- NodeJS v4.x
+
 *First time installation*
 ```
 $ sudo npm -g install bower gulp
